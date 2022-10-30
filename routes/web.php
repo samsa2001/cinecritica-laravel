@@ -28,4 +28,7 @@ Route::group(['prefix' => 'backend'], function(){
     Route::resources([
         'peliculas' => PeliculaController::class,
     ]);
+    Route::get('/importar-directores','App\Http\Controllers\backend\PersonaController@importarDirectores');
+    Route::get('/importar-escritores','App\Http\Controllers\backend\PersonaController@importarEscritores');
+    Route::get('/importar-guionistas','App\Http\Controllers\backend\PersonaController@importarGuionistas');
 });

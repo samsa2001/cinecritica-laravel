@@ -48,7 +48,8 @@ class PeliculaController extends Controller
      */
     public function show($id)
     {
-        //
+        $pelicula = Pelicula::find($id);
+        return view('backend.peliculas.show',compact('pelicula'));
     }
 
     /**

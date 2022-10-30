@@ -33,4 +33,21 @@ class Pelicula extends Model
         'imagen_principal',
         'director_id'
     ];
+
+    public function actores()
+    {
+        return $this->belongsToMany(Persona::class)->wherePivot('role','actor');
+    }
+    public function directores()
+    {
+        return $this->belongsToMany(Persona::class)->wherePivot('role','director');
+    }
+    public function escritores()
+    {
+        return $this->belongsToMany(Persona::class)->wherePivot('role','escritor');
+    }
+    public function guionistas()
+    {
+        return $this->belongsToMany(Persona::class)->wherePivot('role','guionista');
+    }
 }
