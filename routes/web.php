@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\backend\PeliculaController;
+use App\Http\Controllers\backend\PersonaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,8 +28,10 @@ Route::get('/dashboard', function () {
 Route::group(['prefix' => 'backend'], function(){
     Route::resources([
         'peliculas' => PeliculaController::class,
+        'personas' => PersonaController::class,
     ]);
     Route::get('/importar-directores','App\Http\Controllers\backend\PersonaController@importarDirectores');
     Route::get('/importar-escritores','App\Http\Controllers\backend\PersonaController@importarEscritores');
     Route::get('/importar-guionistas','App\Http\Controllers\backend\PersonaController@importarGuionistas');
+    Route::get('/prueba5','App\Http\Controllers\backend\PeliculaController@prueba5');
 });

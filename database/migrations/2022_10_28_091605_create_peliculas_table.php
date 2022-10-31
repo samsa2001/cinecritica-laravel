@@ -23,10 +23,10 @@ return new class extends Migration
             $table->integer('numero_votos')->nullable();
             $table->string('titulo_original',255)->nullable();
             $table->integer('presupuesto')->nullable();
-            $table->integer('recaudacion')->nullable();
+            $table->bigInteger('recaudacion')->nullable();
             $table->date('fecha')->nullable();
             $table->string('imdb_id',25)->nullable();
-            $table->string('productora',60)->nullable();
+            $table->string('productora',160)->nullable();
             $table->smallInteger('duracion')->nullable();
             $table->smallInteger('year')->nullable();
             $table->string('tagline',255)->nullable();

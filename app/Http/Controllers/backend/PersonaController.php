@@ -10,6 +10,11 @@ use Illuminate\Support\Str;
 
 class PersonaController extends Controller
 {
+    public function show($id)
+    {
+        $persona = Persona::find($id);
+        return view('backend.personas.show',compact('persona'));
+    }
 
     public function getMovieApi($pregunta){
         $authorization = "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDQwMDlmMWM5YWY1YzZlYTkzNTBjZjVlZDU1YTA4YSIsInN1YiI6IjYwYWZiOTcxNWIwNzE0MDAyOTY2YzFmOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.b_bDJCgVUc9w1C5816Mm2alWfAqyYRF5Ss_pWmpvDgY";

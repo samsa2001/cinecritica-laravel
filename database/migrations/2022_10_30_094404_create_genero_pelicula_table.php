@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pelicula_persona', function (Blueprint $table) {
-            $table->id();
+        Schema::create('genero_pelicula', function (Blueprint $table) {
+            $table->foreignId('genero_id')->constrained();
             $table->foreignId('pelicula_id')->constrained();
-            $table->foreignId('persona_id')->constrained();
-            $table->string('role',25)->nullable();
-            $table->string('personaje',400)->nullable();
-            $table->smallInteger('orden')->nullable();
         });
     }
 
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pelicula_persona');
+        Schema::dropIfExists('genero_pelicula');
     }
 };

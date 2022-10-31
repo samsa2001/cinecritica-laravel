@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Pelicula extends Model
 {
     use HasFactory;
+    
+    public $timestamps = false;
 
     protected $fillable = [
+        'id',
         'titulo',
         'nota',
         'descripcion',
@@ -36,7 +39,7 @@ class Pelicula extends Model
 
     public function actores()
     {
-        return $this->belongsToMany(Persona::class)->wherePivot('role','actor');
+        return $this->belongsToMany(Persona::class)->wherePivot('role','actor')->orderBy('orden');
     }
     public function directores()
     {
@@ -49,5 +52,9 @@ class Pelicula extends Model
     public function guionistas()
     {
         return $this->belongsToMany(Persona::class)->wherePivot('role','guionista');
+    }
+    public function generos()
+    {
+        return $this->belongsToMany(Genero::class);
     }
 }

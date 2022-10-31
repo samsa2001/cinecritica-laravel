@@ -27,6 +27,6 @@ class Persona extends Model
     
     public function peliculas()
     {
-        return $this->belongsToMany(Pelicula::class)->withPivot('role','personaje','orden');
+        return $this->belongsToMany(Pelicula::class)->withPivot('role','personaje','orden')->orderBy('popularidad','desc');
     }
 }
