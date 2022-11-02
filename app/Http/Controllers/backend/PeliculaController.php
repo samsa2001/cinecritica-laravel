@@ -55,6 +55,11 @@ class PeliculaController extends Controller
         $pelicula = Pelicula::find($id);
         return view('backend.peliculas.show',compact('pelicula'));
     }
+    public function showSlug($slug)
+    {
+        $pelicula = Pelicula::where('slug',$slug)->firstOrFail();
+        return view('backend.peliculas.show',compact('pelicula'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -121,9 +126,21 @@ class PeliculaController extends Controller
                 $idPeliculas[] = $pelicula->pelicula_id;
             }
         }
-        //dd($idPeliculas);
+        dd($idPeliculas);
         // $this->addPeliculas(array_slice($idPeliculas, 0, 500));
         $this->addPeliculas($idPeliculas);
+    }
+    public function prueba4(Request $request){  
+        $peliculas ='';  
+        if(isset($request)){  
+            if (isset($request['year']) && $request['year']<2023 && $request['year']>1900){
+                $peliculas=Pelicula::where('year',$request['year'])->paginate();
+            }
+        }
+        else
+            $peliculas = Pelicula::paginate(10);
+        return view('backend.peliculas.index',compact('peliculas'));
+        
     }
     public function guardarImagen($url, $rol){
         $path="https://image.tmdb.org/t/p/original" . $url;
@@ -149,11 +166,12 @@ class PeliculaController extends Controller
     * Dado un array de ids añade las películas
     */
     public function addPeliculas($idPeliculas){        
-        foreach ($idPeliculas as $idPelicula){
+        foreach ($idPeliculas as $key=>$idPelicula){
             // verificar que la pelicula no está añadida
             $pelicula = Pelicula::find($idPelicula);
             if( !$pelicula ){
-                $datosPelicula = $this->getMovieApi("movie/" . $idPelicula . "?language=es-ES");
+                try {
+                    $datosPelicula = $this->getMovieApi("movie/" . $idPelicula . "?language=es-ES");
                     $pelicula = [
                         'id' => $datosPelicula['id'],
                         'titulo' => $datosPelicula['title'],
@@ -185,7 +203,12 @@ class PeliculaController extends Controller
                     echo "Añadido -> " . $pelicula['titulo'] . '<img src=" https://image.tmdb.org/t/p/original' . $pelicula['imagen'] . '"><br><img src=" https://image.tmdb.org/t/p/original' . $pelicula['imagen_principal'] . '"><br><hr><br>';
                     $this->guardarImagen($pelicula['imagen'],'pelicula');
                     $this->guardarImagen($pelicula['imagen_principal'],'principal');
-                    $this->addCrew($objPelicula);    
+                    $this->addCrew($objPelicula); 
+                } catch (\Throwable $th) {
+                    dd($key,$idPelicula,$datosPelicula, $th);
+                    dd($key. '=>'.$idPelicula . '<br>' . $th . '<hr>');
+                    dd($key. '=>'.$idPelicula . '<br>' . $th . '<hr>');
+                }   
                 
             }
         }

@@ -33,8 +33,7 @@ class Pelicula extends Model
         'video',
         'pais',
         'idioma',
-        'imagen_principal',
-        'director_id'
+        'imagen_principal'
     ];
 
     public function actores()
@@ -55,6 +54,6 @@ class Pelicula extends Model
     }
     public function generos()
     {
-        return $this->belongsToMany(Genero::class);
+        return $this->belongsToMany(Genero::class,'pelicula_genero');
     }
 }

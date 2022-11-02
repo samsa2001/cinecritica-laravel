@@ -17,6 +17,10 @@ class Genero extends Model
     ];
     public function peliculas()
     {
-        return $this->belongsToMany(Pelicula::class);
+        return $this->belongsToMany(Pelicula::class,'pelicula_genero');
+    }
+    public function series()
+    {
+        return $this->belongsToMany(Serie::class,'serie_genero');
     }
 }

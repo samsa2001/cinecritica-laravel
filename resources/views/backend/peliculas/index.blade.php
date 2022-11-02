@@ -7,6 +7,8 @@
         <tr>
             <th>Id</th>
             <th>Titulo</th>
+            <th>Slug</th>
+            <th>Nota</th>
             <th>Popularidad</th>
             <th>Género</th>
             <th>Póster</th>
@@ -20,6 +22,8 @@
         <tr>
             <td>{{$pelicula->id}}</td>
             <td><a href="{{ route('peliculas.show',$pelicula) }}">{{$pelicula->titulo}}</a></td> 
+            <td><a href="{{ route('pelicula.show',$pelicula) }}">{{$pelicula->slug}}</a></td> 
+            <td>{{$pelicula->nota}}</td>
             <td>{{$pelicula->popularidad}}</td>
             <td><ul>
             @foreach ($pelicula->generos as $genero)

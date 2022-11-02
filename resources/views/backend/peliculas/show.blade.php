@@ -35,9 +35,11 @@
                 <li>{{$guionista->nombre}}(Guión)</li>
             @endforeach
             </ul></td>
+            <td><ul>
             @foreach ($pelicula->generos as $genero)
                 <li>{{$genero->titulo}}</li>
             @endforeach
+            </ul></td>
             <td>{{$pelicula->popularidad}}</td>
     </tbody>
 </table>
