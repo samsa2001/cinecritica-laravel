@@ -16,13 +16,13 @@
             <tr>
             <td>{{$object->id}}</td>
             @if($object instanceof App\Models\Serie)
-                <td>{{$object->titulo}} (serie)</td>
+                <td><a href="{{ route('series.show',$object) }}">{{$object->titulo}} </a>(serie)</td>
                 <td><img src="https://image.tmdb.org/t/p/original{{$object->imagen}}" width="150"></td>
             @elseif($object instanceof App\Models\Pelicula)
-                <td>{{$object->titulo}}</td>
+                <td><a href="{{ route('pelicula.show',$object) }}">{{$object->titulo}}</a></td>
                 <td><img src="https://image.tmdb.org/t/p/original{{$object->imagen}}" width="150"></td>
             @else($object instanceof App\Models\Persona)
-                <td>{{$object->nombre}}</td>
+                <td><a href="{{ route('personas.show',$object) }}">{{$object->nombre}}</a></td>
                 <td><img src="https://image.tmdb.org/t/p/original{{$object->foto}}" width="150"></td>
             @endif
             <td>{{$object->popularidad}}</td>
