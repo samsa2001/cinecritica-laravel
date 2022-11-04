@@ -15,6 +15,7 @@
             <th>Director</th>
             <th>Actores</th>
             <th>Historia</th>
+            <th>Fecha</th>
         </tr>
     </thead>
     <tbody>
@@ -37,18 +38,25 @@
             @endforeach
             </ul></td>
             <td><ul>
-            @foreach ($pelicula->actores as $actor)
+            @foreach ($pelicula->actores as $key=>$actor)
+                @if ($key < 3) 
                 <li><a href="{{ route('personas.show',$actor)  }}">{{$actor->nombre}}</a></li>
+                @endif
             @endforeach
             </ul></td>
             <td><ul>
-            @foreach ($pelicula->escritores as $escritor)
+            @foreach ($pelicula->escritores as $key=>$escritor)
+                @if ($key < 2) 
                 <li>{{$escritor->nombre}}(Historia)</li>
+                @endif
             @endforeach
-            @foreach ($pelicula->guionistas as $guionista)
+            @foreach ($pelicula->guionistas as $key=>$guionista)
+                @if ($key < 2) 
                 <li>{{$guionista->nombre}}(Guión)</li>
+                @endif
             @endforeach
             </ul></td>
+            <td>{{$pelicula->fecha}}</td>
         @endforeach
     </tbody>
 </table>
