@@ -38,7 +38,7 @@ class Pelicula extends Model
 
     public function actores()
     {
-        return $this->belongsToMany(Persona::class)->wherePivot('role','actor')->orderBy('orden');
+        return $this->belongsToMany(Persona::class)->wherePivot('role','actor')->withPivot('personaje','orden')->orderBy('orden');
     }
     public function directores()
     {

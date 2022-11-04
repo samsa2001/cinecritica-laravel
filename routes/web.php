@@ -22,6 +22,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/vue/{rutaDeVue?}', function () {
+    return view('vue');
+})->name('vue');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -38,6 +42,12 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/importar-guionistas','App\Http\Controllers\backend\PersonaController@importarGuionistas');
     Route::get('/prueba5','App\Http\Controllers\backend\PeliculaController@prueba5');
     Route::get('/buscarSerie{request?}','App\Http\Controllers\backend\SerieController@buscarSerie');
-    Route::get('/prueba4{request?}','App\Http\Controllers\backend\SerieController@prueba4');
-    Route::get('/pruebas5','App\Http\Controllers\backend\SerieController@prueba5');
+    Route::group(['prefix' => 'serie'], function(){
+        Route::get('/prueba4{request?}','App\Http\Controllers\backend\SerieController@prueba4');
+        Route::get('/pruebas5','App\Http\Controllers\backend\SerieController@prueba5');
+    });    
+    Route::get('/ver-novedades/pelis','App\Http\Controllers\backend\PeliculaController@verNovedades');
+    Route::get('/ver-novedades/series','App\Http\Controllers\backend\SerieController@verNovedades');
+    Route::get('/add-novedades/pelis','App\Http\Controllers\backend\PeliculaController@addNovedades');
+    Route::get('/add-novedades/series','App\Http\Controllers\backend\SerieController@addNovedades');
 });

@@ -41,7 +41,7 @@ class Serie extends Model
 
     public function actores()
     {
-        return $this->belongsToMany(Persona::class,'serie_persona')->wherePivot('role','actor')->orderBy('orden');
+        return $this->belongsToMany(Persona::class,'serie_persona')->wherePivot('role','actor')->withPivot('personaje','orden')->orderBy('orden');
     }
     public function creadores()
     {

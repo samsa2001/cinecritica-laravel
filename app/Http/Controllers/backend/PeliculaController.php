@@ -119,6 +119,29 @@ class PeliculaController extends Controller
         if ($response) return json_decode($response, true);
         return $err;
     }
+    public function verNovedades(){
+        $query = "discover/movie?language=es-ES&primary_release_date.gte=2021-12-21&vote_count.gte=300&page=";
+        $novedades = $this->getMovieApi($query . "1");
+        $results = $novedades['results'];
+        for ($i=2; $i <= $novedades["total_pages"]; $i++){
+            $novedades = $this->getMovieApi($query . $i);
+            foreach($novedades['results'] as $resultado)
+                array_push($results,$resultado);
+        }
+        dd($results);
+    }
+    
+    public function addNovedades(){
+        $query = "discover/movie?language=es-ES&primary_release_date.gte=2021-12-21&vote_count.gte=300&page=";
+        $novedades = $this->getMovieApi($query . "1");
+        $idPeliculas = [];
+        for ($i=1; $i <= $novedades["total_pages"]; $i++){
+            $novedades = $this->getMovieApi($query . $i);
+            foreach($novedades['results'] as $resultado)
+                array_push($idPeliculas,$resultado['id']);
+        }
+        $this->addPeliculas($idPeliculas);
+    }
     public function prueba5(){      
         $peliculas = DB::select('select * from ramon_peliculas_peliculas_genero');
         $idPeliculas = array();

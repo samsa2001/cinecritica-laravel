@@ -18,3 +18,6 @@ label {
 .table td {
     @apply px-4 border
 }
+.nota {
+  @apply font-semibold bg-indigo-200 px-2
+}

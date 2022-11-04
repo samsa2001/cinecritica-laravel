@@ -31,7 +31,7 @@
                 <li>{{$genero->titulo}}</li>
             @endforeach
             </ul></td>
-            <td class="block mx-auto"><img class="d-none d-md-block poster-pelicula" src="https://cdn1.cinecritica.com/media/peliculas{{$pelicula->imagen}}" alt="Póster película {{$pelicula->title}}" width="100"></td>
+            <td class="block mx-auto"><img class="d-none d-md-block poster-pelicula" src="https://image.tmdb.org/t/p/original{{$pelicula->imagen}}" alt="Póster película {{$pelicula->title}}" width="100"></td>
             <td><ul>
             @foreach ($pelicula->directores as $director)
                 <li>{{$director->nombre}}</li>
