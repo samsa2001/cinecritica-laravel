@@ -34,7 +34,7 @@
     <div id="app"></div>
 
 
-    @vite(['resources/js/vue/app.js'])
+    @vite(['resources/js/vue/main.js'])
 
 
 </body>
