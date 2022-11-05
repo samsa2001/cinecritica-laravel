@@ -1,0 +1,55 @@
+{
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot": {
+    "file": "assets/materialdesignicons-webfont.861aea05.eot",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot"
+  },
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2": {
+    "file": "assets/materialdesignicons-webfont.e52d60f6.woff2",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2"
+  },
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff": {
+    "file": "assets/materialdesignicons-webfont.48d3eec6.woff",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff"
+  },
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.ttf": {
+    "file": "assets/materialdesignicons-webfont.bd725a7a.ttf",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.ttf"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app.b965d25d.js",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_axios.91e25212.js"
+    ]
+  },
+  "resources/js/vue/main.js": {
+    "file": "assets/main.dc702be7.js",
+    "src": "resources/js/vue/main.js",
+    "isEntry": true,
+    "imports": [
+      "_axios.91e25212.js"
+    ],
+    "css": [
+      "assets/main.e67dcccf.css"
+    ],
+    "assets": [
+      "assets/materialdesignicons-webfont.861aea05.eot",
+      "assets/materialdesignicons-webfont.e52d60f6.woff2",
+      "assets/materialdesignicons-webfont.48d3eec6.woff",
+      "assets/materialdesignicons-webfont.bd725a7a.ttf"
+    ]
+  },
+  "_axios.91e25212.js": {
+    "file": "assets/axios.91e25212.js"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app.8dbcda00.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/vue/main.css": {
+    "file": "assets/main.e67dcccf.css",
+    "src": "resources/js/vue/main.css"
+  }
+}
