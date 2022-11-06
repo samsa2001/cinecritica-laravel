@@ -17,11 +17,11 @@
         <o-table-column field="created_at" label="Fecha" v-slot="p">
           {{ p.row.fecha }}
         </o-table-column>
-        <o-table-column field="actores" label="Actores" v-slot="p">
+        <!-- <o-table-column field="actores" label="Actores" v-slot="p">
           <div v-for="t in p.row.actores" :key="t.id">
             {{ t.nombre }}
           </div>
-        </o-table-column> 
+        </o-table-column>  -->
       </o-table>
       <br/>
       <o-pagination
