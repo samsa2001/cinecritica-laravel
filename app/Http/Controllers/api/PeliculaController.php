@@ -23,13 +23,15 @@ class PeliculaController extends Controller
     public function indexByVotes()
     {
         // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $peliculas = Pelicula::orderBy('numero_votos','desc')->with('actores')->paginate(20);
+        $peliculas = Pelicula::orderBy('numero_votos','desc')->paginate(20);
         return response()->json($peliculas);
     }
 
     public function slug(Pelicula $pelicula)
     {
-        $pelicula->actores;
+        // dd($pelicula);
+        $pelicula->actores->only('id','slug','nombre');
+        dd($pelicula);
         $pelicula->directores;
         //dd($pelicula->actores->role);
         return response()->json($pelicula);
