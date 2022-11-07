@@ -20,7 +20,7 @@ class PeliculaController extends Controller
     public function index()
     {
         // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $peliculas = Pelicula::orderBy('fecha','desc')->paginate(10);
+        $peliculas = Pelicula::orderBy('fecha','desc')->with('actores','directores','guionistas','escritores','generos')->paginate(10);
         return view('backend.peliculas.index',compact('peliculas'));
     }
 
