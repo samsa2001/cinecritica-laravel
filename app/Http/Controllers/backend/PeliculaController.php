@@ -59,6 +59,7 @@ class PeliculaController extends Controller
     public function showSlug($slug)
     {
         $pelicula = Pelicula::where('slug',$slug)->firstOrFail();
+        $pelicula->actores;
         return view('backend.peliculas.show',compact('pelicula'));
     }
 

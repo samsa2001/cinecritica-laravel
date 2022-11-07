@@ -30,8 +30,7 @@ class PeliculaController extends Controller
     public function slug(Pelicula $pelicula)
     {
         // dd($pelicula);
-        $pelicula->actores->only('id','slug','nombre');
-        dd($pelicula);
+        $pelicula->actores;
         $pelicula->directores;
         //dd($pelicula->actores->role);
         return response()->json($pelicula);
