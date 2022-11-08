@@ -28,7 +28,7 @@ return [
     | local o production
     */
 
-    'env' => env('APP_ENV', 'local'),
+    'env' => env('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ return [
 
     'url' => env('APP_URL', 'https://bricorodriguez.com/'),
 
-    'asset_url' => env('ASSET_URL'),
+    'asset_url' => env('ASSET_URL', 'https://bricorodriguez.com/'),
 
     /*
     |--------------------------------------------------------------------------
