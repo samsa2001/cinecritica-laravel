@@ -50,5 +50,5 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/ver-novedades/series','App\Http\Controllers\backend\SerieController@verNovedades');
     Route::get('/add-novedades/pelis','App\Http\Controllers\backend\PeliculaController@addNovedades');
     Route::get('/add-novedades/series','App\Http\Controllers\backend\SerieController@addNovedades');
-    Route::get('/traspaso','App\Http\Controllers\backend\UtilsController@traspasarTabla');
+    Route::get('/traspaso','App\Http\Controllers\backend\UtilsController@traspasarTablaPersonas');
 });

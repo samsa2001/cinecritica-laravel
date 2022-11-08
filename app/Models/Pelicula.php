@@ -38,19 +38,19 @@ class Pelicula extends Model
 
     public function actores()
     {
-        return $this->belongsToMany(Persona::class)->wherePivot('role','actor')->withPivot('personaje','orden')->orderBy('orden');
+        return $this->belongsToMany(Persona::class,'pelicula_actor')->withPivot('personaje','orden')->orderBy('orden');
     }
     public function directores()
     {
-        return $this->belongsToMany(Persona::class)->wherePivot('role','director');
+        return $this->belongsToMany(Persona::class,'pelicula_director');
     }
     public function escritores()
     {
-        return $this->belongsToMany(Persona::class)->wherePivot('role','escritor');
+        return $this->belongsToMany(Persona::class,'pelicula_guionista')->withPivot('role')->wherePivot('role','escritor');
     }
     public function guionistas()
     {
-        return $this->belongsToMany(Persona::class)->wherePivot('role','guionista');
+        return $this->belongsToMany(Persona::class,'pelicula_guionista')->withPivot('role')->wherePivot('role','guionista');
     }
     public function generos()
     {
