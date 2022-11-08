@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://cine.cabogataalmeria.com'),
+    'url' => env('APP_URL', 'https://bricorodriguez.com/'),
 
     'asset_url' => env('ASSET_URL'),
 
