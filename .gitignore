@@ -4,6 +4,7 @@
 /storage/*.key
 /storage/app/media
 /vendor
+.htaccess
 .env
 .env.backup
 .env.production
