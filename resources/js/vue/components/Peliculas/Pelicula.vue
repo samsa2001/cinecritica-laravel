@@ -17,7 +17,11 @@
                 <div class="bg-slate-200 px-2">productora: {{ pelicula.productora }}</div>
                 <div class="bg-slate-200 px-2">duracion: {{ pelicula.duracion }}</div>
                 <div class="bg-slate-200 px-2">pais: {{ pelicula.pais }}</div>
-                <div v-for="(director, id) in pelicula.directores" :key="id" class="bg-slate-200 px-2">Director: {{ director.nombre }}</div>
+                <div v-for="(director, id) in pelicula.directores" :key="id" class="bg-slate-200 px-2">
+                    <router-link :to="{ name: 'persona', params: { 'slug': director.slug } }">
+                        Director: {{ director.nombre }}
+                    </router-link>
+                </div>
             </div>
             <p>{{ pelicula.descripcion }}</p>
             <div class="flex flex-wrap">

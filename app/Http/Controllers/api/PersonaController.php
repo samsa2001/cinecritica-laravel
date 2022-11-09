@@ -16,13 +16,15 @@ class PersonaController extends Controller
     public function index()
     {
         // $personas = persona::orderBy('popularidad','desc')->paginate(10);
-        $personas = Persona::orderBy('fecha','desc')->with('peliculas')->paginate(10);
+        $personas = Persona::orderBy('fecha','desc')->with('peliculas','esDirector','esGuionista')->paginate(10);
         return response()->json($personas);
     }
 
     public function slug(Persona $persona)
     {
         $persona->peliculas;
+        $persona->esDirector;
+        $persona->esGuionista;
         $persona->series;
         return response()->json($persona);
     }

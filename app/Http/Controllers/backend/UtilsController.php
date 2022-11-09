@@ -48,6 +48,24 @@ class UtilsController extends Controller
             }
         }
     }
+    public function traspasarTablaPersonas()
+    {
+        $relaciones = DB::select('select * from pelicula_persona  LIMIT 160000,40000');
+        foreach ($relaciones as $relacion) {
+            // dd($relacion);
+            // try {
+                if ($relacion->role == 'Actor' || $relacion->role == 'actor')
+                    DB::insert('insert into pelicula_actor (pelicula_id, persona_id,  personaje, orden) values (?, ? ,? , ?)', [$relacion->pelicula_id, $relacion->persona_id, $relacion->personaje, $relacion->orden]);
+                elseif ($relacion->role == 'Director' || $relacion->role == 'director')
+                    DB::insert('insert into pelicula_director (pelicula_id, persona_id) values (?, ?)', [$relacion->pelicula_id, $relacion->persona_id]);
+                else 
+                    DB::insert('insert into pelicula_guionista (pelicula_id, persona_id, role) values (?, ? ,?)', [$relacion->pelicula_id, $relacion->persona_id, $relacion->role]);
+            // } catch (\Throwable $th) {
+            //     echo $th;
+            // }
+        }
+        echo 'terminado';
+    }
     public function prueba5()
     {
         $series = DB::select('select * from ramon_peliculas_series');

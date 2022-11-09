@@ -27,7 +27,15 @@ class Persona extends Model
     
     public function peliculas()
     {
-        return $this->belongsToMany(Pelicula::class)->withPivot('role','personaje','orden')->orderBy('popularidad','desc');
+        return $this->belongsToMany(Pelicula::class,'pelicula_actor')->withPivot('personaje','orden')->orderBy('popularidad','desc');
+    }
+    public function esDirector()
+    {
+        return $this->belongsToMany(Pelicula::class,'pelicula_director')->orderBy('popularidad','desc');
+    }
+    public function esGuionista()
+    {
+        return $this->belongsToMany(Pelicula::class,'pelicula_guionista')->withPivot('role')->orderBy('popularidad','desc');
     }
     public function series()
     {
