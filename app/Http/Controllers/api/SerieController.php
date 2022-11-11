@@ -22,14 +22,14 @@ class SerieController extends Controller
     public function index()
     {
         // $personas = persona::orderBy('popularidad','desc')->paginate(10);
-        $series = Serie::orderBy('fecha','desc')->with('actores')->paginate(20);
+        $series = Serie::orderBy('fecha','desc')->with('actores')->paginate(10);
         return response()->json($series);
     }
 
     public function indexByVotes()
     {
         // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $series = Serie::orderBy('numero_votos','desc')->with('actores')->paginate(20);
+        $series = Serie::orderBy('numero_votos','desc')->with('actores')->paginate(10);
         return response()->json($series);
     }
 

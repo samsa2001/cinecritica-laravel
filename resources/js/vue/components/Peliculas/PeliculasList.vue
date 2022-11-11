@@ -1,22 +1,20 @@
 <template>
   <div>
-    <div class="flex">
-      <o-button icon-left="upload" @click="listPage"> Ordenar por fecha </o-button>
-      <o-button icon-left="upload" @click="orderByPopularity"> Ordenar por num.votos </o-button>
-    </div>
-    <Grilla :posts="posts" :tipo="pelicula"/>
-    <!-- <h1>Listado de Peliculas por fecha</h1>
-    <div v-if="posts" class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
-      <div v-for="post in posts.data" :key="id" class=" bg-slate-300 relative">
-        <router-link :to="{ name: 'pelicula', params: { 'slug': post.slug } }">
-          <img :src="'https://image.tmdb.org/t/p/original' + post.imagen" :title="post.titulo" />
-          <div class="absolute bottom-1 w-full text-center bg-lime-800 text-white min-h-42">{{ post.titulo }}</div>
-        </router-link>
+    <div class="flex justify-between">
+      <h1>Listado de películas</h1>
+      <div class="block">
+        <o-radio v-model="orden" name="name" native-value="fecha" @update:modelValue="listPage()">
+          Ordenar por fecha estreno
+        </o-radio>
+        <o-radio v-model="orden" name="name" native-value="numVotos" @update:modelValue="listPage()">
+          Ordenar por número votos
+        </o-radio>
       </div>
-    </div> -->
+    </div>
+    <Grilla :posts="posts.data" :tipo="pelicula"/>
     <br />
     <o-pagination v-if="posts.current_page && posts.data.length > 0" @change="updatePage" :total="posts.total"
-      v-model:current="currentPage" :range-before="2" :range-after="2" order="centered" size="small" :simple="false"
+      v-model:current="currentPage" :range-before="2" :range-after="3" order="centered" size="medium" :simple="false"
       :rounded="true" :per-page="posts.per_page">
     </o-pagination>
   </div>
@@ -33,12 +31,12 @@
 </template>
 
 <script>
-import Grilla from '../grilla.vue'
+import Grilla from '../Grilla.vue'
 export default {
   data() {
     return {
       posts: [],
-      byDate: true,
+      orden: 'fecha',
       isLoading: true,
       currentPage: 1,
       confirmDeleteActive: false,
@@ -50,20 +48,16 @@ export default {
   },
   methods: {
     updatePage() {
-      if (this.byDate)
-        setTimeout(() => { this.listPage() }, 100)
-      else
-        setTimeout(() => { this.orderByPopularity() }, 100)
+      setTimeout(() => { this.listPage() }, 100)
     },
     listPage() {
-      // const config = {
-      //   headers: { Authorization: `Bearer ${this.$cookies.get('auth').token}` }
-      // };
       this.isLoading = true;
-      console.log("/api/peliculas/?page=" + this.currentPage);
+      const apiQuery = (this.orden == 'fecha') 
+        ? "/api/peliculas?page=" + this.currentPage 
+        : "/api/peliculas/votos?page=" + this.currentPage
       this.$axios
         // .get("/api/peliculas?page=" + this.currentPage, config)
-        .get("/api/peliculas?page=" + this.currentPage)
+        .get(apiQuery)
         .then((res) => {
           this.posts = res.data;
           this.isLoading = false;
@@ -71,33 +65,7 @@ export default {
         });
       if (this.currentPage > 1)
         this.$route.query.page = this.currentPage
-    },
-    orderByPopularity() {
-      this.isLoading = true;
-      console.log("/api/peliculas/votos?page=" + this.currentPage);
-      this.$axios
-        // .get("/api/peliculas?page=" + this.currentPage, config)
-        .get("/api/peliculas/votos?page=" + this.currentPage)
-        .then((res) => {
-          this.posts = res.data;
-          this.isLoading = false;
-          this.byDate = false
-        });
-      if (this.currentPage > 1)
-        this.$route.query.page = this.currentPage
-    },
-    deletePost() {
-      this.confirmDeleteActive = false;
-      this.posts.data.splice(this.deletePostRow.index, 1);
-      this.$axios.delete("/api/post/" + this.deletePostRow.row.id, config);
-      this.$oruga.notification.open({
-        message: "Registro eliminado",
-        position: "bottom-right",
-        variant: "danger",
-        duration: 4000,
-        closable: true,
-      });
-    },
+    }
   },
   async mounted() {
     this.currentPage = (this.$route.query.page) ? this.$route.query.page : 1;

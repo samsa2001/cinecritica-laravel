@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/vue/{rutaDeVue?}', function () {
+Route::get('/vue/{rutaDeVue?}/{subRutaDeVue?}', function () {
     return view('vue');
 })->name('vue');
 

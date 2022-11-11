@@ -4,8 +4,11 @@
 
 html {
   font-size: 14px;
+  @apply text-gray-700;
 }
-
+a {
+  @apply text-green-900 underline;
+}
 h1 {
   @apply text-4xl mb-3;
 }

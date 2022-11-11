@@ -17,13 +17,13 @@ class PeliculaController extends Controller
     public function index()
     {
         // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $peliculas = Pelicula::orderBy('fecha','desc')->paginate(20);
+        $peliculas = Pelicula::orderBy('fecha','desc')->paginate(10);
         return response()->json($peliculas);
     }
     public function indexByVotes()
     {
         // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $peliculas = Pelicula::orderBy('numero_votos','desc')->paginate(20);
+        $peliculas = Pelicula::orderBy('numero_votos','desc')->paginate(10);
         return response()->json($peliculas);
     }
 
@@ -32,6 +32,9 @@ class PeliculaController extends Controller
         // dd($pelicula);
         $pelicula->actores;
         $pelicula->directores;
+        $pelicula->guionistas;
+        $pelicula->escritores;
+        $pelicula->generos;
         //dd($pelicula->actores->role);
         return response()->json($pelicula);
     }
