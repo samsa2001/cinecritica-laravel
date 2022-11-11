@@ -54,4 +54,13 @@ label {
 .nav-bar a{
   @apply inline-block px-4 ;
 }
+.ficha .datos-ficha, .ficha .datos-ficha li {
+  @apply inline;
+}
+.ficha .datos-ficha li::after {
+  content: " - ";
+}
+.ficha .datos-ficha li:last-child::after {
+  content: "";
+}
 

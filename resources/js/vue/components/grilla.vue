@@ -3,8 +3,9 @@
       <div v-if="posts" class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 md:gap-8 gap-4">
         <div v-for="post in posts" :key="post.id">
           <router-link :to="{ name: tipo, params: { 'slug': post.slug } }" class=" bg-lime-800">
-            <img v-if="tipo != 'persona'" :src="'https://image.tmdb.org/t/p/original' + post.imagen" :title="post.titulo + ', Poster'" />
-            <img v-else :src="'https://image.tmdb.org/t/p/original' + post.foto" :title="post.nombre + ' , Foto'" />
+            <img v-if="tipo != 'persona' && post.imagen != null" :src="'https://image.tmdb.org/t/p/original' + post.imagen" :title="post.titulo + ', Poster'" />
+            <img v-else-if="post.foto != null" :src="'https://image.tmdb.org/t/p/original' + post.foto" :title="post.nombre + ' , Foto'" />
+            <img v-else src="https://cdn1.cinecritica.com/media/unknown.png" :title="post.nombre + ' , Foto'" />
             <div class=" bottom-0 w-full bg-lime-800 text-white min-h-42 flex flex-row">
               <div v-if="post.nota < 5" class="p-3 min-h-full bg-red-900 text-white">
                 {{ post.nota }}
