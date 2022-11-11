@@ -22,29 +22,10 @@
           </div>
           <div class="w-full flex py-4 px-4 sm:px-6 justify-between items-center">
             <!-- <div></div> -->
-            <div class="flex h-8 items-center">
-              <router-link :to="{ name: 'peliculaslist' }">Películas</router-link>
+            <div class="flex h-8 items-center nav-bar">
+              <router-link :to="{ name: 'peliculaslist' }" >Películas</router-link>
               <router-link :to="{ name: 'serieslist' }">Series</router-link>
-              <o-field>
-                <o-input v-model="busqueda" placeholder="Buscar..." type="search" icon="search" icon-clickable
-                  @icon-click="searchIconClick" @keyup="buscarActiva" @keyup.enter="buscar">
-                </o-input>
-              </o-field>
-              <router-link class="
-                    inline-flex
-                    uppercase
-                    border-b-2
-                    text-sm
-                    leading-5
-                    mx-3
-                    px-4
-                    py-1
-                    text-gray-600 text-center
-                    font-bold
-                    hover:text-gray-900 hover:border-gray-700 hover:-translate-y-1
-                    duration-150
-                    transition-all
-                  " v-if="!isLoggedIn" :to="{ name: 'login' }">Login</router-link>
+              <router-link v-if="!isLoggedIn" :to="{ name: 'login' }">Login</router-link>
               <router-link class="
                     inline-flex
                     uppercase
@@ -84,12 +65,30 @@
             </div>
           </div>
         </div>
+            <div class="buscador">
+              <o-field>
+                <o-input v-model="busqueda" placeholder="Buscar..." type="search" icon="search" icon-clickable
+                  @icon-click="searchIconClick" @keyup="buscarActiva" @keyup.enter="buscar">
+                </o-input>
+              </o-field>
+            </div>
       </header>
     </nav>
 
     <div class="flex gap-3 bg-gray-200"></div>
-    <div class="container mx-auto">
+    <div class="contenedor-principal">
+      <div id="contenido">
       <router-view></router-view>
+      </div>
+      <div id="sidebar">
+              <router-link :to="{ name: 'peliculaslist' }" class="btn w-40 relative" ><span class="mdi mdi-movie-open absolute left-1"></span>Películas</router-link>
+              <router-link :to="{ name: 'serieslist' }"  class="btn relative"><span class="mdi mdi-television-box absolute left-1"></span>Series</router-link> 
+              <router-link :to="{ name: 'peliculaslist' }" class="btn relative" ><span class="mdi mdi-movie-open-plus absolute left-1"></span>Películas</router-link>
+              <router-link :to="{ name: 'serieslist' }"  class="btn relative"><span class="mdi mdi-television-classic absolute left-1"></span>Series</router-link> 
+              <router-link :to="{ name: 'peliculaslist' }" class="btn relative" ><span class="mdi mdi-filstrip absolute left-1"></span>Películas</router-link>
+              <router-link :to="{ name: 'serieslist' }"  class="btn relative"><span class="mdi mdi-movie-open absolute left-1"></span>Series</router-link> 
+              
+      </div>
     </div>
   </div>
 </template>

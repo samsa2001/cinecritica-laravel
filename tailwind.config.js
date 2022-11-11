@@ -10,11 +10,14 @@ module.exports = {
     ],
 
     theme: {
+        minHeight: {
+          '42': '42px',
+        },
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
-        },
+        }
     },
 
     plugins: [require('@tailwindcss/forms')],
