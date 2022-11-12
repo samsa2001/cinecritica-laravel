@@ -24,14 +24,14 @@
     ]
   },
   "resources/js/vue/main.js": {
-    "file": "assets/main.80ae6835.js",
+    "file": "assets/main.7c916db5.js",
     "src": "resources/js/vue/main.js",
     "isEntry": true,
     "imports": [
       "_axios.91e25212.js"
     ],
     "css": [
-      "assets/main.f2b01fba.css"
+      "assets/main.9d8c480b.css"
     ],
     "assets": [
       "assets/materialdesignicons-webfont.861aea05.eot",
@@ -44,12 +44,12 @@
     "file": "assets/axios.91e25212.js"
   },
   "resources/css/app.css": {
-    "file": "assets/app.abf525e4.css",
+    "file": "assets/app.fcdd80df.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/vue/main.css": {
-    "file": "assets/main.f2b01fba.css",
+    "file": "assets/main.9d8c480b.css",
     "src": "resources/js/vue/main.css"
   }
 }

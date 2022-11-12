@@ -1,10 +1,10 @@
 <template>
-    <div class="flex space-x-3">
-        <div class="w-1/3 mb-4">
+    <h1>{{ persona.nombre }}</h1>
+    <div class="lg:flex block space-x-3">
+        <div class="lg:w-1/3 w-full mb-4">
             <img :src="'https://image.tmdb.org/t/p/original' + persona.foto">
         </div>
-        <div class="w-2/3">
-            <h1>{{ persona.nombre }}</h1>
+        <div class="lg:w-2/3 w-full">
             <h2>{{ persona.year_1 }}</h2>
             <p>{{ persona.descripcion }}</p>
             <div v-if="persona.es_director != ''">
