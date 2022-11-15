@@ -12,42 +12,42 @@ import Login from './components/Auth/Login.vue'
 const routes = [
     {
         name: 'list',
-        path: '/vue',
+        path: '/',
         component: List
     },
     {
         name: 'peliculaslist',
-        path: '/vue/peliculas',
+        path: '/peliculas',
         component: PeliculasList
     },
     {
         name: 'pelicula',
-        path: '/vue/pelicula/:slug?',
+        path: '/pelicula/:slug?',
         component: Pelicula
     },
     {
         name: 'serieslist',
-        path: '/vue/series',
+        path: '/series',
         component: SeriesList
     },
     {
         name: 'serie',
-        path: '/vue/serie/:slug?',
+        path: '/serie/:slug?',
         component: Serie
     },
     {
         name: 'persona',
-        path: '/vue/persona/:slug?',
+        path: '/persona/:slug?',
         component: Persona
     },
     {
         name: 'buscar',
-        path: '/vue/buscar',
+        path: '/buscar',
         component: Buscar
     },
     {
         name: 'login',
-        path: '/vue/login',
+        path: '/login',
         component: Login
     }
 ]

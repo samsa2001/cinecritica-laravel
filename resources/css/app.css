@@ -37,9 +37,10 @@ label {
     @apply px-4 border
 }
 .contenedor-principal {
-  @apply container md:flex lg:gap-4 px-4 sm:px-6 lg:px-8 block py-4
+  @apply md:flex lg:gap-4 px-4 sm:px-6 lg:px-8 block py-4
 }
 #contenido {
+  overflow-x: hidden;
   @apply bg-slate-50 
 }
 #sidebar {
@@ -62,5 +63,8 @@ label {
 }
 .ficha .datos-ficha li:last-child::after {
   content: "";
+}
+.o-car__arrow__icon {
+  @apply w-9 h-9 text-4xl bg-lime-600 text-white;
 }
 

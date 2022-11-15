@@ -35,4 +35,5 @@ Route::get('personas/all',[PersonaController::class,'indexAll']);
 Route::get('persona/{persona:slug}',[PersonaController::class,'slug']); 
 Route::resource('personas',PersonaController::class)->except(['create','edit']);
 
+Route::get('buscar/popular',[BuscadorController::class,'masPopular']);
 Route::get('buscar/{request}',[BuscadorController::class,'index']);

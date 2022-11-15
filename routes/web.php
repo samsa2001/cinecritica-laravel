@@ -18,13 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/vue/{rutaDeVue?}/{subRutaDeVue?}', function () {
-    return view('vue');
-})->name('vue');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -52,3 +48,7 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/add-novedades/series','App\Http\Controllers\backend\SerieController@addNovedades');
     Route::get('/traspaso','App\Http\Controllers\backend\UtilsController@traspasarTablaPersonas');
 });
+Route::get('/{rutaDeVue?}/{subRutaDeVue?}', function () {
+    return view('vue');
+})->name('vue');
+

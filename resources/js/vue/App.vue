@@ -23,7 +23,7 @@
           <div class="w-full flex py-4 px-4 sm:px-6 justify-between items-center">
             <!-- <div></div> -->
             <div class="flex h-8 items-center nav-bar">
-              <router-link :to="{ name: 'peliculaslist' }" >Películas</router-link>
+              <router-link :to="{ name: 'peliculaslist' }">Películas</router-link>
               <router-link :to="{ name: 'serieslist' }">Series</router-link>
               <router-link v-if="!isLoggedIn" :to="{ name: 'login' }">Login</router-link>
               <router-link class="
@@ -65,29 +65,35 @@
             </div>
           </div>
         </div>
-            <div class="buscador">
-              <o-field>
-                <o-input v-model="busqueda" placeholder="Buscar..." type="search" icon="search" icon-clickable
-                  @icon-click="searchIconClick" @keyup="buscarActiva" @keyup.enter="buscar">
-                </o-input>
-              </o-field>
-            </div>
+        <div class="buscador">
+          <o-field>
+            <o-input v-model="busqueda" placeholder="Buscar..." type="search" icon="search" icon-clickable
+              @icon-click="searchIconClick" @keyup="buscarActiva" @keyup.enter="buscar">
+            </o-input>
+          </o-field>
+        </div>
       </header>
     </nav>
+    <div class="container">
+      <div class="contenedor-principal">
+        <div id="contenido">
+          <router-view></router-view>
+        </div>
+        <div id="sidebar">
+          <router-link :to="{ name: 'peliculaslist' }" class="btn w-40 relative"><span
+              class="mdi mdi-movie-open absolute left-1"></span>Películas</router-link>
+          <router-link :to="{ name: 'serieslist' }" class="btn relative"><span
+              class="mdi mdi-television-box absolute left-1"></span>Series</router-link>
+          <router-link :to="{ name: 'peliculaslist' }" class="btn relative"><span
+              class="mdi mdi-movie-open-plus absolute left-1"></span>Películas</router-link>
+          <router-link :to="{ name: 'serieslist' }" class="btn relative"><span
+              class="mdi mdi-television-classic absolute left-1"></span>Series</router-link>
+          <router-link :to="{ name: 'peliculaslist' }" class="btn relative"><span
+              class="mdi mdi-filstrip absolute left-1"></span>Películas</router-link>
+          <router-link :to="{ name: 'serieslist' }" class="btn relative"><span
+              class="mdi mdi-movie-open absolute left-1"></span>Series</router-link>
 
-    <div class="flex gap-3 bg-gray-200"></div>
-    <div class="contenedor-principal">
-      <div id="contenido">
-      <router-view></router-view>
-      </div>
-      <div id="sidebar">
-              <router-link :to="{ name: 'peliculaslist' }" class="btn w-40 relative" ><span class="mdi mdi-movie-open absolute left-1"></span>Películas</router-link>
-              <router-link :to="{ name: 'serieslist' }"  class="btn relative"><span class="mdi mdi-television-box absolute left-1"></span>Series</router-link> 
-              <router-link :to="{ name: 'peliculaslist' }" class="btn relative" ><span class="mdi mdi-movie-open-plus absolute left-1"></span>Películas</router-link>
-              <router-link :to="{ name: 'serieslist' }"  class="btn relative"><span class="mdi mdi-television-classic absolute left-1"></span>Series</router-link> 
-              <router-link :to="{ name: 'peliculaslist' }" class="btn relative" ><span class="mdi mdi-filstrip absolute left-1"></span>Películas</router-link>
-              <router-link :to="{ name: 'serieslist' }"  class="btn relative"><span class="mdi mdi-movie-open absolute left-1"></span>Series</router-link> 
-              
+        </div>
       </div>
     </div>
   </div>
@@ -97,9 +103,9 @@
 import { mapState } from 'vuex';
 
 export default {
-  data(){
-    return{
-      busqueda : ""
+  data() {
+    return {
+      busqueda: ""
     }
   },
   computed: {
@@ -139,11 +145,11 @@ export default {
     setCookieAuth(data) {
       this.$cookies.set("auth", data);
     },
-    buscar(){
+    buscar() {
       console.log(this.busqueda + 'resultado');
       this.$router.push({ name: 'buscar', query: { q: this.busqueda } })
     },
-    buscarActiva(){
+    buscarActiva() {
       console.log(this.busqueda);
     }
   },

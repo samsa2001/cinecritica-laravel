@@ -10,7 +10,7 @@
               <div v-if="post.nota < 5" class="p-3 min-h-full bg-red-900 text-white">
                 {{ post.nota }}
               </div>
-              <div v-else-if="post.nota < 6.5" class="p-3 min-h-full bg-slant-900 text-white">
+              <div v-else-if="post.nota < 6.5" class="p-3 min-h-full bg-amber-500 text-white">
                 {{ post.nota }}
               </div>
               <div v-else-if="tipo != 'persona'" class="p-3 min-h-full bg-green-900 text-white">
@@ -42,7 +42,9 @@
         required:false,
         default: 'pelicula'
       }
-    }
+    },
+    mounted() {
+    },
   };
   </script>
   

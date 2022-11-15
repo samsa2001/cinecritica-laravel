@@ -28,4 +28,11 @@ class BuscadorController extends Controller
         }
 
     }
+    public function masPopular(){
+        $pelis = Pelicula::select('id', 'titulo','popularidad','nota','imagen','slug')->where('year', '>' , '2021')->orderBy('popularidad','desc')->take(12)->get();
+        $series = Serie::select('id', 'titulo','popularidad', 'nota','imagen','slug','numero_episodios')->where('year', '>' , '2021')->orderBy('popularidad','desc')->take(8)->get();
+        $ordenado = $pelis->merge($series)->sortByDesc('popularidad');
+        // dd($ordenado);
+        return response()->json($ordenado->values()->all());
+    }
 }
