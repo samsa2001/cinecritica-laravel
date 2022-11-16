@@ -1,25 +1,25 @@
 <template>
-    <div class="my-4">  
-      <div v-if="posts" class="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 md:gap-8 gap-4">
+    <div >  
+      <div v-if="posts" :class="crearClases()" class="grilla ">
         <div v-for="post in posts" :key="post.id">
-          <router-link :to="{ name: tipo, params: { 'slug': post.slug } }" class=" bg-lime-800">
+          <router-link :to="{ name: tipo, params: { 'slug': post.slug } }" class="grilla-enlace">
             <img v-if="tipo != 'persona' && post.imagen != null" :src="'https://image.tmdb.org/t/p/original' + post.imagen" :title="post.titulo + ', Poster'" />
             <img v-else-if="post.foto != null" :src="'https://image.tmdb.org/t/p/original' + post.foto" :title="post.nombre + ' , Foto'" />
             <img v-else src="https://cdn1.cinecritica.com/media/unknown.png" :title="post.nombre + ' , Foto'" />
-            <div class=" bottom-0 w-full bg-lime-800 text-white min-h-42 flex flex-row">
-              <div v-if="post.nota < 5" class="p-3 min-h-full bg-red-900 text-white">
+            <div class="grilla-titulo">
+              <div v-if="post.nota < 5" class="grilla-nota bg-red-900">
                 {{ post.nota }}
               </div>
-              <div v-else-if="post.nota < 6.5" class="p-3 min-h-full bg-amber-500 text-white">
+              <div v-else-if="post.nota < 6.5" class="grilla-nota bg-amber-500">
                 {{ post.nota }}
               </div>
-              <div v-else-if="tipo != 'persona'" class="p-3 min-h-full bg-green-900 text-white">
+              <div v-else-if="tipo != 'persona'" class="grilla-nota bg-green-900">
                 {{ post.nota }}
               </div>
-              <div v-if="tipo == 'persona'" class="grow text-center">
+              <div v-if="tipo == 'persona'" class="grilla-titulo-texto">
                 <strong>{{ post.nombre }}</strong><br/> {{post.pivot.personaje}}
               </div>
-              <div v-else class="grow text-center">
+              <div v-else class="grilla-titulo-texto">
                 {{ post.titulo }}
               </div>
             </div>
@@ -33,6 +33,9 @@
   
   export default {
     props : {
+      columnas:{
+        type:String,
+      },
       posts: {
         type:Array,
         required:true
@@ -41,10 +44,22 @@
         type:String,
         required:false,
         default: 'pelicula'
+      },
+      gap:{
+        type: Number,
+        required:false,
+        default:4
       }
     },
     mounted() {
+      console.log(this.columnas);
+
     },
+    methods:{
+      crearClases(){
+        return 'lg:grid-cols-' + this.columnas + ' gap-' + this.gap + ' mt-4'
+      }
+    }
   };
   </script>
   

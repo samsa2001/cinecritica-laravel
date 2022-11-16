@@ -7,7 +7,7 @@ html {
   @apply text-gray-700;
 }
 a {
-  @apply text-green-900 underline;
+  @apply text-green-900 ;
 }
 h1 {
   @apply text-4xl mb-3;
@@ -67,4 +67,21 @@ label {
 .o-car__arrow__icon {
   @apply w-9 h-9 text-4xl bg-lime-600 text-white;
 }
-
+/**
+* Grilla
+*/
+.grilla {
+  @apply grid  md:grid-cols-3 grid-cols-2  gap-4;
+}
+.grilla-enlace {
+  @apply  bg-lime-800 relative
+}
+.grilla-titulo {
+  @apply  bottom-0 w-full bg-emerald-700 text-white min-h-42 flex flex-row items-center
+}
+.grilla-nota {
+  @apply  p-3  text-white lg:relative absolute top-0 left-0
+}
+.grilla-titulo-texto{
+  @apply grow text-center lg:text-xs
+}

@@ -11,7 +11,7 @@
         </o-radio>
       </div>
     </div>
-    <Grilla :posts="posts.data" :tipo="pelicula"/>
+    <Grilla :posts="posts.data" :tipo="pelicula" :columnas="'4'"/>
     <br />
     <o-pagination v-if="posts.current_page && posts.data.length > 0" @change="updatePage" :total="posts.total"
       v-model:current="currentPage" :range-before="2" :range-after="3" order="centered" size="medium" :simple="false"
