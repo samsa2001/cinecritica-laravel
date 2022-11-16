@@ -5,19 +5,7 @@
         <div class="flex">
           <div class="flex items-center">
             <a href="/">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="35"
-                viewBox="0 0 262 227">
-                <g id="Vue.js_logo_strokes" fill="none" fill-rule="evenodd">
-                  <g id="Path-2">
-                    <polyline class="outer" stroke="#4B8" stroke-width="46"
-                      points="12.19 -24.031 131 181 250.351 -26.016" />
-                  </g>
-                  <g id="Path-3" transform="translate(52)">
-                    <polyline class="inner" stroke="#354" stroke-width="42"
-                      points="15.797 -14.056 79 94 142.83 -17.863" />
-                  </g>
-                </g>
-              </svg>
+              <img src="https://cdn1.cinecritica.com/media/logo-pulp.png" alt="Cinecritica">
             </a>
           </div>
           <div class="w-full flex py-4 px-4 sm:px-6 justify-between items-center">
@@ -84,12 +72,13 @@
               class="mdi mdi-movie-open absolute left-1"></span>Películas</router-link>
           <router-link :to="{ name: 'serieslist' }" class="btn relative"><span
               class="mdi mdi-television-box absolute left-1"></span>Series</router-link>
-          <router-link :to="{ name: 'peliculaslist' }" class="btn relative"><span
-              class="mdi mdi-movie-open-plus absolute left-1"></span>Películas</router-link>
-          <router-link :to="{ name: 'serieslist' }" class="btn relative"><span
-              class="mdi mdi-television-classic absolute left-1"></span>Series</router-link>
-          <router-link :to="{ name: 'peliculaslist' }" class="btn relative"><span
-              class="mdi mdi-filstrip absolute left-1"></span>Películas</router-link>
+          <h3>Blog</h3>
+          <router-link :to="{ name: 'blog', query:{tipo:'curiosidades'} }" class="btn relative"><span
+              class="mdi mdi-movie-open-plus absolute left-1"></span>Curiosidades</router-link>
+          <router-link :to="{ name: 'blog', query:{tipo:'estrenos'} }" class="btn relative"><span
+              class="mdi mdi-television-classic absolute left-1"></span>Estrenos</router-link>
+          <router-link :to="{ name: 'blog', query:{tipo:'taquilla'} }" class="btn relative"><span
+              class="mdi mdi-filstrip absolute left-1"></span>Taquilla</router-link>
           <router-link :to="{ name: 'serieslist' }" class="btn relative"><span
               class="mdi mdi-movie-open absolute left-1"></span>Series</router-link>
 

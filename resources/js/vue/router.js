@@ -8,6 +8,8 @@ import SeriesList from './components/Series/SeriesList.vue'
 import Serie from './components/Series/Serie.vue'
 import Buscar from './components/Buscar/Buscar.vue'
 import Login from './components/Auth/Login.vue'
+import Blog from './components/Blog/PostList.vue'
+import Post from './components/Blog/Post.vue'
 
 const routes = [
     {
@@ -22,7 +24,7 @@ const routes = [
     },
     {
         name: 'pelicula',
-        path: '/pelicula/:slug?',
+        path: '/pelicula/:slug',
         component: Pelicula
     },
     {
@@ -32,18 +34,28 @@ const routes = [
     },
     {
         name: 'serie',
-        path: '/serie/:slug?',
+        path: '/serie/:slug',
         component: Serie
     },
     {
         name: 'persona',
-        path: '/persona/:slug?',
+        path: '/persona/:slug',
         component: Persona
     },
     {
         name: 'buscar',
         path: '/buscar',
         component: Buscar
+    },
+    {
+        name: 'blog',
+        path: '/blog',
+        component: Blog
+    },
+    {
+        name: 'post',
+        path: '/blog/:slug',
+        component: Post
     },
     {
         name: 'login',

@@ -9,19 +9,19 @@
             <p>{{ persona.descripcion }}</p>
             <div v-if="persona.es_director != ''">
                 <h2>Como director</h2>
-                <Grilla :posts="persona.es_director" tipo="pelicula"></Grilla>
+                <Grilla :posts="persona.es_director" tipo="pelicula" columnas="5" gap="8"></Grilla>
             </div>
             <div v-if="persona.peliculas != ''">
                 <h2>Como actor</h2>
-                <Grilla :posts="persona.peliculas" tipo="pelicula"></Grilla>
+                <Grilla :posts="persona.peliculas" tipo="pelicula" columnas="5" gap="8"></Grilla>
             </div>
             <div v-if="persona.es_guionista != ''">
                 <h2>Como guionista/ Creador historia</h2>
-                <Grilla :posts="persona.es_guionista" tipo="pelicula"></Grilla>
+                <Grilla :posts="persona.es_guionista" tipo="pelicula" columnas="5" gap="8"></Grilla>
             </div>
             <hr />
             <h2 v-if="persona.series != ''">Series</h2>
-            <Grilla :posts="persona.series" tipo="serie"></Grilla>
+            <Grilla :posts="persona.series" tipo="serie" columnas="5" gap="8"></Grilla>
         </div>
     </div>
 </template>

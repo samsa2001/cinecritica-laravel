@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\BuscadorController;
 use App\Http\Controllers\api\PeliculaController;
 use App\Http\Controllers\api\PersonaController;
+use App\Http\Controllers\api\PostController;
 use App\Http\Controllers\api\SerieController;
 use App\Models\Pelicula;
 use Illuminate\Http\Request;
@@ -37,3 +38,9 @@ Route::resource('personas',PersonaController::class)->except(['create','edit']);
 
 Route::get('buscar/popular',[BuscadorController::class,'masPopular']);
 Route::get('buscar/{request}',[BuscadorController::class,'index']);
+
+Route::get('posts/estrenos',[PostController::class,'indexEstrenos']);
+Route::get('posts/taquilla',[PostController::class,'indexTaquilla']);
+Route::get('posts/curiosidades',[PostController::class,'indexCuriosidades']);
+Route::get('post/{post:slug}',[PostController::class,'slug']);
+Route::resource('posts',PostController::class)->except(['create','edit']);

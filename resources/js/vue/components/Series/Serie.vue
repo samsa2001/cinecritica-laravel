@@ -7,24 +7,24 @@
             <h1>{{ serie.titulo }}</h1>
             <h2>{{ serie.tagline }}</h2>
             <p>{{ serie.descripcion }}</p>
-            <div class="flex flex-wrap">
-                <div v-for="(actor, id) in serie.actores" :key="id" class="w-40 mt-3 mr-3">
-                    <img :src="'https://image.tmdb.org/t/p/original' + actor.foto">
-                    <router-link :to="{ name:'persona',params:{ 'slug': actor.slug } }">{{actor.nombre}}</router-link>
-                    <span class="block">{{ actor.pivot.personaje }}</span>
-                </div>
-            </div>
+            <Grilla :posts="serie.actores" tipo="persona" columnas="6" gap="8"/>
             <img :src="'https://image.tmdb.org/t/p/original' + serie.imagen_principal">
         </div>
     </div>
 </template>
 
 <script>
+
+import Grilla from '../Grilla.vue'
+
 export default {
     data() {
         return {
             serie: []
         }
+    },
+    components:{
+        Grilla
     },
     methods: {
         updatePage() {
