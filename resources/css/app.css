@@ -74,16 +74,16 @@ body
 contenido
 ***/
 .nota {
-  @apply font-semibold bg-indigo-500 text-white p-2 text-center text-2xl
+  @apply font-semibold  text-white p-2 text-center 
 }
 .nota-roja {
-  @apply  bg-red-500
+  @apply nota bg-red-500
 }
 .nota-ambar {
-  @apply  bg-amber-500
+  @apply nota bg-amber-500
 }
 .nota-verde {
-  @apply bg-green-500
+  @apply nota bg-green-500
 }
 .nav-bar a{
   @apply inline-block px-4 ;
@@ -101,8 +101,26 @@ contenido
   font-size: 1.2rem;
   @apply mb-4
 }
+/***
+Oruga
+***/
 .o-car__arrow__icon {
   @apply w-9 h-9 text-4xl bg-lime-600 text-white;
+}
+.o-radio__check {
+  background-image: none
+}
+[type='checkbox'], [type='radio'] {
+  color: #169b63;
+}
+.o-car__item {
+  @apply border-8
+}
+.o-car__arrow__icon-next {
+  right: 0rem;
+}
+.o-car__arrow__icon-prev {
+  left: 0rem;
 }
 /**
 * Grilla
@@ -119,9 +137,25 @@ contenido
 .grilla-titulo {
   @apply  bottom-0 w-full bg-emerald-700 text-white min-h-42 flex flex-row items-center
 }
-.grilla-nota {
-  @apply  p-3  text-white lg:relative absolute top-0 left-0
-}
 .grilla-titulo-texto{
   @apply grow text-center lg:text-xs
+}
+.grilla-nota {
+  @apply  text-base py-0
+}
+/***
+Tabs
+***/
+.tabs {
+  @apply my-4
+}
+.tab-titulo {
+  @apply inline-block p-4 bg-gray-50 border border-b-gray-100 border-gray-400 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 cursor-pointer
+}
+.tab-titulo.active {
+  transform: translateY(3px);
+  @apply  text-green-600 bg-gray-100 font-semibold
+}
+.tabs-contenido {
+  @apply p-2 bg-gray-100 border  border-gray-400
 }

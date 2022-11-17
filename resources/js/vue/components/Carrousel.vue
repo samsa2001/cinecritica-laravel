@@ -1,41 +1,99 @@
 <template>
-   <o-carousel
-      v-model="carousel"
-      v-bind="settings"
-    >
-      <o-carousel-item v-for="(post, i) in posts" :key="i">        
-        <router-link :to="{ name: (post.numero_episodios >0)?'serie':'pelicula'
-            , params: { 'slug': post.slug } }" class=" bg-lime-800">
-        <img :src="'https://image.tmdb.org/t/p/original' + post.imagen" />
-            <div class=" bottom-0 w-full bg-lime-800 text-white min-h-42 flex flex-row">
-              <div v-if="post.nota < 5" class="p-3 min-h-full bg-red-900 text-white">
-                {{ post.nota }}
-              </div>
-              <div v-else-if="post.nota < 6.5" class="p-3 min-h-full bg-amber-500 text-white">
-                {{ post.nota }}
-              </div>
-              <div v-else class="p-3 min-h-full bg-green-900 text-white">
-                {{ post.nota }}
-              </div>
-              <div v-if="tipo == 'persona'" class="grow text-center">
-                <strong>{{ post.nombre }}</strong><br/> {{post.pivot.personaje}}
-              </div>
-              <div v-else class="grow text-center">
-                {{ post.titulo }}
-              </div>
-            </div>
-        </router-link>
-      </o-carousel-item>
-    </o-carousel>
+  <div id="tab" class="tabs">
+      <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+          <li v-if="peliculas != null" class="mr-2">
+              <a @click="f_peliculas()" href="#tab" class="tab-titulo" :class="{'active':tab_peliculas }">Peliculas</a>
+          </li>
+          <li v-if="series != null" class="mr-2">
+              <a @click="f_series()" href="#tab" class="tab-titulo" :class="{'active':tab_series }">Series</a>
+          </li>
+          <li v-if="personas != null" class="mr-2">
+              <a @click="f_personas()" href="#tab" class="tab-titulo" :class="{'active':tab_personas }">Personas</a>
+          </li>
+      </ul>
+      <div class="tabs-contenido">
+          <div v-if="personas != '' && tab_personas">
+            <o-carousel  v-model="carousel" v-bind="settings">
+                <o-carousel-item v-for="(persona, i) in personas" :key="i">        
+                  <router-link :to="{ name: 'persona', params: { 'slug': persona.slug } }" class=" bg-lime-800">
+                  <img :src="'https://image.tmdb.org/t/p/original' + persona.foto " />
+                      <div class=" bottom-0 w-full bg-lime-800 text-white min-h-42 flex flex-row">
+                        <div class="grow text-center">
+                          <strong>{{ persona.nombre }}</strong>
+                        </div>
+                      </div>
+                  </router-link>
+                </o-carousel-item>
+            </o-carousel>
+          </div>
+          <div v-if="peliculas != '' && tab_peliculas">
+            <o-carousel  v-model="carousel" v-bind="settings">
+                <o-carousel-item v-for="(pelicula, i) in peliculas" :key="i">        
+                  <router-link :to="{ name: 'pelicula', params: { 'slug': pelicula.slug } }" class=" bg-lime-800">
+                  <img :src="'https://image.tmdb.org/t/p/original' + pelicula.imagen" />
+                      <div class=" bottom-0 w-full bg-lime-800 text-white min-h-42 flex flex-col">
+                        <div class="grow text-center">
+                          {{ pelicula.titulo }}
+                        </div>
+                        <div v-if="pelicula.nota < 5" class="nota-roja">
+                          {{ pelicula.nota }}
+                        </div>
+                        <div v-else-if="pelicula.nota < 6.5" class="nota-ambar">
+                          {{ pelicula.nota }}
+                        </div>
+                        <div v-else class="nota-verde">
+                          {{ pelicula.nota }}
+                        </div>
+                      </div>
+                  </router-link>
+                </o-carousel-item>
+            </o-carousel>
+          </div>
+          <div v-if="series != '' && tab_series">
+            <o-carousel  v-model="carousel" v-bind="settings">
+                <o-carousel-item v-for="(serie, i) in series" :key="i" class="w-1/3">        
+                  <router-link :to="{ name: 'serie', params: { 'slug': serie.slug } }" class=" bg-lime-800">
+                  <img :src="'https://image.tmdb.org/t/p/original' + serie.imagen" />
+                      <div class=" bottom-0 w-full bg-lime-800 text-white min-h-42 flex flex-col">
+                        <div class="grow text-center">
+                          {{ serie.titulo }}
+                        </div>
+                        <div v-if="serie.nota < 5" class="nota-roja">
+                          {{ serie.nota }}
+                        </div>
+                        <div v-else-if="serie.nota < 6.5" class="nota-ambar">
+                          {{ serie.nota }}
+                        </div>
+                        <div v-else class="nota-verde">
+                          {{ serie.nota }}
+                        </div>
+                      </div>
+                  </router-link>
+                </o-carousel-item>
+            </o-carousel>
+          </div>
+      </div>
+  </div>
 </template>
 
 <script>
 
   export default {
     props : {
-      posts: {
+      peliculas:{
         type:Array,
-        required:true
+        required:false,
+        default:null
+      },
+      series:{
+        type:Array,
+        required:false,
+        default:null
+      },
+      personas:{
+        type:Array,
+        required:false,
+        default:null
       },
     },
     data(){ 
@@ -46,14 +104,35 @@
                 arrow: true,
                 arrowHover: false,
                 hasDrag: true,
-                itemsToShow: 5,
-                itemsToList: 5,
-                repeat: false,
+                itemsToShow: 2,
+                itemsToList: 2,
+                repeat: true,
+                breakpoints: { 
+                  768: { itemsToShow: 3, itemsToList: 3,}, 
+                  960: { itemsToShow: 4, itemsToList: 4,}, 
+                  1200: { itemsToShow: 5, itemsToList: 5,}
+                }
             },
+            tab_peliculas: true,
+            tab_personas:false,
+            tab_series:false
         }
     },
-    mounted(){        
-        console.log(this.posts);
+    methods: {
+        f_peliculas(){
+            this.tab_peliculas=true
+            this.tab_personas = this.tab_series = false
+        },
+        f_series(){
+            this.tab_series=true
+            this.tab_personas = this.tab_peliculas = false
+        },
+        f_personas(){
+            this.tab_personas=true
+            this.tab_peliculas = this.tab_series = false
+        },
+    },
+    mounted(){     
     }
   }
 </script>

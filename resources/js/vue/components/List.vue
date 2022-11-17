@@ -1,7 +1,7 @@
 <template>
     <div>  
       <h1>Lo más popular ahora</h1>
-        <Carrousel :posts="posts"></Carrousel>
+        <Carrousel :peliculas="peliculas" :series="series" :personas="personas"></Carrousel>
     </div>
   </template>
 
@@ -10,7 +10,9 @@ import Carrousel from './Carrousel.vue'
 export default  {
   data() {
     return {
-      posts: [],
+      peliculas:[],
+      series:[],
+      personas:[],
       isLoading: true,
     };
   },
@@ -24,13 +26,25 @@ export default  {
     listPage() {
       this.isLoading = true;
       this.$axios
-        // .get("/api/peliculas?page=" + this.currentPage, config)
-        .get("/api/buscar/popular")
+        .get("/api/peliculas")
         .then((res) => { 
-          this.posts = res.data;      
+          this.peliculas = res.data.data;      
           this.isLoading = false;
         });
-    }
+      this.$axios
+        .get("/api/series")
+        .then((res) => { 
+          this.series = res.data.data;      
+          this.isLoading = false;
+        });
+      this.$axios
+        .get("/api/personas")
+        .then((res) => { 
+          this.personas = res.data.data;      
+          this.isLoading = false;
+        });
+    },
+
   },
   async mounted() {
     this.listPage();
