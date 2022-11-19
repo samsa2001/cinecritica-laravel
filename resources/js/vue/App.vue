@@ -2,13 +2,16 @@
   <div>
     <nav class="bg-white border-b border-gray-100">
       <header class="container  px-4 sm:px-6 lg:px-8">
-        <div class="flex">
-          <div class="flex items-center">
+        <div class="flex  items-center justify-araound">
+          <div class="basis-1/4">
             <a href="/">
               <img src="https://cdn1.cinecritica.com/media/logo-pulp.png" alt="Cinecritica">
             </a>
           </div>
-          <div class="w-full flex py-4 px-4 sm:px-6 justify-between items-center">
+          <div class="buscador basis-1/2">
+            <Buscador></Buscador>
+          </div>
+          <div class="basis-1/4 flex py-4 px-4 sm:px-6 justify-between items-center">
             <!-- <div></div> -->
             <div class="flex h-8 items-center nav-bar">
               <router-link :to="{ name: 'peliculaslist' }">Películas</router-link>
@@ -53,13 +56,6 @@
             </div>
           </div>
         </div>
-        <div class="buscador">
-          <o-field>
-            <o-input v-model="busqueda" placeholder="Buscar..." type="search" icon="search" icon-clickable
-              @icon-click="searchIconClick" @keyup="buscarActiva" @keyup.enter="buscar">
-            </o-input>
-          </o-field>
-        </div>
       </header>
     </nav>
     <div class="container">
@@ -72,6 +68,8 @@
               class="mdi mdi-movie-open absolute left-1"></span>Películas</router-link>
           <router-link :to="{ name: 'serieslist' }" class="btn relative"><span
               class="mdi mdi-television-box absolute left-1"></span>Series</router-link>
+          <router-link :to="{ name: 'espana' }" class="btn relative"><span
+              class="mdi mdi-television-box absolute left-1"></span>Cine Español</router-link>
           <h3>Blog</h3>
           <router-link :to="{ name: 'blog', query:{tipo:'curiosidades'} }" class="btn relative"><span
               class="mdi mdi-movie-open-plus absolute left-1"></span>Curiosidades</router-link>
@@ -90,12 +88,13 @@
 <script>
 
 import { mapState } from 'vuex';
+import Buscador from './components/Buscar/Buscador.vue'
 
 export default {
   data() {
-    return {
-      busqueda: ""
-    }
+  },
+  components:{
+    Buscador
   },
   computed: {
     ...mapState('authStore', ['isLoggedIn', 'user', 'token'])
@@ -134,13 +133,6 @@ export default {
     setCookieAuth(data) {
       this.$cookies.set("auth", data);
     },
-    buscar() {
-      console.log(this.busqueda + 'resultado');
-      this.$router.push({ name: 'buscar', query: { q: this.busqueda } })
-    },
-    buscarActiva() {
-      console.log(this.busqueda);
-    }
   },
 };
 </script>

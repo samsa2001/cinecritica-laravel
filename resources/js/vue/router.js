@@ -6,10 +6,11 @@ import PeliculasList from './components/Peliculas/PeliculasList.vue'
 import Persona from './components/Personas/Persona.vue'
 import SeriesList from './components/Series/SeriesList.vue'
 import Serie from './components/Series/Serie.vue'
-import Buscar from './components/Buscar/Buscar.vue'
+import Buscar from './components/Buscar/PaginaBuscar.vue'
 import Login from './components/Auth/Login.vue'
 import Blog from './components/Blog/PostList.vue'
 import Post from './components/Blog/Post.vue'
+import Espana from './components/Peliculas/PeliculasEspana.vue'
 
 const routes = [
     {
@@ -26,6 +27,11 @@ const routes = [
         name: 'pelicula',
         path: '/pelicula/:slug',
         component: Pelicula
+    },,
+    {
+        name: 'espana',
+        path: '/españa',
+        component: Espana
     },
     {
         name: 'serieslist',
@@ -45,7 +51,7 @@ const routes = [
     {
         name: 'buscar',
         path: '/buscar',
-        component: Buscar
+        component: Buscar,
     },
     {
         name: 'blog',

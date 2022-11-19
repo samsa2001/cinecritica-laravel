@@ -26,6 +26,16 @@ class PeliculaController extends Controller
         $peliculas = Pelicula::orderBy('numero_votos','desc')->paginate(10);
         return response()->json($peliculas);
     }
+    public function soloPeliculas()
+    {
+        $peliculas = Pelicula::orderBy('fecha','desc')->paginate(20);
+        return response()->json($peliculas);
+    }
+    public function soloEspana()
+    {
+        $peliculas = Pelicula::where('idioma', 'es')->orderBy('fecha','desc')->paginate(10);
+        return response()->json($peliculas);
+    }
 
     public function slug(Pelicula $pelicula)
     {

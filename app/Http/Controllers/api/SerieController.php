@@ -25,6 +25,11 @@ class SerieController extends Controller
         $series = Serie::orderBy('fecha','desc')->with('actores')->paginate(10);
         return response()->json($series);
     }
+    public function soloSeries()
+    {
+        $series = Serie::orderBy('fecha','desc')->paginate(20);
+        return response()->json($series);
+    }
 
     public function indexByVotes()
     {

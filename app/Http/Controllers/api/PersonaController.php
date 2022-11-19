@@ -19,6 +19,11 @@ class PersonaController extends Controller
         $personas = Persona::orderBy('popularidad','desc')->with('peliculas','esDirector','esGuionista')->paginate(10);
         return response()->json($personas);
     }
+    public function soloPersonas()
+    {
+        $personas = Persona::orderBy('popularidad','desc')->paginate(20);
+        return response()->json($personas);
+    }
 
     public function slug(Persona $persona)
     {

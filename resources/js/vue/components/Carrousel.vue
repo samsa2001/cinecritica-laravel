@@ -1,6 +1,6 @@
 <template>
   <div id="tab" class="tabs">
-      <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+      <ul class="flex flex-wrap font-medium text-center  border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
           <li v-if="peliculas != null" class="mr-2">
               <a @click="f_peliculas()" href="#tab" class="tab-titulo" :class="{'active':tab_peliculas }">Peliculas</a>
           </li>
@@ -55,7 +55,7 @@
                   <router-link :to="{ name: 'serie', params: { 'slug': serie.slug } }" class=" bg-lime-800">
                   <img :src="'https://image.tmdb.org/t/p/original' + serie.imagen" />
                       <div class=" bottom-0 w-full bg-lime-800 text-white min-h-42 flex flex-col">
-                        <div class="grow text-center">
+                        <div class=" text-center">
                           {{ serie.titulo }}
                         </div>
                         <div v-if="serie.nota < 5" class="nota-roja">
@@ -106,7 +106,7 @@
                 hasDrag: true,
                 itemsToShow: 2,
                 itemsToList: 2,
-                repeat: true,
+                repeat: false,
                 breakpoints: { 
                   768: { itemsToShow: 3, itemsToList: 3,}, 
                   960: { itemsToShow: 4, itemsToList: 4,}, 

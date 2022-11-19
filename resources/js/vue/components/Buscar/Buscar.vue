@@ -1,5 +1,4 @@
 <template>
-    <h1>Busqueda por {{$route.query.q}}</h1>
     <div v-for="(objeto, id) in coleccion" :key="id">
         <div v-if="objeto.hasOwnProperty('nombre')" class="flex space-x-3 py-2">
             <img :src="'https://image.tmdb.org/t/p/original' + objeto.foto" width="75">
@@ -14,8 +13,6 @@
                 <router-link :to="{ name:'pelicula',params:{ 'slug': objeto.slug } }">{{ objeto.titulo }}</router-link>
             </div>
         </div>
-        
-        <hr/>
     </div>
 </template>
 
@@ -23,33 +20,31 @@
 export default {
     data() {
         return {
-            coleccion: [],
-            textoBuscar : ''
         }
     },
-    methods: {
-        updatePage() {
-            setTimeout(this.listPage, 100);
+    props:{
+        coleccion: {
+            type: Object,
+            required: true,
+            default: null
         },
-        listPage() {
-            this.isLoading = true;
-            this.$axios
-                .get("/api/buscar/" + this.textoBuscar)
-                .then((res) => {
-                    this.coleccion = res.data;
-                });
+        textoBuscar : {
+            type:String,
+            required:true,
+            default:''
         }
     },
     async mounted() {
-        this.textoBuscar = this.$route.query.q
-        this.listPage();
-        
+        // if(this.$route.query.q && this.coleccion==null){            
+        //     this.textoBuscar = this.$route.query.q
+        //     this.listPage();
+        // }
     },
-    async updated() {
-        this.textoBuscar = this.$route.query.q
-        this.listPage();
+    // async updated() {
+    //     this.textoBuscar = this.$route.query.q
+    //     this.listPage();
         
-    },
+    // },
 }
 </script>
 

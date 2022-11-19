@@ -26,19 +26,19 @@ export default  {
     listPage() {
       this.isLoading = true;
       this.$axios
-        .get("/api/peliculas")
+        .get("/api/peliculas/soloPeliculas")
         .then((res) => { 
           this.peliculas = res.data.data;      
           this.isLoading = false;
         });
       this.$axios
-        .get("/api/series")
+        .get("/api/series/soloSeries")
         .then((res) => { 
           this.series = res.data.data;      
           this.isLoading = false;
         });
       this.$axios
-        .get("/api/personas")
+        .get("/api/personas/soloPersonas")
         .then((res) => { 
           this.personas = res.data.data;      
           this.isLoading = false;
