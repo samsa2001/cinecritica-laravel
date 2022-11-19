@@ -12,14 +12,14 @@
                     <li>Año: <span class="datos-ficha">{{ serie.year }}</span></li>
                     <li>Fecha estreno mundial: <span class="datos-ficha">{{ serie.fecha }}</span></li>
                     <li>Titulo Original: <span class="datos-ficha">{{ serie.titulo_original }}</span></li>
-                    <li>Presupuesto: <span class="datos-ficha">{{ new Intl.NumberFormat().format(serie.presupuesto)
-                    }}$</span>
+                    <li>Canal original: <span class="datos-ficha">{{ serie.canal }}</span>
                     </li>
-                    <li>Recaudacion: <span class="datos-ficha">{{ new Intl.NumberFormat().format(serie.recaudacion)
-                    }}$</span>
+                    <li>Número episodios: <span class="datos-ficha">{{ serie.numero_episodios }}</span>
                     </li>
-                    <li>Productora: <span class="datos-ficha">{{ serie.productora }}</span></li>
-                    <li>Duracion: <span class="datos-ficha">{{ serie.duracion }} min.</span></li>
+                    <li>Duración por episodio: <span class="datos-ficha">{{ serie.duracion }}</span>
+                    </li>
+                    <li v-if="serie.en_produccion > 0">En producción : Sí</li>
+                    <li v-if="serie.fecha_ultimo">Fecha último episodio: <span class="datos-ficha">{{ serie.fecha_ultimo }}</span></li>
                     <li>Pais: <span class="datos-ficha">{{ serie.pais }}</span></li>
                     <li v-if="serie.generos != ''">
                         Generos:
@@ -29,22 +29,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li v-if="serie.guionistas != ''">
-                        Guión:
+                    <li v-if="serie.creadores != ''">
+                        Creador/es:
                         <ul class="datos-ficha">
-                            <li v-for="(guionista, id) in serie.guionistas" :key="id">
-                                <router-link :to="{ name: 'persona', params: { 'slug': guionista.slug } }">
-                                    {{ guionista.nombre }}
-                                </router-link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li v-if="serie.escritores != ''">
-                        Historia:
-                        <ul class="datos-ficha">
-                            <li v-for="(escritor, id) in serie.escritores" :key="id">
-                                <router-link :to="{ name: 'persona', params: { 'slug': escritor.slug } }">
-                                    {{ escritor.nombre }}
+                            <li v-for="(creador, id) in serie.creadores" :key="id">
+                                <router-link :to="{ name: 'persona', params: { 'slug': creador.slug } }">
+                                    {{ creador.nombre }}
                                 </router-link>
                             </li>
                         </ul>
@@ -67,14 +57,12 @@
                         </div>
                 </div>
                 <div class="barra-horizontal"></div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>Creador:</div>
-                    <ul class="datos-ficha text-center">
-                        <li v-for="(creador, id) in serie.creadores" :key="id">
-                            <router-link :to="{ name: 'persona', params: { 'slug': creador.slug } }">
-                                <img :src="'https://image.tmdb.org/t/p/original' + creador.foto" width="100" class="block mx-auto">
-                                {{ creador.nombre }}
-                            </router-link>
+                <div v-if="serie.temporadas != ''">
+                    Temporadas:
+                    <ul class="datos-ficha flex flex-wrap">
+                        <li v-for="(temporada, id) in serie.temporadas" :key="id" class="w-20 m-2">
+                            <img :src="'https://image.tmdb.org/t/p/original'+temporada.imagen" />
+                                {{ temporada.titulo }}
                         </li>
                     </ul>
                 </div>
@@ -92,6 +80,7 @@
 <script>
 
 import Grilla from '../Grilla.vue'
+import Votar from '../Votar.vue'
 
 export default {
     data() {
@@ -100,7 +89,8 @@ export default {
         }
     },
     components:{
-        Grilla
+        Grilla,
+        Votar
     },
     methods: {
         updatePage() {

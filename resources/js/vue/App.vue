@@ -2,16 +2,16 @@
   <div>
     <nav class="bg-white border-b border-gray-100">
       <header class="container  px-4 sm:px-6 lg:px-8">
-        <div class="flex  items-center justify-araound">
-          <div class="basis-1/4">
+        <div class="flex  items-center justify-araound flex-wrap">
+          <div class="lg:basis-1/4 basis-1/3 order-1">
             <a href="/">
               <img src="https://cdn1.cinecritica.com/media/logo-pulp.png" alt="Cinecritica">
             </a>
           </div>
-          <div class="buscador basis-1/2">
+          <div class="buscador lg:basis-1/2 basis-full lg:order-2 order-3 lg:mt-0 mt-2 ">
             <Buscador></Buscador>
           </div>
-          <div class="basis-1/4 flex py-4 px-4 sm:px-6 justify-between items-center">
+          <div class="lg:basis-1/4 basis-2/3 lg:order-3 order-2 flex  justify-end items-center">
             <!-- <div></div> -->
             <div class="flex h-8 items-center nav-bar">
               <router-link :to="{ name: 'peliculaslist' }">Películas</router-link>

@@ -210,7 +210,7 @@ class SerieController extends Controller
     }
     public function verNovedades()
     {
-        $query = "discover/tv?language=es-ES&vote_count.gte=100&first_air_date.gte=2021-12-21&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=50&first_air_date.gte=2022-09-21&page=";
         $novedades = $this->getMovieApi($query . "1");
         $results = $novedades['results'];
         for ($i = 2; $i <= $novedades["total_pages"]; $i++) {
@@ -222,7 +222,7 @@ class SerieController extends Controller
     }
     
     public function addNovedades(){
-        $query = "discover/tv?language=es-ES&vote_count.gte=100&first_air_date.gte=2021-12-21&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=100&first_air_date.gte=2022-09-21&page=";
         $novedades = $this->getMovieApi($query . "1");
         $idSeries = [];
         for ($i=1; $i <= $novedades["total_pages"]; $i++){

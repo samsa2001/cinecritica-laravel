@@ -41,6 +41,9 @@ class SerieController extends Controller
     public function slug(Serie $serie)
     {
         $serie->actores;
+        $serie->temporadas;     
+        $serie->creadores;
+        $serie->generos;
         return response()->json($serie);
     }
 }

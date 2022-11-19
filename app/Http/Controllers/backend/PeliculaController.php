@@ -133,7 +133,7 @@ class PeliculaController extends Controller
     }
     
     public function addNovedades(){
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2021-12-21&vote_count.gte=300&page=";
+        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-09-21&vote_count.gte=300&page=";
         $novedades = $this->getMovieApi($query . "1");
         $idPeliculas = [];
         for ($i=1; $i <= $novedades["total_pages"]; $i++){
@@ -252,7 +252,7 @@ class PeliculaController extends Controller
                         echo "Añadido Actor-> " . $newPersona['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $newPersona['foto'] . '"><br><hr><br>';
                         $this->guardarImagen($newPersona['foto'],'actor');
                     } 
-                    $pelicula->actores()->attach($crews['cast'][$i]['id'], ['role' => 'actor','personaje' => $crews['cast'][$i]['character'], 'orden' =>$crews['cast'][$i]['order']]);
+                    $pelicula->actores()->attach($crews['cast'][$i]['id'], ['personaje' => $crews['cast'][$i]['character'], 'orden' =>$crews['cast'][$i]['order']]);
             }
         }
         //directores, guionistas y escritores
@@ -266,7 +266,7 @@ class PeliculaController extends Controller
                         echo "Añadido director-> " . $director['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $director['foto'] . '"><br><hr><br>';   
                         $this->guardarImagen($newPersona['foto'],'director');            
                     }                         
-                    $pelicula->directores()->attach($peliCrew['id'], ['role' => 'director']);
+                    $pelicula->directores()->attach($peliCrew['id']);
                 }
                 if ($peliCrew['job'] == 'Screenplay'){ 
                     $guionista = Persona::find($peliCrew['id']);
