@@ -49,7 +49,10 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/add-novedades/pelis','App\Http\Controllers\backend\PeliculaController@addNovedades');
     Route::get('/add-novedades/series','App\Http\Controllers\backend\SerieController@addNovedades');
     Route::get('/traspaso','App\Http\Controllers\backend\UtilsController@traspasarTablaPersonas');
+    Route::get('/updatePersonas','App\Http\Controllers\backend\UtilsController@updatePersonas');
 });
+
+Route::get('sitemap/peliculas','App\Http\Controllers\backend\UtilsController@sitemapPeliculas');
 Route::get('/{rutaDeVue?}/{subRutaDeVue?}', function () {
     return view('vue');
 })->name('vue');

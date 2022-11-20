@@ -101,6 +101,33 @@ contenido
   font-size: 1.2rem;
   @apply mb-4
 }
+@media (min-width: 1024px) {
+  .seccion-titulo {
+    background-position: center center; 
+    background-size: cover; 
+    height:650px ;
+    color:white;
+  }  
+  .seccion-titulo h1 { 
+    color:white;
+    border: none;
+  }
+  .fondo-titulo{
+    padding: 1rem 1rem 2rem; 
+    background: rgb(2,0,36);
+    background: linear-gradient(180deg, rgba(2,0,36,0.630987429151348) 80%, rgba(2,0,36,0) 100%);
+  }
+}
+@media (max-width: 1023px) {
+  .seccion-titulo {
+    background-image: none !important;
+    height:auto;
+    background-color: white;
+    color:black;
+  }
+}
+.fondo-titulo{
+}
 /***
 Oruga
 ***/

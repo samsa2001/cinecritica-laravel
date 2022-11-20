@@ -1,7 +1,11 @@
 <template>
     <div class="">
-        <h1>{{ pelicula.titulo }}</h1>
-        <h2>{{ pelicula.tagline }}</h2>
+        <div class="seccion-titulo" :style="{backgroundImage:'url(https://image.tmdb.org/t/p/original' + pelicula.imagen_principal + ')'}" >
+            <div class="fondo-titulo">
+                <h1>{{ pelicula.titulo }}</h1>
+                <h2>{{ pelicula.tagline }}</h2>
+            </div>
+        </div>
         <div class="lg:float-left block max-w-sm mr-4 mb-4">
             <img :src="'https://image.tmdb.org/t/p/original' + pelicula.imagen">
         </div>

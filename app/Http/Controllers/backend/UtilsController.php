@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pelicula;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use App\Models\Persona;
@@ -245,5 +246,28 @@ class UtilsController extends Controller
             Temporada::create($temporada);
             $this->guardarImagen($temporada['imagen'], 'serie-temporada');
         }
+    }
+    
+    public function updatePersonas(){
+        $personas = $this->getMovieApi('person/changes');
+        $cont = 0;
+        foreach( $personas['results'] as $persona ){
+        //  dd($personas, $persona);
+            $noNewPersona = Persona::find($persona['id']);
+            if($noNewPersona){
+                $popular = $this->getMovieApi('person/'.$persona['id']);
+                // dd($noNewPersona->nombre, $noNewPersona->popularidad , $popular['popularity']);
+                $cont++;
+                if (isset($popular['popularity'])){
+                    $noNewPersona->popularidad = $popular['popularity'];
+                    echo $cont . '-' . $popular['id'] . '-' .$popular['popularity'] . '-' .$popular['popularity']. '<br><hr>';
+                }
+            }
+        }
+    }
+    public function sitemapPeliculas(){
+        $peliculas = Pelicula::paginate(1000);
+        return view('sitemap.peliculas', compact('peliculas'));
+
     }
 }
