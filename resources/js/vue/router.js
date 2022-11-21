@@ -2,10 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import List from './components/List.vue'
 import Pelicula from './components/Peliculas/Pelicula.vue'
+import PeliculaComposition from './components/Peliculas/PeliculaComposition.vue'
 import PeliculasList from './components/Peliculas/PeliculasList.vue'
+import PeliculasListComposition from './components/Peliculas/PeliculasListComposition.vue'
 import Persona from './components/Personas/Persona.vue'
 import SeriesList from './components/Series/SeriesList.vue'
+import SeriesListComposition from './components/Series/SeriesListComposition.vue'
 import Serie from './components/Series/Serie.vue'
+import SerieComposition from './components/Series/SerieComposition.vue'
 import Buscar from './components/Buscar/PaginaBuscar.vue'
 import Login from './components/Auth/Login.vue'
 import Blog from './components/Blog/PostList.vue'
@@ -20,13 +24,13 @@ const routes = [
     },
     {
         name: 'peliculaslist',
-        path: '/peliculas',
-        component: PeliculasList
+        path: '/peliculas/:page(\\d+)?',
+        component: PeliculasListComposition
     },
     {
         name: 'pelicula',
         path: '/pelicula/:slug',
-        component: Pelicula
+        component: PeliculaComposition
     },,
     {
         name: 'espana',
@@ -35,13 +39,13 @@ const routes = [
     },
     {
         name: 'serieslist',
-        path: '/series',
-        component: SeriesList
+        path: '/series/:page(\\d+)?',
+        component: SeriesListComposition
     },
     {
         name: 'serie',
         path: '/serie/:slug',
-        component: Serie
+        component: SerieComposition
     },
     {
         name: 'persona',

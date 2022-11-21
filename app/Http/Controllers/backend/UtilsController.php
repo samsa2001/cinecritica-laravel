@@ -67,6 +67,22 @@ class UtilsController extends Controller
         }
         echo 'terminado';
     }
+    public function traspasarTablaPersonasSerie()
+    {
+        $relaciones = DB::select('select * from serie_persona  LIMIT 40000');
+        foreach ($relaciones as $relacion) {
+            // dd($relacion);
+            // try {
+                if ($relacion->role == 'Actor' || $relacion->role == 'actor')
+                    DB::insert('insert into serie_actor (serie_id, persona_id,  personaje, orden) values (?, ? ,? , ?)', [$relacion->serie_id, $relacion->persona_id, $relacion->personaje, $relacion->orden]);
+                elseif ($relacion->role == 'Creador' || $relacion->role == 'creador')
+                    DB::insert('insert into serie_creador (serie_id, persona_id) values (?, ?)', [$relacion->serie_id, $relacion->persona_id]);
+            // } catch (\Throwable $th) {
+            //     echo $th;
+            // }
+        }
+        echo 'terminado';
+    }
     public function prueba5()
     {
         $series = DB::select('select * from ramon_peliculas_series');
@@ -249,7 +265,7 @@ class UtilsController extends Controller
     }
     
     public function updatePersonas(){
-        $personas = $this->getMovieApi('person/changes');
+        $personas = $this->getMovieApi('person/changes?start_date=2021-09-21');
         $cont = 0;
         foreach( $personas['results'] as $persona ){
         //  dd($personas, $persona);
@@ -258,9 +274,17 @@ class UtilsController extends Controller
                 $popular = $this->getMovieApi('person/'.$persona['id']);
                 // dd($noNewPersona->nombre, $noNewPersona->popularidad , $popular['popularity']);
                 $cont++;
+                $update =[];
                 if (isset($popular['popularity'])){
-                    $noNewPersona->popularidad = $popular['popularity'];
-                    echo $cont . '-' . $popular['id'] . '-' .$popular['popularity'] . '-' .$popular['popularity']. '<br><hr>';
+                    $update['popularidad'] = $popular['popularity'];
+                }
+                if (isset($popular['deathday'])){
+                    $update['fecha_2'] = $popular['deathday'];
+                    $update['year_2'] = substr($popular['deathday'], 0, 4);
+                }
+                if(isset($update) && (isset($popular['popularity']) || isset($popular['deathday'])) ){             
+                    echo $cont . '-' . $popular['id'] . '-' .$noNewPersona->popularidad. '-' .$popular['popularity']. '<br><hr>';
+                    $noNewPersona->update($update);   
                 }
             }
         }
@@ -268,6 +292,16 @@ class UtilsController extends Controller
     public function sitemapPeliculas(){
         $peliculas = Pelicula::paginate(1000);
         return view('sitemap.peliculas', compact('peliculas'));
+
+    }
+    public function sitemapSeries(){
+        $series = Serie::paginate(1000);
+        return view('sitemap.series', compact('series'));
+
+    }
+    public function sitemapPersonas(){
+        $personas = Persona::paginate(1000);
+        return view('sitemap.personas', compact('personas'));
 
     }
 }

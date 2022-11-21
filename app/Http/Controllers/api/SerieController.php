@@ -44,6 +44,7 @@ class SerieController extends Controller
         $serie->temporadas;     
         $serie->creadores;
         $serie->generos;
+        $serie->imagenes;
         return response()->json($serie);
     }
 }

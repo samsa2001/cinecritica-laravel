@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\ImagenSerie;
 use App\Models\Pelicula;
 use App\Models\Serie;
 use Illuminate\Http\Request;
@@ -222,15 +223,23 @@ class SerieController extends Controller
     }
     
     public function addNovedades(){
-        $query = "discover/tv?language=es-ES&vote_count.gte=100&first_air_date.gte=2022-09-21&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=200&first_air_date.gte=2020-09-21&page=";
         $novedades = $this->getMovieApi($query . "1");
-        $idSeries = [];
+        $newSeries = [];
+        $updatedSeries = [];
         for ($i=1; $i <= $novedades["total_pages"]; $i++){
             $novedades = $this->getMovieApi($query . $i);
-            foreach($novedades['results'] as $resultado)
-                array_push($idSeries,$resultado['id']);
+            foreach($novedades['results'] as $resultado){
+                if(Serie::find($resultado['id']) != null) {
+                    array_push($updatedSeries,$resultado['id']);
+                } else {
+                    array_push($newSeries,$resultado['id']);
+                }
+            }
         }
-        $this->addseries($idSeries);
+        dd($newSeries, $updatedSeries);
+        $this->addseries($newSeries);
+        $this->updateSerie($updatedSeries);
     }
     /*
     * Dado un array de ids añade las películas
@@ -280,6 +289,7 @@ class SerieController extends Controller
                     $this->guardarImagen($serie['imagen'], 'serie');
                     $this->guardarImagen($serie['imagen_principal'], 'principal-serie');
                     $this->addTemporada($objserie, $datosSerie['seasons']);
+                    $this->addImagenSeries($serie['id']);
                     $this->addCrew($objserie);
                     foreach ($datosSerie['created_by'] as $created_by) {
                         $creador = Persona::find($created_by['id']);
@@ -289,7 +299,7 @@ class SerieController extends Controller
                             echo "Añadido creador-> " . $creador['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $creador['foto'] . '"><br><hr><br>';
                             $this->guardarImagen($creador['foto'], 'creador');
                         }
-                        $objserie->creadores()->attach($created_by['id'], ['role' => 'creador']);
+                        $objserie->creadores()->attach($created_by['id']);
                     }
                 } catch (\Throwable $th) {
                     dd($key, $idSerie, $datosSerie, $th);
@@ -297,6 +307,32 @@ class SerieController extends Controller
                     dd($key . '=>' . $idSerie . '<br>' . $th . '<hr>');
                 }
             }
+        }
+    }
+    public function updateSerie($idSeries)
+    {
+        foreach ($idSeries as $key => $idSerie) {
+            $serie = [];
+                try {
+                    $datosSerie = $this->getMovieApi("tv/" . $idSerie . "?language=es-ES");
+                    $serie['nota'] = (isset($datosSerie['vote_average'])) ? $datosSerie['vote_average'] : null;
+                    $serie['numero_votos'] = (isset($datosSerie['vote_count'])) ? $datosSerie['vote_count'] : null;
+                    $serie['numero_episodios'] = (isset($datosSerie['number_of_episodes'])) ? $datosSerie['number_of_episodes'] : null;
+                    $serie['numero_temporadas'] = (isset($datosSerie['number_of_seasons'])) ? $datosSerie['number_of_seasons'] : null;
+                    $serie['en_produccion'] = (isset($datosSerie['in_production'])) ? $datosSerie['in_production'] : null;
+                    $serie['fecha_ultimo'] = (isset($datosSerie['last_air_date'])) ? $datosSerie['last_air_date'] : null;
+                    $serie['popularidad'] = (isset($datosSerie['popularity'])) ? $datosSerie['popularity'] : null;
+                    $objserie = Serie::find($idSerie);
+                    $objserie->update($serie);
+                    echo "Actualizado -> " . $datosSerie['name'] . '"><br><hr><br>';
+                    $this->updateTemporada($objserie, $datosSerie['seasons']);
+                    $this->updateCrew($objserie);
+                } catch (\Throwable $th) {
+                    dd($key, $idSerie, $datosSerie, $th);
+                    dd($key . '=>' . $idSerie . '<br>' . $th . '<hr>');
+                    dd($key . '=>' . $idSerie . '<br>' . $th . '<hr>');
+                }
+
         }
     }
     public function addCrew($serie)
@@ -314,7 +350,31 @@ class SerieController extends Controller
                     echo "Añadido Actor-> " . $newPersona['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $newPersona['foto'] . '"><br><hr><br>';
                     $this->guardarImagen($newPersona['foto'], 'actor');
                 }
-                $serie->actores()->attach($crews['cast'][$i]['id'], ['role' => 'actor', 'personaje' => $crews['cast'][$i]['character'], 'orden' => $crews['cast'][$i]['order']]);
+                $serie->actores()->attach($crews['cast'][$i]['id'], ['personaje' => $crews['cast'][$i]['character'], 'orden' => $crews['cast'][$i]['order']]);
+            }
+        }
+    }
+    public function updateCrew($serie)
+    {
+        $crews = $this->getMovieApi("tv/" . $serie->id . "/credits?language=es-ES");
+        //actores
+        //si popularidad por debajo de 50 solo 10 actores, si no 15
+        ($serie->popularidad > 49) ? $popular = 15 : $popular = 10;
+        for ($i = 0; $i < $popular; $i++) {
+            try {
+                if (count($crews['cast']) > $i && $crews['cast'][$i]) {
+                    $newPersona = Persona::find($crews['cast'][$i]['id']);
+                    if (!$newPersona) {
+                        $newPersona = $this->getPersona($crews['cast'][$i]['id'], true);
+                        Persona::create($newPersona);
+                        echo "Añadido Actor-> " . $newPersona['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $newPersona['foto'] . '"><br><hr><br>';
+                        $this->guardarImagen($newPersona['foto'], 'actor');
+                    }
+                    if (!$serie->actores->contains($crews['cast'][$i]['id']))
+                        $serie->actores()->attach($crews['cast'][$i]['id'], ['personaje' => $crews['cast'][$i]['character'], 'orden' => $crews['cast'][$i]['order']]);
+                }
+            } catch (\Throwable $th) {
+                dd($th);
             }
         }
     }
@@ -363,5 +423,64 @@ class SerieController extends Controller
             Temporada::create($temporada);
             $this->guardarImagen($temporada['imagen'], 'serie-temporada');
         }
+    }
+    public function updateTemporada(Serie $serie, $arrayTemps)
+    {
+        foreach ($arrayTemps as $arrayTemp) {
+            try{
+                $existeTemp = Temporada::find($arrayTemp['id']);
+                if(!$existeTemp){
+                    $temporada = [
+                        'id' => $arrayTemp['id'],
+                        'titulo' => $arrayTemp['name'],
+                        'numero' => $arrayTemp['season_number'],
+                        'episodios' => $arrayTemp['episode_count'],
+                        'fecha' => $arrayTemp['air_date'],
+                        'imagen' => $arrayTemp['poster_path']
+                    ];
+                    $temporada['slug'] = $serie->slug . '-' . $temporada['numero'];
+                    $temporada['serie_id'] = $serie->id;
+                    Temporada::create($temporada);
+                    $this->guardarImagen($temporada['imagen'], 'serie-temporada');
+                }
+            } catch (\Throwable $th) {
+                dd( $th);
+            }
+        }
+    }
+    public function addImagenSeries ($idSerie){
+        try {
+            $datosserie = $this->getMovieApi("tv/" . $idSerie . "/images");
+            $cont = 1;
+            if(isset ($datosserie['backdrops']))
+                foreach ($datosserie['backdrops'] as $imagen){
+                    echo '<img src="https://image.tmdb.org/t/p/original/'. $imagen['file_path'] . '">';
+                    ImagenSerie::create(['serie_id' => $idSerie, 'imagen' => $imagen['file_path']]); 
+                    if ($cont == 6) break;
+                    $cont++;              
+                }
+        } catch (\Throwable $th) {
+            dd($th);
+        }  
+    }
+    public function updateSeries (){
+        $seriesSinImagen = Serie::where('year','>','2020')->doesntHave('imagenes')->get();
+        foreach ($seriesSinImagen as $serieSinImagen){
+            try {
+                $datosserie = $this->getMovieApi("tv/" . $serieSinImagen->id . "/images");
+                $imagenes = [];
+                $cont = 1;
+                if(isset ($datosserie['backdrops']))
+                    foreach ($datosserie['backdrops'] as $imagen){
+                        echo '<img src="https://image.tmdb.org/t/p/original/'. $imagen['file_path'] . '">';
+                        ImagenSerie::create(['serie_id' => $serieSinImagen->id, 'imagen' => $imagen['file_path']]); 
+                        if ($cont == 6) break;
+                        $cont++;              
+                    }
+            } catch (\Throwable $th) {
+                dd($th);
+            }  
+        }
+        dd($seriesSinImagen);
     }
 }

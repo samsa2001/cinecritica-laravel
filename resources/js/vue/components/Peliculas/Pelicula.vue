@@ -8,6 +8,12 @@
         </div>
         <div class="lg:float-left block max-w-sm mr-4 mb-4">
             <img :src="'https://image.tmdb.org/t/p/original' + pelicula.imagen">
+            <h4 class="my-2">Imágenes</h4>
+            <div class="grid gap-2 grid-cols-3 ">
+                <div v-for="imagen in pelicula.imagenes" :key="imagen.id">
+                    <img :src="'https://image.tmdb.org/t/p/original' + imagen.imagen">
+                </div>
+            </div>
         </div>
         <div class="grid lg:grid-cols-2 lg:gap-4 grid-cols-1">
             <div class="ficha bg-green-50 p-4 mb-4  border border-green-900 text-lg">

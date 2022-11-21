@@ -41,11 +41,11 @@ class Serie extends Model
 
     public function actores()
     {
-        return $this->belongsToMany(Persona::class,'serie_persona')->wherePivot('role','actor')->withPivot('personaje','orden')->orderBy('orden');
+        return $this->belongsToMany(Persona::class,'serie_actor')->withPivot('personaje','orden')->orderBy('orden');
     }
     public function creadores()
     {
-        return $this->belongsToMany(Persona::class,'serie_persona')->wherePivot('role','creador');
+        return $this->belongsToMany(Persona::class,'serie_creador');
     }
     public function generos()
     {
@@ -54,5 +54,9 @@ class Serie extends Model
     public function temporadas()
     {
         return $this->hasMany(Temporada::class);
+    }
+    public function imagenes()
+    {
+        return $this->hasMany(ImagenSerie::class);
     }
 }

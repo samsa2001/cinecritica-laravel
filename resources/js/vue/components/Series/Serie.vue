@@ -4,6 +4,20 @@
         <h2>{{ serie.tagline }}</h2>
         <div class="lg:float-left block max-w-sm mr-4 mb-4">
             <img :src="'https://image.tmdb.org/t/p/original' + serie.imagen">
+            <h4 class="my-2">Imágenes</h4>
+            <div class="grid gap-2 grid-cols-3 ">
+                <div v-for="imagen in serie.imagenes" :key="imagen.id">                       
+                    <div  @click="imageModal2()">
+                        <img :src="'https://image.tmdb.org/t/p/original' + imagen.imagen">
+                    </div>
+                </div>
+            </div>   
+            <!-- <Modal></Modal>   -->
+            <!-- <o-modal v-model:active="isImageModalActive()">
+                <p style="text-align: center">
+                    <img :src="'https://image.tmdb.org/t/p/original' + imagen.imagen">
+                </p>
+            </o-modal> -->
         </div>
         <div class="grid lg:grid-cols-2 lg:gap-4 grid-cols-1">
             <div class="ficha bg-green-50 p-4 mb-4  border border-green-900 text-lg">
@@ -79,18 +93,22 @@
 
 <script>
 
+import { h } from 'vue'
 import Grilla from '../Grilla.vue'
 import Votar from '../Votar.vue'
+import { useProgrammatic } from '@oruga-ui/oruga-next'
+// import Modal from './Modal.vue'
 
 export default {
     data() {
         return {
-            serie: []
+            serie: [],
         }
     },
     components:{
         Grilla,
-        Votar
+        Votar, 
+        // Modal
     },
     methods: {
         updatePage() {
@@ -103,6 +121,23 @@ export default {
                 .then((res) => {
                     this.serie = res.data;
                 });
+        },
+        imageModal(imagen) {
+            const vnode = h('p', { style: { 'text-align': 'center' } }, [
+                // h('img', { src: 'https://image.tmdb.org/t/p/original' + imagen })
+                h('img', { src: 'https://image.tmdb.org/t/p/original/5s9XHTB9SLPdg3mNU6BlSLnZ9Qq.jpg' })
+            ])
+            this.oruga.modal.open({
+                content: [vnode]
+            })
+        },
+        imageModal2() {
+        const vnode = h('p', { style: { 'text-align': 'center' } }, [
+            h('img', { src: 'https://avatars2.githubusercontent.com/u/66300512?s=200&v=4' })
+        ])
+        this.oruga.modal.open({
+            content: [vnode]
+        })
         }
     },
     async mounted() {

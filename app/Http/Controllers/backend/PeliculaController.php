@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\ImagenPelicula;
+use App\Models\ImagenSerie;
 use Illuminate\Http\Request;
 use App\Models\Pelicula;
 use App\Models\Persona;
+use App\Models\Serie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -313,6 +316,25 @@ class PeliculaController extends Controller
         else {
             echo '<h3>Error al intentar añadir persona:</h3>';
             dd($persona);
+        }
+    }
+    public function addImagenPeliculas (){
+        $peliculasSinImagen = Pelicula::where('year','>','2020')->doesntHave('imagenes')->get();
+        dd($peliculasSinImagen);
+        foreach ($peliculasSinImagen as $peliculaSinImagen){
+            try {
+                $datosPelicula = $this->getMovieApi("movie/" . $peliculaSinImagen->id . "/images");
+                $imagenes = [];
+                $cont = 1;
+                foreach ($datosPelicula['backdrops'] as $imagen){
+                    echo '<img src="https://image.tmdb.org/t/p/original/'. $imagen['file_path'] . '">';
+                    ImagenPelicula::create(['pelicula_id' => $peliculaSinImagen->id, 'imagen' => $imagen['file_path']]); 
+                    if ($cont == 6) break;
+                    $cont++;              
+                }
+            } catch (\Throwable $th) {
+                dd($th);
+            }  
         }
     }
 

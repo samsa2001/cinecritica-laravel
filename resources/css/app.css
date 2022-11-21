@@ -107,6 +107,7 @@ contenido
     background-size: cover; 
     height:650px ;
     color:white;
+    margin-bottom: 1rem;
   }  
   .seccion-titulo h1 { 
     color:white;
