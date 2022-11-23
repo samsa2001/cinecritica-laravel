@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="flex justify-between items-end">
-      <h1 class="m-0">Listado de series</h1>
-      <div class="block">
+    <div class="flex">
+      <h1>Listado de series</h1>
+      <div class="ordenacion">
         <o-radio v-model="orden" name="name" native-value="fecha" @update:modelValue="listPage()">
           Ordenar por fecha estreno
         </o-radio>

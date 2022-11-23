@@ -12,6 +12,7 @@ import Serie from './components/Series/Serie.vue'
 import SerieComposition from './components/Series/SerieComposition.vue'
 import Buscar from './components/Buscar/PaginaBuscar.vue'
 import Login from './components/Auth/Login.vue'
+import Register from './components/Auth/Register.vue'
 import Blog from './components/Blog/PostList.vue'
 import Post from './components/Blog/Post.vue'
 import Espana from './components/Peliculas/PeliculasEspana.vue'
@@ -71,6 +72,11 @@ const routes = [
         name: 'login',
         path: '/login',
         component: Login
+    },
+    {
+        name: 'register',
+        path: '/registro',
+        component: Register
     }
 ]
 

@@ -2,7 +2,7 @@
   <div>
     <div class="flex justify-between">
       <h1>Listado de películas</h1>
-      <div class="block">
+      <div class="ordenacion">
         <o-radio v-model="orden" name="name" native-value="fecha" @update:modelValue="listPage()">
           Ordenar por fecha estreno
         </o-radio>
@@ -12,7 +12,6 @@
       </div>
     </div>
     <Grilla :posts="posts.data" tipo="pelicula" columnas="5" gap="8"/>
-    <br />
     <o-pagination v-if="posts.current_page && posts.data.length > 0" @change="updatePage" :total="posts.total"
       v-model:current="currentPage" :range-before="2" :range-after="3" order="centered" size="medium" :simple="false"
       :rounded="true" :per-page="posts.per_page">

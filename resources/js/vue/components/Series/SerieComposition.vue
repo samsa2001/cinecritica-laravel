@@ -20,7 +20,7 @@
             </o-modal> -->
         </div>
         <div class="grid lg:grid-cols-2 lg:gap-4 grid-cols-1">
-            <div class="ficha bg-green-50 p-4 mb-4  border border-green-900 text-lg">
+            <div class="ficha">
                 <ul class=" divide-y flex flex-col gap-y-3">
                     <li>Número de votos: <span class="datos-ficha">{{ serie.numero_votos }}</span></li>
                     <li>Año: <span class="datos-ficha">{{ serie.year }}</span></li>
@@ -122,7 +122,9 @@ export default defineComponent({
         h('img', { src: 'https://image.tmdb.org/t/p/original' + imagen })
       ])
       oruga.modal.open({
-        content: [vnode]
+        content: [vnode],
+        width: 1500,
+        fullscreen: true,
       })
     }
     function updatePage() {

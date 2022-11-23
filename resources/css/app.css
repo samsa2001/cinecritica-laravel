@@ -7,7 +7,7 @@ html {
   @apply text-gray-700;
 }
 a {
-  @apply text-green-900 ;
+  @apply text-green-900 cursor-pointer ;
 }
 h1 {
   @apply lg:text-6xl text-5xl text-black mb-6 font-black border-b-4 border-b-black;
@@ -24,9 +24,6 @@ h4 {
 h5 {
   @apply font-bold;
 }
-.btn {
-  @apply rounded
-}
 label {
   @apply mt-2 block;
 }
@@ -34,7 +31,7 @@ label {
   @apply mx-auto;
 }
 .btn {
-  @apply border rounded bg-lime-600 hover:bg-lime-800 px-4 py-1 text-lg text-white font-semibold cursor-pointer;
+  @apply border rounded bg-lime-800 hover:bg-lime-900 px-4 py-1 text-lg text-white font-semibold cursor-pointer focus:ring focus:outline-none focus:ring-lime-300;
 }
 .barra-horizontal {
   @apply border-b-2 w-full border-green-800 h-1 my-4
@@ -65,10 +62,13 @@ body
   @apply bg-slate-50 
 }
 #sidebar {
-  @apply bg-slate-200  border rounded border-2 border-slate-300 p-4;
+  @apply bg-slate-100  border rounded border border-green-900 p-4;
 }
 #sidebar .btn {
-  @apply  bg-slate-400 py-2 block text-center hover:bg-slate-500
+  @apply my-2 block text-center 
+}
+#sidebar h3 {
+  @apply font-semibold text-green-900
 }
 /***
 contenido
@@ -86,7 +86,10 @@ contenido
   @apply nota bg-green-500
 }
 .nav-bar a{
-  @apply inline-block px-4 ;
+  @apply inline-block px-4 uppercase font-semibold ;
+}
+.ficha {
+  @apply  bg-slate-100 p-4 mb-4  border border-green-900 text-lg
 }
 .ficha .datos-ficha, .ficha .datos-ficha li {
   @apply inline;
@@ -129,6 +132,15 @@ contenido
 }
 .fondo-titulo{
 }
+.ordenacion {
+  @apply border border-slate-400 rounded-lg bg-slate-200 p-1 lg:mr-2 text-lg mb-2;
+}
+.ordenacion .o-radio {
+  @apply mr-4
+}
+.o-radio--checked {
+  @apply font-semibold
+}
 /***
 Oruga
 ***/
@@ -150,6 +162,9 @@ Oruga
 .o-car__arrow__icon-prev {
   left: 0rem;
 }
+.o-btn {
+  @apply btn
+}
 /**
 * Grilla
 */
@@ -160,10 +175,10 @@ Oruga
   @apply grid mb-4 grid-cols-2 gap-4 ;
 }
 .grilla-enlace {
-  @apply  bg-lime-800 relative
+  @apply  bg-lime-900 relative
 }
 .grilla-titulo {
-  @apply  bottom-0 w-full bg-emerald-700 text-white min-h-42 flex flex-row items-center
+  @apply  bottom-0 w-full bg-lime-900 text-white min-h-42 flex flex-row items-center
 }
 .grilla-titulo-texto{
   @apply grow text-center font-medium

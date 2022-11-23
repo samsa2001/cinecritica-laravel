@@ -11,7 +11,7 @@
 
 <body>
 
-    <!-- @if (auth()->check())
+    @if (auth()->check())
         <script>
             window.Laravel =
                 {!! json_encode([
@@ -27,7 +27,7 @@
                     'isLoggedIn' => false,
                 ]) !!}
         </script>
-    @endif -->
+    @endif
 
 
 

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="flex justify-between">
+    <div class="flex lg:flex-row flex-col justify-between items-center">
       <h1>Listado de películas</h1>
-      <div class="block">
+      <div class="ordenacion">
         <o-radio v-model="orden" name="name" native-value="fecha" @update:modelValue="updatePage()">
           Ordenar por fecha estreno
         </o-radio>

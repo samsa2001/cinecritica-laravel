@@ -7,7 +7,7 @@
             <p>{{ persona.descripcion }}</p>
         </div>
         <div class="lg:w-2/3 w-full">
-            <div class="block mb-4">
+            <div class="ordenacion">
                 <o-radio v-model="orden" name="name" native-value="fecha" @update:modelValue="orderYear()">
                 Ordenar por fecha estreno
                 </o-radio>
