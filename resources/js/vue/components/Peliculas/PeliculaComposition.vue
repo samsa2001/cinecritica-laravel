@@ -67,7 +67,7 @@
             <div class="pelicula-descripcion">
                 <div class="barra-horizontal mt-0"></div>
                 <div class="grid grid-cols-2 gap-4">
-                    <div>Nota: </div>
+                    <h3>Nota: </h3>
                         <div v-if="pelicula.nota < 5" class="nota nota-roja">
                             {{ pelicula.nota }}
                         </div>
@@ -80,15 +80,24 @@
                 </div>
                 <div class="barra-horizontal"></div>
                 <div class="grid grid-cols-2 gap-4">
-                    <div>Director:</div>
-                    <ul class="datos-ficha text-center">
-                        <li v-for="(director, id) in pelicula.directores" :key="id">
-                            <router-link :to="{ name: 'persona', params: { 'slug': director.slug } }">
-                                <img :src="'https://image.tmdb.org/t/p/original' + director.foto" width="100" class="block mx-auto">
-                                {{ director.nombre }}
-                            </router-link>
-                        </li>
-                    </ul>
+                    <div v-if="pelicula.providers">
+                        <h3>Donde ver:</h3>
+                        <div v-for="provider in pelicula.providers" :key="provider.id" class="text-center my-2">
+                            <img :src="'https://image.tmdb.org/t/p/original' + provider.logo" width="50" class="block mx-auto">
+                            <div class="block text-sm">{{ provider.nombre }}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Director :</h3>
+                        <ul class="datos-ficha text-center">
+                            <li v-for="(director, id) in pelicula.directores" :key="id">
+                                <router-link :to="{ name: 'persona', params: { 'slug': director.slug } }">
+                                    <img :src="'https://image.tmdb.org/t/p/original' + director.foto" width="100" class="block mx-auto">
+                                    {{ director.nombre }}
+                                </router-link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="barra-horizontal"></div>
                 <p>{{ pelicula.descripcion }}</p>

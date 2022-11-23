@@ -59,4 +59,8 @@ class Pelicula extends Model
     public function imagenes(){
         return $this->hasMany(ImagenPelicula::class);
     }
+    public function providers()
+    {
+        return $this->belongsToMany(Provider::class,'pelicula_provider');
+    }
 }

@@ -4,12 +4,11 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ImagenPelicula;
-use App\Models\ImagenSerie;
 use Illuminate\Http\Request;
 use App\Models\Pelicula;
 use App\Models\Persona;
-use App\Models\Serie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -23,8 +22,8 @@ class PeliculaController extends Controller
     public function index()
     {
         // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $peliculas = Pelicula::orderBy('fecha','desc')->with('actores','directores','guionistas','escritores','generos')->paginate(10);
-        return view('backend.peliculas.index',compact('peliculas'));
+        $peliculas = Pelicula::orderBy('fecha', 'desc')->with('actores', 'directores', 'guionistas', 'escritores', 'generos')->paginate(10);
+        return view('backend.peliculas.index', compact('peliculas'));
     }
 
     /**
@@ -57,13 +56,13 @@ class PeliculaController extends Controller
     public function show($id)
     {
         $pelicula = Pelicula::find($id);
-        return view('backend.peliculas.show',compact('pelicula'));
+        return view('backend.peliculas.show', compact('pelicula'));
     }
     public function showSlug($slug)
     {
-        $pelicula = Pelicula::where('slug',$slug)->firstOrFail();
+        $pelicula = Pelicula::where('slug', $slug)->firstOrFail();
         $pelicula->actores;
-        return view('backend.peliculas.show',compact('pelicula'));
+        return view('backend.peliculas.show', compact('pelicula'));
     }
 
     /**
@@ -99,21 +98,22 @@ class PeliculaController extends Controller
     {
         //
     }
-    
-    public function getMovieApi($pregunta){
+
+    public function getMovieApi($pregunta)
+    {
         $authorization = "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDQwMDlmMWM5YWY1YzZlYTkzNTBjZjVlZDU1YTA4YSIsInN1YiI6IjYwYWZiOTcxNWIwNzE0MDAyOTY2YzFmOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.b_bDJCgVUc9w1C5816Mm2alWfAqyYRF5Ss_pWmpvDgY";
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://api.themoviedb.org/3/". $pregunta ,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
-        CURLOPT_HTTPHEADER => array(
-            "cache-control: no-cache",
-            $authorization
-        ),
+            CURLOPT_URL => "https://api.themoviedb.org/3/" . $pregunta,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "cache-control: no-cache",
+                $authorization
+            ),
         ));
 
         $response = curl_exec($curl);
@@ -123,34 +123,68 @@ class PeliculaController extends Controller
         if ($response) return json_decode($response, true);
         return $err;
     }
-    public function verNovedades(){
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2021-12-21&vote_count.gte=300&page=";
-        $novedades = $this->getMovieApi($query . "1");
-        $results = $novedades['results'];
-        for ($i=2; $i <= $novedades["total_pages"]; $i++){
-            $novedades = $this->getMovieApi($query . $i);
-            foreach($novedades['results'] as $resultado)
-                array_push($results,$resultado);
-        }
-        dd($results);
-    }
-    
-    public function addNovedades(){
+    public function verNovedades()
+    {
         $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-09-21&vote_count.gte=300&page=";
         $novedades = $this->getMovieApi($query . "1");
-        $idPeliculas = [];
-        for ($i=1; $i <= $novedades["total_pages"]; $i++){
+        $newPeliculas = [];
+        $updatePeliculas = [];
+        for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
             $novedades = $this->getMovieApi($query . $i);
-            foreach($novedades['results'] as $resultado)
-                array_push($idPeliculas,$resultado['id']);
+            foreach ($novedades['results'] as $resultado)
+                if (Pelicula::find($resultado['id']) != null) {
+                    array_push($updatePeliculas, $resultado['id']);
+                } else {
+                    array_push($newPeliculas, $resultado['id']);
+                }
         }
-        $this->addPeliculas($idPeliculas);
+        dd('Novedades', $newPeliculas, 'Cambios',$updatePeliculas);
+        if (count($newPeliculas) > 0)
+            $this->addPeliculas($newPeliculas);
+        if (count($updatePeliculas) > 0)
+            $this->updatePeliculas($updatePeliculas);
     }
-    public function prueba5(){      
+
+    public function addNovedades()
+    {
+        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-09-21&vote_count.gte=300&page=";
+        $novedades = $this->getMovieApi($query . "1");
+        $newPeliculas = [];
+        $updatePeliculas = [];
+        for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
+            $novedades = $this->getMovieApi($query . $i);
+            foreach ($novedades['results'] as $resultado)
+                if (Pelicula::find($resultado['id']) != null) {
+                    array_push($updatePeliculas, $resultado['id']);
+                } else {
+                    array_push($newPeliculas, $resultado['id']);
+                }
+        }
+        // dd($newPeliculas, $updatePeliculas);
+        if (count($newPeliculas) > 0)
+            $this->addPeliculas($newPeliculas);
+        if (count($updatePeliculas) > 0)
+            $this->updatePeliculas($updatePeliculas);
+    }
+    public function cambiosDia()
+    {
+        $query = "movie/changes";
+        $novedades = $this->getMovieApi($query);
+        $updatePeliculas = [];
+        foreach ($novedades['results'] as $resultado)
+            if (Pelicula::find($resultado['id']) != null) {
+                array_push($updatePeliculas, $resultado['id']);
+            }
+        // dd($updatePeliculas);
+        if (count($updatePeliculas) > 0)
+            $this->updatePeliculas($updatePeliculas);
+    }
+    public function prueba5()
+    {
         $peliculas = DB::select('select * from ramon_peliculas_peliculas_genero');
         $idPeliculas = array();
-        foreach ($peliculas as $pelicula){
-            if (!Pelicula::find($pelicula->pelicula_id) && !array_search($pelicula->pelicula_id,$idPeliculas)){
+        foreach ($peliculas as $pelicula) {
+            if (!Pelicula::find($pelicula->pelicula_id) && !array_search($pelicula->pelicula_id, $idPeliculas)) {
                 $idPeliculas[] = $pelicula->pelicula_id;
             }
         }
@@ -158,33 +192,33 @@ class PeliculaController extends Controller
         // $this->addPeliculas(array_slice($idPeliculas, 0, 500));
         $this->addPeliculas($idPeliculas);
     }
-    public function prueba4(Request $request){  
-        $peliculas ='';  
-        if(isset($request)){  
-            if (isset($request['year']) && $request['year']<2023 && $request['year']>1900){
-                $peliculas=Pelicula::where('year',$request['year'])->paginate();
+    public function prueba4(Request $request)
+    {
+        $peliculas = '';
+        if (isset($request)) {
+            if (isset($request['year']) && $request['year'] < 2023 && $request['year'] > 1900) {
+                $peliculas = Pelicula::where('year', $request['year'])->paginate();
             }
-        }
-        else
+        } else
             $peliculas = Pelicula::paginate(10);
-        return view('backend.peliculas.index',compact('peliculas'));
-        
+        return view('backend.peliculas.index', compact('peliculas'));
     }
-    public function guardarImagen($url, $rol){
-        $path="https://image.tmdb.org/t/p/original" . $url;
-        if(isset($url))
+    public function guardarImagen($url, $rol)
+    {
+        $path = "https://image.tmdb.org/t/p/original" . $url;
+        if (isset($url))
             try {
                 $contents = file_get_contents($path);
-                if($rol == 'actor'){
-                    $rol='actores';
-                } elseif ($rol == 'director'){
-                    $rol='directores';
-                }elseif ($rol=='principal'){
-                    $rol='imagenes_principales';
+                if ($rol == 'actor') {
+                    $rol = 'actores';
+                } elseif ($rol == 'director') {
+                    $rol = 'directores';
+                } elseif ($rol == 'principal') {
+                    $rol = 'imagenes_principales';
                 } else {
-                    $rol='peliculas';
+                    $rol = 'peliculas';
                 }
-                $name = 'media/'.$rol . $url;
+                $name = 'media/' . $rol . $url;
                 Storage::put($name, $contents);
             } catch (\Throwable $th) {
                 echo $th;
@@ -193,11 +227,12 @@ class PeliculaController extends Controller
     /*
     * Dado un array de ids añade las películas
     */
-    public function addPeliculas($idPeliculas){        
-        foreach ($idPeliculas as $key=>$idPelicula){
+    public function addPeliculas($idPeliculas)
+    {
+        foreach ($idPeliculas as $key => $idPelicula) {
             // verificar que la pelicula no está añadida
             $pelicula = Pelicula::find($idPelicula);
-            if( !$pelicula ){
+            if (!$pelicula) {
                 try {
                     $datosPelicula = $this->getMovieApi("movie/" . $idPelicula . "?language=es-ES");
                     $pelicula = [
@@ -219,83 +254,119 @@ class PeliculaController extends Controller
                         'idioma' => $datosPelicula['original_language'],
                         'imagen_principal' => $datosPelicula['backdrop_path']
                     ];
-                    if( count($datosPelicula['production_companies'])>1 )
+                    if (count($datosPelicula['production_companies']) > 1)
                         $pelicula['productora'] = $datosPelicula['production_companies'][0]['name'];
-                    $pelicula['slug'] = Str::slug( $pelicula['titulo'].'-'.$pelicula['id']);
+                    $pelicula['slug'] = Str::slug($pelicula['titulo'] . '-' . $pelicula['id']);
                     $pelicula['year'] = substr($pelicula['fecha'], 0, 4);
                     $objPelicula = Pelicula::create($pelicula);
-                    // if(isset($datosPelicula['genres']))
-                    //     foreach($datosPelicula['genres'] as $datoPelicula){
-                    //             $objPelicula->generos()->attach($datoPelicula['id']);
-                    //         }
+                    if (isset($datosPelicula['genres']))
+                        foreach ($datosPelicula['genres'] as $datoPelicula) {
+                            $objPelicula->generos()->attach($datoPelicula['id']);
+                        }
                     echo "Añadido -> " . $pelicula['titulo'] . '<img src=" https://image.tmdb.org/t/p/original' . $pelicula['imagen'] . '"><br><img src=" https://image.tmdb.org/t/p/original' . $pelicula['imagen_principal'] . '"><br><hr><br>';
-                    $this->guardarImagen($pelicula['imagen'],'pelicula');
-                    $this->guardarImagen($pelicula['imagen_principal'],'principal');
-                    $this->addCrew($objPelicula); 
+                    Log::info("Añadido -> " . $pelicula['titulo'] . ' -> ' . $pelicula['id']);
+                    $this->guardarImagen($pelicula['imagen'], 'pelicula');
+                    $this->guardarImagen($pelicula['imagen_principal'], 'principal');
+                    $this->addCrew($objPelicula);
+                    // Add providers
+                    $providerPelicula = $this->getMovieApi("movie/" . $idPelicula . "/watch/providers");                    
+                    foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
+                        $objPelicula->providers()->attach($provider['id']);
+                    }
                 } catch (\Throwable $th) {
-                    dd($key,$idPelicula,$datosPelicula, $th);
-                    dd($key. '=>'.$idPelicula . '<br>' . $th . '<hr>');
-                    dd($key. '=>'.$idPelicula . '<br>' . $th . '<hr>');
-                }   
-                
+                    dd($key, $idPelicula, $datosPelicula, $th);
+                    dd($key . '=>' . $idPelicula . '<br>' . $th . '<hr>');
+                    dd($key . '=>' . $idPelicula . '<br>' . $th . '<hr>');
+                }
             }
         }
     }
-    public function addCrew($pelicula){  
+    public function updatePeliculas($idPeliculas)
+    {
+        foreach ($idPeliculas as $key => $idPelicula) {
+            // verificar que la pelicula no está añadida
+            $pelicula = [];
+            try {
+                $datosPelicula = $this->getMovieApi("movie/" . $idPelicula . "?language=es-ES");
+                $pelicula = [
+                    'nota' => $datosPelicula['vote_average'],
+                    'numero_votos' => $datosPelicula['vote_count'],
+                    'presupuesto' => $datosPelicula['budget'],
+                    'recaudacion' => $datosPelicula['revenue'],
+                    'popularidad' => $datosPelicula['popularity']
+                ];
+                $objPelicula = Pelicula::find($idPelicula);
+                $objPelicula->update($pelicula);
+                $objPelicula->providers()->detach();
+                $providerPelicula = $this->getMovieApi("movie/" . $idPelicula . "/watch/providers");
+                if (array_key_exists('ES',$providerPelicula['results']) && array_key_exists('flatrate',$providerPelicula['results']['ES']))
+                    foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
+                        $objPelicula->providers()->attach($provider['provider_id']);
+                    }
+                echo 'Pelicula actualizada -> ' . $objPelicula->slug . '<hr><br>';
+                Log::info("Actualizada pelicula -> " . $objPelicula->titulo . ' -> ' . $objPelicula->id);
+            } catch (\Throwable $th) {
+                dd($objPelicula->id,$th);
+            }
+        }
+    }
+    public function addCrew($pelicula)
+    {
         $crews = $this->getMovieApi("movie/" . $pelicula->id . "/credits?language=es-ES");
         //actores
         //si popularidad por debajo de 50 solo 10 actores, si no 15
-        ($pelicula->popularidad > 49)? $popular=15 : $popular=10;
-        for( $i=0; $i< $popular; $i++){
-            if ( count($crews['cast'])>$i && $crews['cast'][$i]) {
-                    $newPersona = Persona::find($crews['cast'][$i]['id']);
-                    if(!$newPersona){
-                        $newPersona = $this->getPersona($crews['cast'][$i]['id'], true);
-                        Persona::create($newPersona);
-                        echo "Añadido Actor-> " . $newPersona['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $newPersona['foto'] . '"><br><hr><br>';
-                        $this->guardarImagen($newPersona['foto'],'actor');
-                    } 
-                    $pelicula->actores()->attach($crews['cast'][$i]['id'], ['personaje' => $crews['cast'][$i]['character'], 'orden' =>$crews['cast'][$i]['order']]);
+        ($pelicula->popularidad > 49) ? $popular = 15 : $popular = 10;
+        for ($i = 0; $i < $popular; $i++) {
+            if (count($crews['cast']) > $i && $crews['cast'][$i]) {
+                $newPersona = Persona::find($crews['cast'][$i]['id']);
+                if (!$newPersona) {
+                    $newPersona = $this->getPersona($crews['cast'][$i]['id'], true);
+                    Persona::create($newPersona);
+                    echo "Añadido Actor-> " . $newPersona['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $newPersona['foto'] . '"><br><hr><br>';
+                    $this->guardarImagen($newPersona['foto'], 'actor');
+                }
+                $pelicula->actores()->attach($crews['cast'][$i]['id'], ['personaje' => $crews['cast'][$i]['character'], 'orden' => $crews['cast'][$i]['order']]);
             }
         }
         //directores, guionistas y escritores
-        if(isset($crews['crew']))
-            foreach($crews['crew'] as $peliCrew){
-                if ($peliCrew['job'] == 'Director'){ 
+        if (isset($crews['crew']))
+            foreach ($crews['crew'] as $peliCrew) {
+                if ($peliCrew['job'] == 'Director') {
                     $director = Persona::find($peliCrew['id']);
                     if (!$director) {
-                        $director = $this->getPersona($peliCrew['id'],true);  
-                        Persona::create($director);   
-                        echo "Añadido director-> " . $director['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $director['foto'] . '"><br><hr><br>';   
-                        $this->guardarImagen($newPersona['foto'],'director');            
-                    }                         
+                        $director = $this->getPersona($peliCrew['id'], true);
+                        Persona::create($director);
+                        echo "Añadido director-> " . $director['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $director['foto'] . '"><br><hr><br>';
+                        $this->guardarImagen($newPersona['foto'], 'director');
+                    }
                     $pelicula->directores()->attach($peliCrew['id']);
                 }
-                if ($peliCrew['job'] == 'Screenplay'){ 
+                if ($peliCrew['job'] == 'Screenplay') {
                     $guionista = Persona::find($peliCrew['id']);
                     if (!$guionista) {
-                        $guionista = $this->getPersona($peliCrew['id'],false);  
-                        Persona::create($guionista);                  
-                    }                         
+                        $guionista = $this->getPersona($peliCrew['id'], false);
+                        Persona::create($guionista);
+                    }
                     $pelicula->guionistas()->attach($peliCrew['id'], ['role' => 'guionista']);
                 }
-                if ($peliCrew['job'] == 'Writer'){ 
+                if ($peliCrew['job'] == 'Writer') {
                     $escritor = Persona::find($peliCrew['id']);
                     if (!$escritor) {
-                        $escritor = $this->getPersona($peliCrew['id'],false); 
-                        Persona::create($escritor);                    
+                        $escritor = $this->getPersona($peliCrew['id'], false);
+                        Persona::create($escritor);
                     }
                     $pelicula->escritores()->attach($peliCrew['id'], ['role' => 'escritor']);
                 }
             }
     }
-    public function getPersona ($id, $addImage){        
+    public function getPersona($id, $addImage)
+    {
         $persona = $this->getMovieApi("person/" . $id . "?language=es-ES");
-        if (isset($persona['id'])){
+        if (isset($persona['id'])) {
             $newPersona = [
                 'id' => $persona['id'],
                 'nombre' => $persona['name'],
-                'slug' => Str::slug($persona['name']),
+                'slug' => Str::slug($persona['name']) . '-' . $persona['id'],
                 'popularidad' => $persona['popularity'],
                 'descripcion' => $persona['biography'],
                 'genero' => $persona['gender'],
@@ -303,39 +374,38 @@ class PeliculaController extends Controller
             if ($addImage) {
                 $newPersona['foto'] = $persona['profile_path'];
             }
-            if ($persona['birthday'] != null){ 
+            if ($persona['birthday'] != null) {
                 $newPersona['fecha_1'] = $persona['birthday'];
-                $newPersona['year_1'] = substr($persona['birthday'],0,4);
+                $newPersona['year_1'] = substr($persona['birthday'], 0, 4);
             }
-            if ($persona['deathday'] != null){ 
+            if ($persona['deathday'] != null) {
                 $newPersona['fecha_2'] = $persona['deathday'];
-                $newPersona['year_2'] = substr($persona['deathday'],0,4);
+                $newPersona['year_2'] = substr($persona['deathday'], 0, 4);
             }
             return $newPersona;
-        }
-        else {
+        } else {
             echo '<h3>Error al intentar añadir persona:</h3>';
             dd($persona);
         }
     }
-    public function addImagenPeliculas (){
-        $peliculasSinImagen = Pelicula::where('year','>','2020')->doesntHave('imagenes')->get();
+    public function addImagenPeliculas()
+    {
+        $peliculasSinImagen = Pelicula::where('year', '>', '2020')->doesntHave('imagenes')->get();
         dd($peliculasSinImagen);
-        foreach ($peliculasSinImagen as $peliculaSinImagen){
+        foreach ($peliculasSinImagen as $peliculaSinImagen) {
             try {
                 $datosPelicula = $this->getMovieApi("movie/" . $peliculaSinImagen->id . "/images");
                 $imagenes = [];
                 $cont = 1;
-                foreach ($datosPelicula['backdrops'] as $imagen){
-                    echo '<img src="https://image.tmdb.org/t/p/original/'. $imagen['file_path'] . '">';
-                    ImagenPelicula::create(['pelicula_id' => $peliculaSinImagen->id, 'imagen' => $imagen['file_path']]); 
+                foreach ($datosPelicula['backdrops'] as $imagen) {
+                    echo '<img src="https://image.tmdb.org/t/p/original/' . $imagen['file_path'] . '">';
+                    ImagenPelicula::create(['pelicula_id' => $peliculaSinImagen->id, 'imagen' => $imagen['file_path']]);
                     if ($cont == 6) break;
-                    $cont++;              
+                    $cont++;
                 }
             } catch (\Throwable $th) {
                 dd($th);
-            }  
+            }
         }
     }
-
 }

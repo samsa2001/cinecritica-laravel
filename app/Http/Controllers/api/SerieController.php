@@ -45,6 +45,7 @@ class SerieController extends Controller
         $serie->creadores;
         $serie->generos;
         $serie->imagenes;
+        $serie->providers;
         return response()->json($serie);
     }
 }

@@ -17,6 +17,10 @@
           </nav>
           <div class="nav-user md:basis-1/5 basis-3/5 md:order-4 order-2 flex  justify-evenly items-center">
             <div v-if="isLoggedIn">
+              <div class="inline-block rounded-full w-9 h-9 bg-blue-300 text-center p-1 mr-2 font-bold
+              ">
+                {{ user.name.substr(0, 2).toUpperCase() }}
+              </div>
               <button @click="toogleDropdown" id="dropdownDefault" data-dropdown-toggle="dropdown"
                 class="btn inline-flex items-center ">Menú {{ user.name }} <svg class="ml-2 w-4 h-4" aria-hidden="true"
                   fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +29,7 @@
               <!-- Dropdown menu -->
               <ul id="dropdown" 
               @click="toogleDropdown" 
-              :class="{ hidden: dropdownOpen }"
+              :class="{ hidden: !dropdownOpen }"
                 class="absolute z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
                 <ul class="py-1 text-sm dark:text-gray-200" aria-labelledby="dropdownDefault">
                   <li>
@@ -42,10 +46,6 @@
                   </li>
                 </ul>
               </ul>
-              <div class="inline-block rounded-full w-9 h-9 bg-blue-300 text-center p-1 font-bold
-              ">
-                {{ user.name.substr(0, 2).toUpperCase() }}
-              </div>
             </div>
             <router-link v-if="!isLoggedIn" :to="{ name: 'login' }">Identificarse</router-link>
             <router-link v-if="!isLoggedIn" :to="{ name: 'register' }">Registrarse</router-link>

@@ -39,6 +39,10 @@ class Persona extends Model
     }
     public function series()
     {
-        return $this->belongsToMany(Serie::class,'serie_persona')->withPivot('role','personaje','orden')->orderBy('popularidad','desc');
+        return $this->belongsToMany(Serie::class,'serie_actor')->withPivot('personaje','orden')->orderBy('popularidad','desc');
+    }
+    public function esCreador()
+    {
+        return $this->belongsToMany(Serie::class,'serie_creador')->orderBy('popularidad','desc');
     }
 }

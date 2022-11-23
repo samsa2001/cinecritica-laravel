@@ -46,6 +46,7 @@ class PeliculaController extends Controller
         $pelicula->escritores;
         $pelicula->generos;
         $pelicula->imagenes;
+        $pelicula->providers;
         //dd($pelicula->actores->role);
         return response()->json($pelicula);
     }

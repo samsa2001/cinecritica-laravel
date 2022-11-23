@@ -7,8 +7,10 @@ use App\Models\Pelicula;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use App\Models\Persona;
+use App\Models\Provider;
 use App\Models\Temporada;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -127,6 +129,8 @@ class UtilsController extends Controller
                     $rol = "series-temporada";
                 } elseif ($rol == 'serie') {
                     $rol = 'series';
+                } elseif ($rol == 'plataforma') {
+                    $rol = 'plataformas';
                 } else {
                     $rol = 'peliculas';
                 }
@@ -270,7 +274,7 @@ class UtilsController extends Controller
         foreach( $personas['results'] as $persona ){
         //  dd($personas, $persona);
             $noNewPersona = Persona::find($persona['id']);
-            if($noNewPersona){
+            if($noNewPersona ){
                 $popular = $this->getMovieApi('person/'.$persona['id']);
                 // dd($noNewPersona->nombre, $noNewPersona->popularidad , $popular['popularity']);
                 $cont++;
@@ -289,6 +293,32 @@ class UtilsController extends Controller
             }
         }
     }
+    public function cambiosDia(){
+        $personas = $this->getMovieApi('person/changes');
+        $cont = 0;
+        foreach( $personas['results'] as $persona ){
+        //  dd($personas, $persona);
+            $noNewPersona = Persona::find($persona['id']);
+            if($noNewPersona ){
+                $popular = $this->getMovieApi('person/'.$persona['id']);
+                // dd($noNewPersona->nombre, $noNewPersona->popularidad , $popular['popularity']);
+                $cont++;
+                $update =[];
+                if (isset($popular['popularity'])){
+                    $update['popularidad'] = $popular['popularity'];
+                }
+                if (isset($popular['deathday'])){
+                    $update['fecha_2'] = $popular['deathday'];
+                    $update['year_2'] = substr($popular['deathday'], 0, 4);
+                }
+                if(isset($update) && (isset($popular['popularity']) || isset($popular['deathday'])) ){             
+                    $noNewPersona->update($update);   
+                    echo $cont . '-' . $popular['id'] . '-' .$noNewPersona->popularidad. '-' .$popular['popularity']. '<br><hr>';
+                    Log::info("Actualizada persona -> " . $noNewPersona->nombre . ' -> ' . $noNewPersona->id);
+                }
+            }
+        }
+    }
     public function sitemapPeliculas(){
         $peliculas = Pelicula::paginate(1000);
         return view('sitemap.peliculas', compact('peliculas'));
@@ -303,5 +333,30 @@ class UtilsController extends Controller
         $personas = Persona::paginate(1000);
         return view('sitemap.personas', compact('personas'));
 
+    }
+    public function addProviders(){
+        $providersPeliculas = $this->getMovieApi("/watch/providers/movie");
+        $provider = [];
+        foreach ( $providersPeliculas['results'] as $newProvider){
+            $provider['id'] = $newProvider['provider_id'];
+            $provider['nombre'] = $newProvider['provider_name'];
+            $provider['prioridad'] = $newProvider['display_priority'];
+            $provider['logo'] = $newProvider['logo_path'];
+            // Provider::create($provider);
+            $this->guardarImagen($newProvider['logo_path'],'plataforma');
+        }
+        $providersPeliculas = $this->getMovieApi("/watch/providers/tv");
+        $provider = [];
+        foreach ( $providersPeliculas['results'] as $newProvider){
+            if (Provider::find($newProvider['provider_id']) == null) {
+                $provider['id'] = $newProvider['provider_id'];
+                $provider['nombre'] = $newProvider['provider_name'];
+                $provider['prioridad'] = $newProvider['display_priority'];
+                $provider['logo'] = $newProvider['logo_path'];
+                // Provider::create($provider);
+                $this->guardarImagen($newProvider['logo_path'],'plataforma');
+            }
+        }
+        echo 'Fin';
     }
 }

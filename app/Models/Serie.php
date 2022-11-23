@@ -59,4 +59,8 @@ class Serie extends Model
     {
         return $this->hasMany(ImagenSerie::class);
     }
+    public function providers()
+    {
+        return $this->belongsToMany(Provider::class,'serie_provider');
+    }
 }

@@ -20,6 +20,35 @@
             </o-modal> -->
         </div>
         <div class="grid lg:grid-cols-2 lg:gap-4 grid-cols-1">
+            <div class="serie-descripcion">
+                <div class="barra-horizontal mt-0"></div>
+                <div class="grid grid-cols-2 gap-4">
+                    <h3>Nota: </h3>
+                        <div v-if="serie.nota < 5" class="nota nota-roja">
+                            {{ serie.nota }}
+                        </div>
+                        <div v-else-if="serie.nota < 6.5" class="nota nota-ambar">
+                            {{ serie.nota }}
+                        </div>
+                        <div v-else class="nota nota-verde">
+                            {{ serie.nota }}
+                        </div>
+                </div>
+                <Votar></Votar>
+                <div v-if="serie.providers">
+                    <div class="barra-horizontal"></div>
+                    <h3>Donde ver:</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <div v-for="provider in serie.providers" :key="provider.id" class="text-center my-2">
+                            <img :src="'https://image.tmdb.org/t/p/original' + provider.logo" width="50" class="block mx-auto">
+                            <div class="block text-sm">{{ provider.nombre }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="barra-horizontal"></div>
+                <p>{{ serie.descripcion }}</p>
+                <div class="barra-horizontal"></div>
+            </div>
             <div class="ficha">
                 <ul class=" divide-y flex flex-col gap-y-3">
                     <li>Número de votos: <span class="datos-ficha">{{ serie.numero_votos }}</span></li>
@@ -54,26 +83,10 @@
                         </ul>
                     </li>
                 </ul>
-                <Votar></Votar>
-            </div>
-            <div class="serie-descripcion">
-                <div class="barra-horizontal mt-0"></div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>Nota: </div>
-                        <div v-if="serie.nota < 5" class="nota nota-roja">
-                            {{ serie.nota }}
-                        </div>
-                        <div v-else-if="serie.nota < 6.5" class="nota nota-ambar">
-                            {{ serie.nota }}
-                        </div>
-                        <div v-else class="nota nota-verde">
-                            {{ serie.nota }}
-                        </div>
-                </div>
-                <div class="barra-horizontal"></div>
                 <div v-if="serie.temporadas != ''">
-                    Temporadas:
-                    <div class="datos-ficha grid grid-cols-3 gap-4">
+                    <div class="barra-horizontal"></div>
+                    <h3>Temporadas:</h3>
+                    <div class="grid grid-cols-3 gap-4">
                         <div v-for="(temporada, id) in serie.temporadas" :key="id">                       
                             <div  @click="imageModal(temporada.imagen)">
                                 <img :src="'https://image.tmdb.org/t/p/original'+temporada.imagen" />
@@ -82,9 +95,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="barra-horizontal"></div>
-                <p>{{ serie.descripcion }}</p>
-                <div class="barra-horizontal"></div>
             </div>
         </div>
         <div class="clear-both"></div>

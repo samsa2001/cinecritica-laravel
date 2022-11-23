@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Persona;
 use App\Models\Temporada;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -223,7 +224,7 @@ class SerieController extends Controller
     }
     
     public function addNovedades(){
-        $query = "discover/tv?language=es-ES&vote_count.gte=200&first_air_date.gte=2020-09-21&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=200&first_air_date.gte=2022-10-30&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newSeries = [];
         $updatedSeries = [];
@@ -237,9 +238,24 @@ class SerieController extends Controller
                 }
             }
         }
-        dd($newSeries, $updatedSeries);
-        $this->addseries($newSeries);
-        $this->updateSerie($updatedSeries);
+        // dd($newSeries, $updatedSeries);
+        if (count($newSeries) > 0)
+            $this->addseries($newSeries);
+        if (count($updatedSeries) > 0)
+            $this->updateSerie($updatedSeries);
+    }
+    public function cambiosDia()
+    {
+        $query = "tv/changes";
+        $novedades = $this->getMovieApi($query);
+        $updateSeries = [];
+        foreach ($novedades['results'] as $resultado)
+            if (Serie::find($resultado['id']) != null) {
+                array_push($updateSeries, $resultado['id']);
+            }
+        // dd($updateSeries);
+        if (count($updateSeries) > 0)
+            $this->updateSerie($updateSeries);
     }
     /*
     * Dado un array de ids añade las películas
@@ -280,12 +296,19 @@ class SerieController extends Controller
                         $serie['duracion'] = $datosSerie['episode_run_time'][0];
                     $serie['slug'] = Str::slug($serie['titulo'] . '-' . $serie['id']);
                     $serie['year'] = substr($serie['fecha'], 0, 4);
+                    echo "nuevo -> " . $serie['titulo']  . "<br><hr>";
                     $objserie = Serie::create($serie);
+                    $providerPelicula = $this->getMovieApi("tv/" . $idSerie . "/watch/providers");
+                    if (array_key_exists('ES',$providerPelicula['results']) && array_key_exists('flatrate',$providerPelicula['results']['ES']))
+                        foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
+                            $objserie->providers()->attach($provider['provider_id']);
+                        }
                     if (isset($datosSerie['genres']))
                         foreach ($datosSerie['genres'] as $datoSerie) {
                             $objserie->generos()->attach($datoSerie['id']);
                         }
                     echo "Añadido -> " . $serie['titulo'] . '<img src=" https://image.tmdb.org/t/p/original' . $serie['imagen'] . '"><br><img src=" https://image.tmdb.org/t/p/original' . $serie['imagen_principal'] . '"><br><hr><br>';
+                    Log::info("Añadida serie -> " . $serie['titulo'] . ' -> ' . $serie['id']);
                     $this->guardarImagen($serie['imagen'], 'serie');
                     $this->guardarImagen($serie['imagen_principal'], 'principal-serie');
                     $this->addTemporada($objserie, $datosSerie['seasons']);
@@ -311,6 +334,7 @@ class SerieController extends Controller
     }
     public function updateSerie($idSeries)
     {
+        // $idSeries = ['205442'];
         foreach ($idSeries as $key => $idSerie) {
             $serie = [];
                 try {
@@ -324,13 +348,20 @@ class SerieController extends Controller
                     $serie['popularidad'] = (isset($datosSerie['popularity'])) ? $datosSerie['popularity'] : null;
                     $objserie = Serie::find($idSerie);
                     $objserie->update($serie);
-                    echo "Actualizado -> " . $datosSerie['name'] . '"><br><hr><br>';
+                    $objserie->providers()->detach();
+                    $providerPelicula = $this->getMovieApi("tv/" . $idSerie . "/watch/providers");
+                    if (array_key_exists('ES',$providerPelicula['results']) && array_key_exists('flatrate',$providerPelicula['results']['ES']))
+                        foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
+                            $objserie->providers()->attach($provider['provider_id']);
+                        }
+                    echo "Actualizado -> " . $datosSerie['name'] . '"><br>';
+                    Log::info("Actualizada serie -> " . $datosSerie['name'] . ' -> ' . $datosSerie['id']);
                     $this->updateTemporada($objserie, $datosSerie['seasons']);
                     $this->updateCrew($objserie);
+                    
+                    echo 'Fin <hr><br>';
                 } catch (\Throwable $th) {
-                    dd($key, $idSerie, $datosSerie, $th);
-                    dd($key . '=>' . $idSerie . '<br>' . $th . '<hr>');
-                    dd($key . '=>' . $idSerie . '<br>' . $th . '<hr>');
+                    dd($idSerie, $objserie, $serie, $th);
                 }
 
         }
@@ -367,11 +398,13 @@ class SerieController extends Controller
                     if (!$newPersona) {
                         $newPersona = $this->getPersona($crews['cast'][$i]['id'], true);
                         Persona::create($newPersona);
-                        echo "Añadido Actor-> " . $newPersona['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $newPersona['foto'] . '"><br><hr><br>';
+                        echo "Añadido Actor-> " . $newPersona['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $newPersona['foto'] . '"><br>';
                         $this->guardarImagen($newPersona['foto'], 'actor');
-                    }
-                    if (!$serie->actores->contains($crews['cast'][$i]['id']))
+                    };
+                    if ($serie->actores->contains($crews['cast'][$i]['id']) == null ){
+                        echo 'Añadida relacion actor/serie -> ' . $crews['cast'][$i]['id'] . ' --> ' . $serie->id . '<br>';
                         $serie->actores()->attach($crews['cast'][$i]['id'], ['personaje' => $crews['cast'][$i]['character'], 'orden' => $crews['cast'][$i]['order']]);
+                    }
                 }
             } catch (\Throwable $th) {
                 dd($th);
@@ -385,7 +418,7 @@ class SerieController extends Controller
             $newPersona = [
                 'id' => $persona['id'],
                 'nombre' => $persona['name'],
-                'slug' => Str::slug($persona['name']),
+                'slug' => Str::slug($persona['name']) . '-' . $persona['id'],
                 'popularidad' => $persona['popularity'],
                 'descripcion' => $persona['biography'],
                 'genero' => $persona['gender'],
@@ -439,7 +472,8 @@ class SerieController extends Controller
                         'imagen' => $arrayTemp['poster_path']
                     ];
                     $temporada['slug'] = $serie->slug . '-' . $temporada['numero'];
-                    $temporada['serie_id'] = $serie->id;
+                    $temporada['serie_id'] = $serie->id;                    
+                    echo "Nueva temp -> " . $arrayTemp['name'] . '"><br>';
                     Temporada::create($temporada);
                     $this->guardarImagen($temporada['imagen'], 'serie-temporada');
                 }
@@ -463,7 +497,7 @@ class SerieController extends Controller
             dd($th);
         }  
     }
-    public function updateSeries (){
+    public function updateSeriesImg (){
         $seriesSinImagen = Serie::where('year','>','2020')->doesntHave('imagenes')->get();
         foreach ($seriesSinImagen as $serieSinImagen){
             try {
