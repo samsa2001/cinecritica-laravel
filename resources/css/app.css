@@ -144,9 +144,6 @@ contenido
 /***
 Oruga
 ***/
-.o-car__arrow__icon {
-  @apply w-9 h-9 text-4xl bg-lime-600 text-white;
-}
 .o-radio__check {
   background-image: none
 }
@@ -155,6 +152,9 @@ Oruga
 }
 .o-car__item {
   border-width: 1rem;
+}
+.o-car__arrow__icon {
+  @apply w-9 h-16 text-4xl bg-lime-600 text-white opacity-70 hover:opacity-95 rounded-lg;
 }
 .o-car__arrow__icon-next {
   right: 0rem;

@@ -14,18 +14,23 @@
     </o-field>
     <o-field 
         :variant="errors.login ? 'danger' : 'primary'"
-        :message="errors.login"
         label="Contraseña"
     >
         <o-input v-model="form.password" type="password"></o-input>
     </o-field>
     <o-field 
         :variant="errors.login ? 'danger' : 'primary'"
-        :message="errors.login"
         label="Confirmar contraseña"
     >
         <o-input v-model="form.password_confirmation" type="password"></o-input>
     </o-field>
+    <div v-if="errors.login" class="bg-red-200 border border-red-600 rounded-md m-2 p-2">
+        <ul>
+            <li v-if="errors.login.errors.name">{{errors.login.errors.name[0]}}</li>
+            <li v-if="errors.login.errors.email">{{errors.login.errors.email[0]}}</li>
+            <li v-if="errors.login.errors.password">{{errors.login.errors.password[0]}}</li>
+        </ul>
+    </div>
     <o-button
         :disabled="disabledBotton"
         class="float-right"
@@ -68,6 +73,7 @@ export default {
                     this.disabledBotton = false;
                     if(error.response.data){
                         this.errors.login = error.response.data
+                        console.log(error.response.data);
                     }
                 })
         }

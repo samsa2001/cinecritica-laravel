@@ -63,4 +63,8 @@ class Pelicula extends Model
     {
         return $this->belongsToMany(Provider::class,'pelicula_provider');
     }
+    public function listas()
+    {
+        return $this->belongsToMany(Lista::class,'lista_pelicula');
+    }
 }

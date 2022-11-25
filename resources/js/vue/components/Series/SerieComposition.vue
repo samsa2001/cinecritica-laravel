@@ -39,7 +39,7 @@
                     <div class="barra-horizontal"></div>
                     <h3>Donde ver:</h3>
                     <div class="flex flex-wrap gap-2">
-                        <div v-for="provider in serie.providers" :key="provider.id" class="text-center my-2">
+                        <div v-for="provider in serie.providers" :key="provider.id" class="text-center my-2 w-14">
                             <img :src="'https://image.tmdb.org/t/p/original' + provider.logo" width="50" class="block mx-auto">
                             <div class="block text-sm">{{ provider.nombre }}</div>
                         </div>

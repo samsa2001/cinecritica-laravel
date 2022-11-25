@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\ListaController;
 use App\Http\Controllers\backend\PostController;
 use App\Http\Controllers\backend\PeliculaController;
 use App\Http\Controllers\backend\PersonaController;
@@ -32,7 +33,8 @@ Route::group(['prefix' => 'backend'], function(){
         'peliculas' => PeliculaController::class,
         'personas' => PersonaController::class,
         'series' => SerieController::class,
-        'posts' => PostController::class
+        'posts' => PostController::class,
+        'listas' => ListaController::class
     ]);
     Route::get('/pelicula/{pelicula:slug}','App\Http\Controllers\backend\PeliculaController@showSlug')->name('pelicula.show');
     Route::get('/importar-directores','App\Http\Controllers\backend\PersonaController@importarDirectores');

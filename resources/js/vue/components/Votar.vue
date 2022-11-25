@@ -1,10 +1,13 @@
 <template>
-    <div class="flex flex-row gap-4 my-4 items-center bg-slate-200 py-2 px-4 bordered justify-around" >
+    <div class=" my-4 bg-slate-200 py-2 px-4 bordered" >
         <h5>Votar</h5>
-        <select v-model="voto" class="w-28 rounded-md">
-            <option v-for="nota in notas" :key="nota" :value="nota">{{nota}}</option>
-        </select>
-        <div class="btn" @click="enviarVoto()">Enviar</div>
+        <div class="flex flex-row gap-4 items-centerjustify-around" >
+            <select v-model="voto" class="w-28 rounded-md">
+                <option v-for="nota in notas" :key="nota" :value="nota">{{nota}}</option>
+            </select>
+            <div v-if="auth" class="btn" @click="enviarVoto()">Enviar</div>
+            <div v-else class="text-xs">Debes estar logeado para votar</div>
+        </div>
     </div>
 
 </template>

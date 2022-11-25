@@ -82,9 +82,9 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div v-if="pelicula.providers">
                         <h3>Donde ver:</h3>
-                        <div v-for="provider in pelicula.providers" :key="provider.id" class="text-center my-2">
+                        <div v-for="provider in pelicula.providers" :key="provider.id" class="text-center my-2 w-14">
                             <img :src="'https://image.tmdb.org/t/p/original' + provider.logo" width="50" class="block mx-auto">
-                            <div class="block text-sm">{{ provider.nombre }}</div>
+                            <div class="block text-xs">{{ provider.nombre }}</div>
                         </div>
                     </div>
                     <div>
