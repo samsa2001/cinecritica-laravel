@@ -268,6 +268,7 @@ class PeliculaController extends Controller
                     $this->guardarImagen($pelicula['imagen'], 'pelicula');
                     $this->guardarImagen($pelicula['imagen_principal'], 'principal');
                     $this->addCrew($objPelicula);
+                    $this->addImagenesPeliculas($objPelicula->id);
                     // Add providers
                     $providerPelicula = $this->getMovieApi("movie/" . $idPelicula . "/watch/providers");                    
                     foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
@@ -388,24 +389,20 @@ class PeliculaController extends Controller
             dd($persona);
         }
     }
-    public function addImagenPeliculas()
-    {
-        $peliculasSinImagen = Pelicula::where('year', '>', '2020')->doesntHave('imagenes')->get();
-        dd($peliculasSinImagen);
-        foreach ($peliculasSinImagen as $peliculaSinImagen) {
+    public function addImagenesPeliculas($idPelicula)
+    {       
             try {
-                $datosPelicula = $this->getMovieApi("movie/" . $peliculaSinImagen->id . "/images");
+                $datosPelicula = $this->getMovieApi("movie/" . $idPelicula . "/images");
                 $imagenes = [];
                 $cont = 1;
                 foreach ($datosPelicula['backdrops'] as $imagen) {
-                    echo '<img src="https://image.tmdb.org/t/p/original/' . $imagen['file_path'] . '">';
-                    ImagenPelicula::create(['pelicula_id' => $peliculaSinImagen->id, 'imagen' => $imagen['file_path']]);
+                    echo '<img src="https://image.tmdb.org/t/p/original/' . $imagen['file_path'] . '" width="300"><br>';
+                    ImagenPelicula::create(['pelicula_id' => $idPelicula, 'imagen' => $imagen['file_path']]);
                     if ($cont == 6) break;
                     $cont++;
                 }
             } catch (\Throwable $th) {
                 dd($th);
             }
-        }
     }
 }

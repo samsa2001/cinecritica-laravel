@@ -488,7 +488,7 @@ class SerieController extends Controller
             $cont = 1;
             if(isset ($datosserie['backdrops']))
                 foreach ($datosserie['backdrops'] as $imagen){
-                    echo '<img src="https://image.tmdb.org/t/p/original/'. $imagen['file_path'] . '">';
+                    echo '<img src="https://image.tmdb.org/t/p/original/'. $imagen['file_path'] . '" width="300"<br>>';
                     ImagenSerie::create(['serie_id' => $idSerie, 'imagen' => $imagen['file_path']]); 
                     if ($cont == 6) break;
                     $cont++;              

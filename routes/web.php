@@ -40,7 +40,7 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/importar-directores','App\Http\Controllers\backend\PersonaController@importarDirectores');
     Route::get('/importar-escritores','App\Http\Controllers\backend\PersonaController@importarEscritores');
     Route::get('/importar-guionistas','App\Http\Controllers\backend\PersonaController@importarGuionistas');
-    Route::get('/addImagenPeliculas','App\Http\Controllers\backend\PeliculaController@addImagenPeliculas');
+    Route::get('/addImagenesPeliculas','App\Http\Controllers\backend\PeliculaController@addImagenesPeliculas');
     Route::get('/buscarSerie{request?}','App\Http\Controllers\backend\SerieController@buscarSerie');
     Route::group(['prefix' => 'serie'], function(){
         Route::get('/prueba4{request?}','App\Http\Controllers\backend\SerieController@prueba4');
@@ -53,7 +53,7 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/add-novedades/series','App\Http\Controllers\backend\SerieController@addNovedades');
     Route::get('/cambios/series','App\Http\Controllers\backend\SerieController@cambiosDia');
     Route::get('/cambios/personas','App\Http\Controllers\backend\UtilsController@cambiosDia');
-    Route::get('/addImagenSeries','App\Http\Controllers\backend\SerieController@addImagenSeries');
+    Route::get('/addImagenesSeries','App\Http\Controllers\backend\SerieController@addImagenesSeries');
     Route::get('/traspaso','App\Http\Controllers\backend\UtilsController@traspasarTablaPersonasSerie');
     Route::get('/updatePersonas','App\Http\Controllers\backend\UtilsController@updatePersonas');
     Route::get('/addProviders','App\Http\Controllers\backend\UtilsController@addProviders');
