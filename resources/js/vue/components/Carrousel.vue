@@ -8,7 +8,7 @@
               <a @click="f_series()" href="#tab" class="tab-titulo" :class="{'active':tab_series }">Series</a>
           </li>
           <li v-if="personas != null" class="mr-2">
-              <a @click="f_personas()" href="#tab" class="tab-titulo" :class="{'active':tab_personas }">Personas</a>
+              <a @click="f_personas()" href="#tab" class="tab-titulo" :class="{'active':tab_personas }">{{ personasText }}</a>
           </li>
       </ul>
       <div class="tabs-contenido">
@@ -95,6 +95,11 @@
         required:false,
         default:null
       },
+      personasText:{
+        type:String,
+        required:false,
+        default:'Personas'
+      }
     },
     data(){ 
         return {
@@ -132,7 +137,12 @@
             this.tab_peliculas = this.tab_series = false
         },
     },
-    mounted(){     
+    updated(){  
+      if(this.peliculas == null && this.series == null){
+        this.f_personas()
+      } else if ( this.peliculas == null && this.personas == null){
+        this.f_series()
+      }   
     }
   }
 </script>

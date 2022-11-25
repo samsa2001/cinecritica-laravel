@@ -263,7 +263,7 @@ class PeliculaController extends Controller
                         foreach ($datosPelicula['genres'] as $datoPelicula) {
                             $objPelicula->generos()->attach($datoPelicula['id']);
                         }
-                    echo "Añadido -> " . $pelicula['titulo'] . '<img src=" https://image.tmdb.org/t/p/original' . $pelicula['imagen'] . '"><br><img src=" https://image.tmdb.org/t/p/original' . $pelicula['imagen_principal'] . '"><br><hr><br>';
+                    echo "Añadido -> " . $pelicula['titulo'] . '<img src=" https://image.tmdb.org/t/p/original' . $pelicula['imagen'] . '" width="300"><br><img src=" https://image.tmdb.org/t/p/original' . $pelicula['imagen_principal'] . '" width="300"><br><hr><br>';
                     Log::info("Añadido -> " . $pelicula['titulo'] . ' -> ' . $pelicula['id']);
                     $this->guardarImagen($pelicula['imagen'], 'pelicula');
                     $this->guardarImagen($pelicula['imagen_principal'], 'principal');
@@ -271,7 +271,7 @@ class PeliculaController extends Controller
                     // Add providers
                     $providerPelicula = $this->getMovieApi("movie/" . $idPelicula . "/watch/providers");                    
                     foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
-                        $objPelicula->providers()->attach($provider['id']);
+                        $objPelicula->providers()->attach($provider['provider_id']);
                     }
                 } catch (\Throwable $th) {
                     dd($key, $idPelicula, $datosPelicula, $th);
@@ -322,7 +322,7 @@ class PeliculaController extends Controller
                 if (!$newPersona) {
                     $newPersona = $this->getPersona($crews['cast'][$i]['id'], true);
                     Persona::create($newPersona);
-                    echo "Añadido Actor-> " . $newPersona['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $newPersona['foto'] . '"><br><hr><br>';
+                    echo "Añadido Actor-> " . $newPersona['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $newPersona['foto'] . '" width="300"><br><hr><br>';
                     $this->guardarImagen($newPersona['foto'], 'actor');
                 }
                 $pelicula->actores()->attach($crews['cast'][$i]['id'], ['personaje' => $crews['cast'][$i]['character'], 'orden' => $crews['cast'][$i]['order']]);
@@ -336,7 +336,7 @@ class PeliculaController extends Controller
                     if (!$director) {
                         $director = $this->getPersona($peliCrew['id'], true);
                         Persona::create($director);
-                        echo "Añadido director-> " . $director['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $director['foto'] . '"><br><hr><br>';
+                        echo "Añadido director-> " . $director['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $director['foto'] . '" width="300"><br><hr><br>';
                         $this->guardarImagen($newPersona['foto'], 'director');
                     }
                     $pelicula->directores()->attach($peliCrew['id']);

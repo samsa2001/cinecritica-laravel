@@ -307,7 +307,7 @@ class SerieController extends Controller
                         foreach ($datosSerie['genres'] as $datoSerie) {
                             $objserie->generos()->attach($datoSerie['id']);
                         }
-                    echo "Añadido -> " . $serie['titulo'] . '<img src=" https://image.tmdb.org/t/p/original' . $serie['imagen'] . '"><br><img src=" https://image.tmdb.org/t/p/original' . $serie['imagen_principal'] . '"><br><hr><br>';
+                    echo "Añadido -> " . $serie['titulo'] . '<img src=" https://image.tmdb.org/t/p/original' . $serie['imagen'] . '" width="300"><br><img src=" https://image.tmdb.org/t/p/original' . $serie['imagen_principal'] . '" width="300"><br><hr><br>';
                     Log::info("Añadida serie -> " . $serie['titulo'] . ' -> ' . $serie['id']);
                     $this->guardarImagen($serie['imagen'], 'serie');
                     $this->guardarImagen($serie['imagen_principal'], 'principal-serie');
@@ -319,7 +319,7 @@ class SerieController extends Controller
                         if (!$creador) {
                             $creador = $this->getPersona($created_by['id'], true);
                             Persona::create($creador);
-                            echo "Añadido creador-> " . $creador['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $creador['foto'] . '"><br><hr><br>';
+                            echo "Añadido creador-> " . $creador['nombre'] . '<img src=" https://image.tmdb.org/t/p/original' . $creador['foto'] . '" width="300"><br><hr><br>';
                             $this->guardarImagen($creador['foto'], 'creador');
                         }
                         $objserie->creadores()->attach($created_by['id']);
