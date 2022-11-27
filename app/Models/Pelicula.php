@@ -67,4 +67,7 @@ class Pelicula extends Model
     {
         return $this->belongsToMany(Lista::class,'lista_pelicula');
     }
+    public function votos(){
+        return $this->hasMany(Voto::class);
+    }
 }

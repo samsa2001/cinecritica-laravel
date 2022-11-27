@@ -5,14 +5,16 @@
             <select v-model="voto" class="w-28 rounded-md">
                 <option v-for="nota in notas" :key="nota" :value="nota">{{nota}}</option>
             </select>
-            <div v-if="auth" class="btn" @click="enviarVoto()">Enviar</div>
-            <div v-else class="text-xs">Debes estar logeado para votar</div>
+            <!-- <div v-if="auth" class="btn" @click="enviarVoto()">Enviar</div>
+            <div v-else class="text-xs">Debes estar logeado para votar</div> -->
+            <div class="btn" @click="enviarVoto()">Enviar</div>
         </div>
     </div>
 
 </template>
 
 <script>
+
 export default {
     data(){
         return{
@@ -22,8 +24,13 @@ export default {
     },
     methods:{
         enviarVoto(){
-            if (this.voto)
-                console.log("Has votado con un " + this.voto)
+            if (this.voto){
+                this.$axios
+                    .post("/api/voto",{voto:this.voto, user:"auth.id"})
+                    .then((res) => {
+                        console.log(res.data);
+                    });
+            }
         }
     }
 }

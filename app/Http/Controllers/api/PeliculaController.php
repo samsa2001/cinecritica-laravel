@@ -28,7 +28,7 @@ class PeliculaController extends Controller
     }
     public function soloPeliculas()
     {
-        $peliculas = Pelicula::orderBy('fecha','desc')->paginate(20);
+        $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(20);
         return response()->json($peliculas);
     }
     public function soloEspana()

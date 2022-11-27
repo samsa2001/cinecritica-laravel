@@ -125,7 +125,7 @@ class PeliculaController extends Controller
     }
     public function verNovedades()
     {
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-09-21&vote_count.gte=300&page=";
+        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-10-21&vote_count.gte=100&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newPeliculas = [];
         $updatePeliculas = [];
@@ -147,7 +147,7 @@ class PeliculaController extends Controller
 
     public function addNovedades()
     {
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-09-21&vote_count.gte=300&page=";
+        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-10-21&vote_count.gte=100&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newPeliculas = [];
         $updatePeliculas = [];
@@ -270,9 +270,11 @@ class PeliculaController extends Controller
                     $this->addCrew($objPelicula);
                     $this->addImagenesPeliculas($objPelicula->id);
                     // Add providers
-                    $providerPelicula = $this->getMovieApi("movie/" . $idPelicula . "/watch/providers");                    
-                    foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
-                        $objPelicula->providers()->attach($provider['provider_id']);
+                    $providerPelicula = $this->getMovieApi("movie/" . $idPelicula . "/watch/providers");  
+                    if (array_key_exists('ES',$providerPelicula['results']) && array_key_exists('flatrate',$providerPelicula['results']['ES'])){                  
+                        foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
+                            $objPelicula->providers()->attach($provider['provider_id']);
+                        }
                     }
                 } catch (\Throwable $th) {
                     dd($key, $idPelicula, $datosPelicula, $th);

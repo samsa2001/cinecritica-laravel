@@ -6,6 +6,7 @@ use App\Http\Controllers\api\PersonaController;
 use App\Http\Controllers\api\PostController;
 use App\Http\Controllers\api\SerieController;
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\api\VotosController;
 use App\Models\Pelicula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -55,3 +56,6 @@ Route::post('user/login', [UserController::class, 'login']);
 Route::post('user/logout', [UserController::class, 'logout']);
 Route::post('user/token-check', [UserController::class, 'checkToken']);
 Route::post('user/register', [UserController::class, 'register']);
+
+//votos
+Route::post('voto',[VotosController::class, 'store']);
