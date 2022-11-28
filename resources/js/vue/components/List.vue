@@ -6,7 +6,7 @@
   </template>
 
 <script>
-import Carrousel from './Carrousel.vue'
+import Carrousel from './shared/Carrousel.vue'
 export default  {
   data() {
     return {

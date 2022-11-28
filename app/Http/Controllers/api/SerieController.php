@@ -27,7 +27,7 @@ class SerieController extends Controller
     }
     public function soloSeries()
     {
-        $series = Serie::orderBy('fecha','desc')->paginate(20);
+        $series = Serie::orderBy('popularidad','desc')->paginate(20);
         return response()->json($series);
     }
 

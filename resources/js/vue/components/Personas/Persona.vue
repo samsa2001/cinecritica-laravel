@@ -51,7 +51,7 @@
 
 <script>
 
-import Grilla from '../Grilla.vue'
+import Grilla from '../shared/Grilla.vue'
 
 export default {
     data() {

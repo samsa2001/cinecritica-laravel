@@ -21,8 +21,8 @@
 
 <script>
 import { ref, onMounted  } from 'vue'
-import Grilla from '../Grilla.vue'
-import Votar from '../Votar.vue'
+import Grilla from '../shared/Grilla.vue'
+import Votar from '../shared/Votar.vue'
 import axios from "axios"
 import { useRoute } from 'vue-router'
 

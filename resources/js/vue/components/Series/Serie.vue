@@ -94,8 +94,8 @@
 <script>
 
 import { h } from 'vue'
-import Grilla from '../Grilla.vue'
-import Votar from '../Votar.vue'
+import Grilla from '../shared/Grilla.vue'
+import Votar from '../shared/Votar.vue'
 import { useProgrammatic } from '@oruga-ui/oruga-next'
 // import Modal from './Modal.vue'
 

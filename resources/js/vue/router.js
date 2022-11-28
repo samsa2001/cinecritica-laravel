@@ -1,83 +1,70 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import List from './components/List.vue'
-import Pelicula from './components/Peliculas/Pelicula.vue'
-import PeliculaComposition from './components/Peliculas/PeliculaComposition.vue'
-import PeliculasList from './components/Peliculas/PeliculasList.vue'
-import PeliculasListComposition from './components/Peliculas/PeliculasListComposition.vue'
-import Persona from './components/Personas/Persona.vue'
-import SeriesList from './components/Series/SeriesList.vue'
-import SeriesListComposition from './components/Series/SeriesListComposition.vue'
-import Serie from './components/Series/Serie.vue'
-import SerieComposition from './components/Series/SerieComposition.vue'
-import Buscar from './components/Buscar/PaginaBuscar.vue'
-import Login from './components/Auth/Login.vue'
-import Register from './components/Auth/Register.vue'
-import Blog from './components/Blog/PostList.vue'
-import Post from './components/Blog/Post.vue'
-import Espana from './components/Peliculas/PeliculasEspana.vue'
-
 const routes = [
     {
         name: 'list',
         path: '/',
-        component: List
+        component: () => import( './components/List.vue' )
     },
     {
         name: 'peliculaslist',
         path: '/peliculas/:page(\\d+)?',
-        component: PeliculasListComposition
+        component: () => import( './components/Peliculas/PeliculasListComposition.vue' )
     },
     {
         name: 'pelicula',
         path: '/pelicula/:slug',
-        component: PeliculaComposition
+        component: () => import( './components/Peliculas/PeliculaComposition.vue' )
     },,
     {
         name: 'espana',
         path: '/españa',
-        component: Espana
+        component: () => import( './components/Peliculas/PeliculasEspana.vue' )
     },
     {
         name: 'serieslist',
         path: '/series/:page(\\d+)?',
-        component: SeriesListComposition
+        component: () => import( './components/Series/SeriesListComposition.vue' )
     },
     {
         name: 'serie',
         path: '/serie/:slug',
-        component: SerieComposition
+        component: () => import( './components/Series/SerieComposition.vue' )
     },
     {
         name: 'persona',
         path: '/persona/:slug',
-        component: Persona
+        component: () => import( './components/Personas/Persona.vue' )
     },
     {
         name: 'buscar',
         path: '/buscar',
-        component: Buscar,
+        component: () => import( './components/Buscar/PaginaBuscar.vue' )
     },
     {
         name: 'blog',
         path: '/blog',
-        component: Blog
+        component: () => import( './components/Blog/PostList.vue' )
     },
     {
         name: 'post',
         path: '/blog/:slug',
-        component: Post
+        component: () => import( './components/Blog/Post.vue' )
     },
     {
         name: 'login',
         path: '/login',
-        component: Login
+        component: () => import( './components/Auth/Login.vue' )
     },
     {
         name: 'register',
         path: '/registro',
-        component: Register
-    }
+        component: () => import( './components/Auth/Register.vue' )
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: () => import( './components/List.vue' )
+    },
 ]
 
 const router = createRouter({

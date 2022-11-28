@@ -214,17 +214,26 @@ class SerieController extends Controller
     {
         $query = "discover/tv?language=es-ES&vote_count.gte=50&first_air_date.gte=2022-09-21&page=";
         $novedades = $this->getMovieApi($query . "1");
-        $results = $novedades['results'];
-        for ($i = 2; $i <= $novedades["total_pages"]; $i++) {
+        $newSeries = [];
+        $updatedSeries = [];
+        for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
             $novedades = $this->getMovieApi($query . $i);
             foreach ($novedades['results'] as $resultado)
-                array_push($results, $resultado);
+                if(Serie::find($resultado['id']) != null) {
+                    array_push($updatedSeries,$resultado['id']);
+                    $datosSerie = $this->getMovieApi("tv/" . $resultado['id']. "?language=es-ES");
+                    echo "Actualizar -> " . $datosSerie['name'] . '<br><hr><br>';
+                } else {
+                    array_push($newSeries,$resultado['id']);
+                    $datosSerie = $this->getMovieApi("tv/" . $resultado['id']. "?language=es-ES");
+                    echo "Añadir -> " . $datosSerie['name'] . '<img src=" https://image.tmdb.org/t/p/original' . $datosSerie['poster_path'] . '" width="300"><br><hr><br>';
+                }
         }
-        dd($results);
+        dd($updatedSeries,$newSeries);
     }
     
     public function addNovedades(){
-        $query = "discover/tv?language=es-ES&vote_count.gte=200&first_air_date.gte=2022-10-30&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=50&first_air_date.gte=2022-09-21&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newSeries = [];
         $updatedSeries = [];
@@ -257,6 +266,15 @@ class SerieController extends Controller
         if (count($updateSeries) > 0)
             $this->updateSerie($updateSeries);
     }
+    /*
+    cambios día manual
+    */
+    // public function cambiosDia()
+    // {
+    //     $updateSeries = [114410,105248,129959];
+    //     if (count($updateSeries) > 0)
+    //         $this->updateSerie($updateSeries);
+    // }
     /*
     * Dado un array de ids añade las películas
     */

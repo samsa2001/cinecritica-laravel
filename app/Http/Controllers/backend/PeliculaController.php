@@ -126,6 +126,7 @@ class PeliculaController extends Controller
     public function verNovedades()
     {
         $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-10-21&vote_count.gte=100&page=";
+        // $query = "discover/movie?primary_release_date.gte=2021-12-21&sort_by=popularity.desc&vote_count.gte=50&with_original_language=es&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newPeliculas = [];
         $updatePeliculas = [];
@@ -136,6 +137,7 @@ class PeliculaController extends Controller
                     array_push($updatePeliculas, $resultado['id']);
                 } else {
                     array_push($newPeliculas, $resultado['id']);
+                    $datosPelicula = $this->getMovieApi("movie/" . $resultado['id'] . "?language=es-ES");echo "Novedad -> " . $datosPelicula['title'] . '<img src=" https://image.tmdb.org/t/p/original' . $datosPelicula['poster_path'] . '" width="300"><br><hr><br>';
                 }
         }
         dd('Novedades', $newPeliculas, 'Cambios',$updatePeliculas);
@@ -148,6 +150,7 @@ class PeliculaController extends Controller
     public function addNovedades()
     {
         $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-10-21&vote_count.gte=100&page=";
+        $query = "discover/movie?primary_release_date.gte=2021-12-21&sort_by=popularity.desc&vote_count.gte=50&with_original_language=es&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newPeliculas = [];
         $updatePeliculas = [];
@@ -179,29 +182,27 @@ class PeliculaController extends Controller
         if (count($updatePeliculas) > 0)
             $this->updatePeliculas($updatePeliculas);
     }
+    /*
+    Cambio manual
+    */
+    // public function cambiosDia()
+    // {
+    //     $updatePeliculas = [610150,438631,550988,766507,507086];
+    //     if (count($updatePeliculas) > 0)
+    //         $this->updatePeliculas($updatePeliculas);
+    // }
     public function prueba5()
     {
-        $peliculas = DB::select('select * from ramon_peliculas_peliculas_genero');
-        $idPeliculas = array();
-        foreach ($peliculas as $pelicula) {
-            if (!Pelicula::find($pelicula->pelicula_id) && !array_search($pelicula->pelicula_id, $idPeliculas)) {
-                $idPeliculas[] = $pelicula->pelicula_id;
+        dd('Descargar imagenes de todas las pelis');
+        $peliculas=Pelicula::get();
+        foreach ($peliculas as $pelicula){
+            $datosPelicula = $this->getMovieApi("movie/" . $pelicula->id . "?language=es-ES");
+            if( isset($datosPelicula['poster_path']) ) {
+                $this->guardarImagen($datosPelicula['poster_path'], 'peliculas');
+                echo "Añadido -> " . $pelicula->id . ' --> <img src=" https://image.tmdb.org/t/p/original' . $datosPelicula['poster_path'] . '" width="300"><br><hr><br>';
             }
         }
-        dd($idPeliculas);
-        // $this->addPeliculas(array_slice($idPeliculas, 0, 500));
-        $this->addPeliculas($idPeliculas);
-    }
-    public function prueba4(Request $request)
-    {
-        $peliculas = '';
-        if (isset($request)) {
-            if (isset($request['year']) && $request['year'] < 2023 && $request['year'] > 1900) {
-                $peliculas = Pelicula::where('year', $request['year'])->paginate();
-            }
-        } else
-            $peliculas = Pelicula::paginate(10);
-        return view('backend.peliculas.index', compact('peliculas'));
+        dd('Fin');
     }
     public function guardarImagen($url, $rol)
     {
@@ -210,9 +211,9 @@ class PeliculaController extends Controller
             try {
                 $contents = file_get_contents($path);
                 if ($rol == 'actor') {
-                    $rol = 'actores';
+                    $rol = 'personas';
                 } elseif ($rol == 'director') {
-                    $rol = 'directores';
+                    $rol = 'personas';
                 } elseif ($rol == 'principal') {
                     $rol = 'imagenes_principales';
                 } else {

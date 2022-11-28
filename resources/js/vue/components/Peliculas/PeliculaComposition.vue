@@ -113,8 +113,8 @@
 <script>
 import { defineComponent, h, ref, onMounted  } from 'vue'
 import { useProgrammatic } from '@oruga-ui/oruga-next'
-import Grilla from '../Grilla.vue'
-import Votar from '../Votar.vue'
+import Grilla from '../shared/Grilla.vue'
+import Votar from '../shared/Votar.vue'
 import axios from "axios"
 import { useRoute } from 'vue-router'
 
