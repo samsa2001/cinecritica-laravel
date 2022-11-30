@@ -5,7 +5,7 @@
       <div class="flex flex-wrap">
          <div class="md:w-2/3 w-full flex flex-wrap">
             <div class="w-2/5  px-2 md:order-0 order-1">
-               <img :src="'https://image.tmdb.org/t/p/original' + serie.imagen">
+               <img :src="'https://cdn1.cinecritica.com/media/series' + serie.imagen">
                <div class="md:hidden p-2 bg-green-900">
                   <h4 class="my-2 text-white">Imágenes</h4>
                   <div class="grid gap-2 md:grid-cols-3 grid-cols-1 ">
@@ -38,7 +38,7 @@
                      <h3>Donde ver:</h3>
                      <div class="flex flex-wrap gap-2">
                         <div v-for="provider in serie.providers" :key="provider.id" class="text-center my-2 w-14">
-                           <img :src="'https://image.tmdb.org/t/p/original' + provider.logo" width="50"
+                           <img :src="'https://cdn1.cinecritica.com/media/providers' + provider.logo" width="50"
                               class="block mx-auto">
                            <div class="block text-sm">{{ provider.nombre }}</div>
                         </div>
@@ -104,7 +104,7 @@
                <div class="grid grid-cols-3 gap-4">
                   <div v-for="(temporada, id) in serie.temporadas" :key="id">
                      <div @click="imageModal(temporada.imagen)">
-                        <img :src="'https://image.tmdb.org/t/p/original' + temporada.imagen" />
+                        <img :src="'https://cdn1.cinecritica.com/media/temporadas' + temporada.imagen" />
                         {{ temporada.titulo }}
                      </div>
                   </div>
@@ -113,7 +113,7 @@
          </div>
       </div>
       <div class="md:hidden block">
-         <img :src="'https://image.tmdb.org/t/p/original' + serie.imagen_principal">
+         <img :src="'https://cdn1.cinecritica.com/media/imagen-principal-series' + serie.imagen_principal">
       </div>
    </div>
 </template>

@@ -17,10 +17,10 @@
                 <o-carousel-item v-for="(persona, i) in personas" :key="i">        
                   <router-link :to="{ name: 'persona', params: { 'slug': persona.slug } }" class=" bg-lime-800">
                   <img v-if="persona.foto == null" src="https://cdn1.cinecritica.com/media/unknown.png" alt="{{ persona.nombre }}">  
-                  <img v-else :src="'https://cdn1.cinecritica.com/media/personas' + persona.foto " alt="{{ persona.nombre }}"/>
+                  <img v-else :src="'https://cdn1.cinecritica.com/media/personas' + persona.foto " :alt="persona.nombre"/>
                       <div class=" bottom-0 w-full bg-lime-800 text-white min-h-42 flex flex-row">
                         <div class="grow text-center">
-                          <strong>{{ persona.nombre }}</strong>
+                          <strong>{{ persona.nombre }}</strong><span v-if="persona.pivot != null" class="block">{{ persona.pivot.personaje }}</span>
                         </div>
                       </div>
                   </router-link>
@@ -31,7 +31,7 @@
             <o-carousel  v-model="carousel" v-bind="settings">
                 <o-carousel-item v-for="(pelicula, i) in peliculas" :key="i">        
                   <router-link :to="{ name: 'pelicula', params: { 'slug': pelicula.slug } }" class=" bg-lime-800">
-                  <img :src="'https://cdn1.cinecritica.com/media/peliculas' + pelicula.imagen" />
+                  <img :src="'https://cdn1.cinecritica.com/media/peliculas' + pelicula.imagen" :alt="pelicula.titulo" />
                       <div class=" bottom-0 w-full bg-lime-800 text-white min-h-42 flex flex-col">
                         <div class="grow text-center">
                           {{ pelicula.titulo }}
@@ -54,7 +54,7 @@
             <o-carousel  v-model="carousel" v-bind="settings">
                 <o-carousel-item v-for="(serie, i) in series" :key="i" class="w-1/3">        
                   <router-link :to="{ name: 'serie', params: { 'slug': serie.slug } }" class=" bg-lime-800">
-                  <img :src="'https://cdn1.cinecritica.com/media/series' + serie.imagen" />
+                  <img :src="'https://cdn1.cinecritica.com/media/series' + serie.imagen" :alt="serie.titulo" />
                       <div class=" bottom-0 w-full bg-lime-800 text-white min-h-42 flex flex-col">
                         <div class=" text-center">
                           {{ serie.titulo }}
@@ -138,7 +138,7 @@
             this.tab_peliculas = this.tab_series = false
         },
     },
-    updated(){  
+    updated(){        
       if(this.peliculas == null && this.series == null){
         this.f_personas()
       } else if ( this.peliculas == null && this.personas == null){

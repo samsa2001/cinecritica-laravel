@@ -1,13 +1,13 @@
 <template>
     <div class="">
-        <div class="seccion-titulo" :style="{backgroundImage:'url(https://image.tmdb.org/t/p/original' + pelicula.imagen_principal + ')'}" >
+        <div class="seccion-titulo" :style="{backgroundImage:'url(https://cdn1.cinecritica.com/media/imagen-principal' + pelicula.imagen_principal + ')'}" >
             <div class="fondo-titulo">
                 <h1>{{ pelicula.titulo }}</h1> 
                 <h2>{{ pelicula.tagline }}</h2>
             </div>
         </div>
         <div class="lg:float-left block max-w-sm mr-4 mb-4">
-            <img :src="'https://image.tmdb.org/t/p/original' + pelicula.imagen">
+            <img :src="'https://cdn1.cinecritica.com/media/peliculas' + pelicula.imagen">
             <h4 class="my-2">Imágenes</h4>
             <div class="grid gap-2 grid-cols-3 ">
                 <div v-for="imagen in pelicula.imagenes" :key="imagen.id">                       
@@ -83,7 +83,7 @@
                     <div v-if="pelicula.providers">
                         <h3>Donde ver:</h3>
                         <div v-for="provider in pelicula.providers" :key="provider.id" class="text-center my-2 w-14">
-                            <img :src="'https://image.tmdb.org/t/p/original' + provider.logo" width="50" class="block mx-auto">
+                            <img :src="'https://cdn1.cinecritica.com/media/providers' + provider.logo" width="50" class="block mx-auto">
                             <div class="block text-xs">{{ provider.nombre }}</div>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                         <ul class="datos-ficha text-center">
                             <li v-for="(director, id) in pelicula.directores" :key="id">
                                 <router-link :to="{ name: 'persona', params: { 'slug': director.slug } }">
-                                    <img :src="'https://image.tmdb.org/t/p/original' + director.foto" width="100" class="block mx-auto">
+                                    <img :src="'https://cdn1.cinecritica.com/media/personas' + director.foto" width="100" class="block mx-auto">
                                     {{ director.nombre }}
                                 </router-link>
                             </li>
@@ -106,7 +106,7 @@
         </div>
         <div class="clear-both"></div>
         <Grilla :posts="pelicula.actores" tipo="persona" columnas="6" gap="8" />
-        <img :src="'https://image.tmdb.org/t/p/original' + pelicula.imagen_principal">
+        <img :src="'https://cdn1.cinecritica.com/media/imagen-principal' + pelicula.imagen_principal">
     </div>
 </template>
  

@@ -8,7 +8,7 @@
             <div class="grid gap-2 grid-cols-3 ">
                 <div v-for="imagen in serie.imagenes" :key="imagen.id">                       
                     <div  @click="imageModal2()">
-                        <img :src="'https://image.tmdb.org/t/p/original' + imagen.imagen">
+                        <img :src="'https://cdn1.cinecritica.com/series' + imagen.imagen">
                     </div>
                 </div>
             </div>   
@@ -75,7 +75,7 @@
                     Temporadas:
                     <ul class="datos-ficha flex flex-wrap">
                         <li v-for="(temporada, id) in serie.temporadas" :key="id" class="w-20 m-2">
-                            <img :src="'https://image.tmdb.org/t/p/original'+temporada.imagen" />
+                            <img :src="'https://cdn1.cinecritica.com/series-temporada'+temporada.imagen" />
                                 {{ temporada.titulo }}
                         </li>
                     </ul>
@@ -87,7 +87,7 @@
         </div>
         <div class="clear-both"></div>
         <Grilla :posts="serie.actores" tipo="persona" columnas="6" gap="8" />
-        <img :src="'https://image.tmdb.org/t/p/original' + serie.imagen_principal">
+        <img :src="'https://cdn1.cinecritica.com/imagen-principal-series' + serie.imagen_principal">
     </div>
 </template>
 

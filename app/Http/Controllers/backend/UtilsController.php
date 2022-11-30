@@ -294,7 +294,7 @@ class UtilsController extends Controller
         }
     }
     public function cambiosDia(){
-        $personas = $this->getMovieApi('person/changes');
+        $personas = $this->getMovieApi('person/changes?start_date=2022-11-28&language=es-ES');
         $cont = 0;
         foreach( $personas['results'] as $persona ){
         //  dd($personas, $persona);
