@@ -311,9 +311,9 @@ class UtilsController extends Controller
                     $update['fecha_2'] = $popular['deathday'];
                     $update['year_2'] = substr($popular['deathday'], 0, 4);
                 }
-                if(isset($update) && (isset($popular['popularity']) || isset($popular['deathday'])) ){             
+                if(isset($update) && (isset($popular['popularity']) || isset($popular['deathday']))) {   
+                    echo $cont . '-' . $popular['id'] . '- Old:' .$noNewPersona->popularidad. '- New:' .$popular['popularity']. '<br><hr>';          
                     $noNewPersona->update($update);   
-                    echo $cont . '-' . $popular['id'] . '-' .$noNewPersona->popularidad. '-' .$popular['popularity']. '<br><hr>';
                     Log::info("Actualizada persona -> " . $noNewPersona->nombre . ' -> ' . $noNewPersona->id);
                 }
             }

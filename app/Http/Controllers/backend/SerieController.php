@@ -212,7 +212,7 @@ class SerieController extends Controller
     }
     public function verNovedades()
     {
-        $query = "discover/tv?language=es-ES&vote_count.gte=50&first_air_date.gte=2022-09-21&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=50&first_air_date.gte=2021-08-21&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newSeries = [];
         $updatedSeries = [];
@@ -221,37 +221,44 @@ class SerieController extends Controller
             foreach ($novedades['results'] as $resultado)
                 if(Serie::find($resultado['id']) != null) {
                     array_push($updatedSeries,$resultado['id']);
-                    $datosSerie = $this->getMovieApi("tv/" . $resultado['id']. "?language=es-ES");
-                    echo "Actualizar -> " . $datosSerie['name'] . '<br><hr><br>';
                 } else {
-                    array_push($newSeries,$resultado['id']);
                     $datosSerie = $this->getMovieApi("tv/" . $resultado['id']. "?language=es-ES");
-                    echo "Añadir -> " . $datosSerie['name'] . '<img src=" https://image.tmdb.org/t/p/original' . $datosSerie['poster_path'] . '" width="300"><br><hr><br>';
+                    array_push($newSeries,$datosSerie);
                 }
         }
+        return view('backend.series.novedades', ['series' => $newSeries]);
         dd($updatedSeries,$newSeries);
     }
-    
-    public function addNovedades(){
-        $query = "discover/tv?language=es-ES&vote_count.gte=50&first_air_date.gte=2022-09-21&page=";
-        $novedades = $this->getMovieApi($query . "1");
-        $newSeries = [];
-        $updatedSeries = [];
-        for ($i=1; $i <= $novedades["total_pages"]; $i++){
-            $novedades = $this->getMovieApi($query . $i);
-            foreach($novedades['results'] as $resultado){
-                if(Serie::find($resultado['id']) != null) {
-                    array_push($updatedSeries,$resultado['id']);
-                } else {
-                    array_push($newSeries,$resultado['id']);
-                }
-            }
+ 
+    // public function addNovedades(){
+    //     $query = "discover/tv?language=es-ES&vote_count.gte=50&first_air_date.gte=2022-08-21&page=";
+    //     $novedades = $this->getMovieApi($query . "1");
+    //     $newSeries = [];
+    //     $updatedSeries = [];
+    //     for ($i=1; $i <= $novedades["total_pages"]; $i++){
+    //         $novedades = $this->getMovieApi($query . $i);
+    //         foreach($novedades['results'] as $resultado){
+    //             if(Serie::find($resultado['id']) != null) {
+    //                 array_push($updatedSeries,$resultado['id']);
+    //             } else {
+    //                 array_push($newSeries,$resultado['id']);
+    //             }
+    //         }
+    //     }
+    //     // dd($newSeries, $updatedSeries);
+    //     if (count($newSeries) > 0)
+    //         $this->addseries($newSeries);
+    //     if (count($updatedSeries) > 0)
+    //         $this->updateSerie($updatedSeries);
+    // } 
+    public function addNovedades(Request $request){
+        $novedades = [];
+        foreach ($request->input('serie.*') as $novedad){
+            array_push($novedades,$novedad);
         }
-        // dd($newSeries, $updatedSeries);
-        if (count($newSeries) > 0)
-            $this->addseries($newSeries);
-        if (count($updatedSeries) > 0)
-            $this->updateSerie($updatedSeries);
+        if (count($novedades) > 0)
+            $this->addseries($novedades);
+        echo "Añadidas " . count($novedades) . " series";
     }
     public function cambiosDia()
     {

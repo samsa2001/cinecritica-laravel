@@ -6,6 +6,9 @@
         <o-radio v-model="orden" name="name" native-value="fecha" @update:modelValue="updatePage()">
           Ordenar por fecha estreno
         </o-radio>
+        <o-radio v-model="orden" name="name" native-value="popularidad" @update:modelValue="updatePage()">
+          Ordenar por popularidad
+        </o-radio>
         <o-radio v-model="orden" name="name" native-value="numVotos" @update:modelValue="updatePage()">
           Ordenar por número votos
         </o-radio>
@@ -62,7 +65,9 @@ export default ({
         isLoading.value = true;
         const apiQuery = (orden.value == 'fecha') 
           ? "/api/peliculas?page=" + currentPage.value 
-          : "/api/peliculas/votos?page=" + currentPage.value
+          :  (orden.value == 'popularidad') 
+            ? "/api/peliculas/popularidad?page=" + currentPage.value 
+            : "/api/peliculas/votos?page=" + currentPage.value 
         axios
             .get(apiQuery)
             .then((res) => {

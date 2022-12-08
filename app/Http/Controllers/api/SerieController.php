@@ -37,6 +37,11 @@ class SerieController extends Controller
         $series = Serie::orderBy('numero_votos','desc')->with('actores')->paginate(10);
         return response()->json($series);
     }
+    public function indexByPopularity()
+    {
+        $series = Serie::orderBy('popularidad','desc')->with('actores')->paginate(10);
+        return response()->json($series);
+    }
 
     public function slug(Serie $serie)
     {

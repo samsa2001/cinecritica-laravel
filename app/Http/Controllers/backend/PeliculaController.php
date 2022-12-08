@@ -125,49 +125,62 @@ class PeliculaController extends Controller
     }
     public function verNovedades()
     {
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-10-21&vote_count.gte=100&page=";
+        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-11-05&vote_count.gte=15&page=";
         // $query = "discover/movie?primary_release_date.gte=2021-12-21&sort_by=popularity.desc&vote_count.gte=50&with_original_language=es&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newPeliculas = [];
         $updatePeliculas = [];
+        $datosPelicula = [];
         for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
             $novedades = $this->getMovieApi($query . $i);
             foreach ($novedades['results'] as $resultado)
                 if (Pelicula::find($resultado['id']) != null) {
                     array_push($updatePeliculas, $resultado['id']);
                 } else {
-                    array_push($newPeliculas, $resultado['id']);
-                    $datosPelicula = $this->getMovieApi("movie/" . $resultado['id'] . "?language=es-ES");echo "Novedad -> " . $datosPelicula['title'] . '<img src=" https://image.tmdb.org/t/p/original' . $datosPelicula['poster_path'] . '" width="300"><br><hr><br>';
+                //     array_push($newPeliculas, $resultado['id']);
+                    $datosPelicula = $this->getMovieApi("movie/" . $resultado['id'] . "?language=es-ES");
+                    array_push($newPeliculas, $datosPelicula);
+                    // echo "Novedad -> " . $datosPelicula['title'] 
+                    // . '<img src=" https://image.tmdb.org/t/p/original' . $datosPelicula['poster_path'] . '" width="300" style="display:inline-block">  
+                    // <input type="checkbox" name="novedad' . $resultado['id'] . '" value="'. $resultado['id'] .'"><strong>'. $resultado['id'] .'</strong><span style="margin: 1rem 3rem"> | </span> ';
                 }
-        }
+        }      
+        return view('backend.peliculas.novedades', ['peliculas' => $newPeliculas]);
         dd('Novedades', $newPeliculas, 'Cambios',$updatePeliculas);
-        if (count($newPeliculas) > 0)
-            $this->addPeliculas($newPeliculas);
-        if (count($updatePeliculas) > 0)
-            $this->updatePeliculas($updatePeliculas);
     }
 
-    public function addNovedades()
+
+    // public function addNovedades()
+    // {
+    //     $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-08-21&vote_count.gte=150&page=";
+    //     // $query = "discover/movie?primary_release_date.gte=2021-12-21&sort_by=popularity.desc&vote_count.gte=50&with_original_language=es&page=";
+    //     $novedades = $this->getMovieApi($query . "1");
+    //     $newPeliculas = [];
+    //     $updatePeliculas = [];
+    //     for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
+    //         $novedades = $this->getMovieApi($query . $i);
+    //         foreach ($novedades['results'] as $resultado)
+    //             if (Pelicula::find($resultado['id']) != null) {
+    //                 array_push($updatePeliculas, $resultado['id']);
+    //             } else {
+    //                 array_push($newPeliculas, $resultado['id']);
+    //             }
+    //     }
+    //     // dd($newPeliculas, $updatePeliculas);
+    //     if (count($newPeliculas) > 0)
+    //         $this->addPeliculas($newPeliculas);
+    //     if (count($updatePeliculas) > 0)
+    //         $this->updatePeliculas($updatePeliculas);
+    // }
+    public function addNovedades(Request $request)
     {
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-10-21&vote_count.gte=100&page=";
-        $query = "discover/movie?primary_release_date.gte=2021-12-21&sort_by=popularity.desc&vote_count.gte=50&with_original_language=es&page=";
-        $novedades = $this->getMovieApi($query . "1");
-        $newPeliculas = [];
-        $updatePeliculas = [];
-        for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
-            $novedades = $this->getMovieApi($query . $i);
-            foreach ($novedades['results'] as $resultado)
-                if (Pelicula::find($resultado['id']) != null) {
-                    array_push($updatePeliculas, $resultado['id']);
-                } else {
-                    array_push($newPeliculas, $resultado['id']);
-                }
+        $novedades = [];
+        foreach ($request->input('peli.*') as $novedad){
+            array_push($novedades,$novedad);
         }
-        // dd($newPeliculas, $updatePeliculas);
-        if (count($newPeliculas) > 0)
-            $this->addPeliculas($newPeliculas);
-        if (count($updatePeliculas) > 0)
-            $this->updatePeliculas($updatePeliculas);
+        if (count($novedades) > 0)
+            $this->addPeliculas($novedades);
+        echo "Añadidas " . count($novedades) . " películas";
     }
     public function cambiosDia()
     {

@@ -27,12 +27,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('peliculas/votos',[PeliculaController::class,'indexByVotes']); 
+Route::get('peliculas/popularidad',[PeliculaController::class,'indexByPopularity']); 
 Route::get('pelicula/{pelicula:slug}',[PeliculaController::class,'slug']); 
 Route::get('peliculas/soloPeliculas',[PeliculaController::class,'soloPeliculas']); 
 Route::get('peliculas/soloEspana',[PeliculaController::class,'soloEspana']); 
 Route::resource('peliculas',PeliculaController::class)->except(['create','edit']);
 
 Route::get('series/votos',[SerieController::class,'indexByVotes']); 
+Route::get('series/popularidad',[SerieController::class,'indexByPopularity']); 
 Route::get('serie/{serie:slug}',[SerieController::class,'slug']); 
 Route::get('series/soloSeries',[SerieController::class,'soloSeries']); 
 Route::resource('series',SerieController::class)->except(['create','edit']);
