@@ -4,7 +4,7 @@
     class="grid lg:grid-cols-6 lg:grid-cols-5 lg:grid-cols-4 lg:grid-cols-3 grid-cols-5 grid-cols-4 grid-cols-3 lg:gap-8 lg:gap-6 lg:gap-4">
   </div>
   <div v-if="posts" :class="crearClases()">
-    <div v-for="post in posts" :key="post.id">
+    <div v-for="post in posts" :key="post.id">      
       <router-link :to="{ name: tipo, params: { 'slug': post.slug } }" class="grilla-enlace">
         <img v-if="tipo != 'persona' && post.imagen != null" :src="'https://cdn1.cinecritica.com/media/' + tipo + 's'+ post.imagen"
           :title="post.titulo + ', Poster'" />

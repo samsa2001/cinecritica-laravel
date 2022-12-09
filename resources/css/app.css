@@ -206,13 +206,13 @@ Tabs
 Busqueda
 ***/
 #resultado-busqueda {
-  @apply border shadow-md px-4 py-2 absolute w-full bg-white -mt-3 rounded-b-lg transition-all duration-500 hidden z-50 h-[50vh] overflow-y-auto
+  @apply border shadow-md px-4 py-2 absolute w-full bg-white -mt-3 rounded-b-lg transition-all duration-500 hidden z-50 h-[50vh] overflow-y-auto text-xl font-semibold
 }
 #resultado-busqueda.activo {
   @apply block 
 }
 #resultado-busqueda img {
-  @apply w-12
+  @apply w-12 inline-block
 }
 .barra-buscar input {
   @apply px-8

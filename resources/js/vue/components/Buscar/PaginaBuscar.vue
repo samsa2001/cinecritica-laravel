@@ -1,21 +1,22 @@
 <template>
     <h1>Busqueda de "{{textoBuscar}}"</h1>
         <div id="pagina-buscar" class="w-2/3">
-            <Buscar :coleccion="coleccion" :textoBuscar="textoBuscar"></Buscar>
+            <Grilla :posts="coleccion"></Grilla>
         </div>
 </template>
 
 <script>
 import Buscar from './Buscar.vue'
+import Grilla from '../shared/Grilla.vue'
 export default {
     data() {
-        return {
+        return { 
         coleccion:[],
         textoBuscar: "",
         }
     },
     components:{
-        Buscar
+        Buscar,Grilla
     },
     methods: {
         updatePage() {
@@ -33,7 +34,6 @@ export default {
     async mounted() {
         this.textoBuscar = this.$route.query.q
         this.listPage();
-        
     },
     async updated() {
         this.textoBuscar = this.$route.query.q

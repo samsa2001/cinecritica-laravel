@@ -1,16 +1,24 @@
 <template>
     <div v-for="(objeto, id) in coleccion" :key="id">
         <div v-if="objeto.hasOwnProperty('nombre')" class="flex space-x-3 py-2">
-            <img :src="'https://image.tmdb.org/t/p/original' + objeto.foto" width="75">
-            <router-link :to="{ name:'persona',params:{ 'slug': objeto.slug } }">{{objeto.nombre}}</router-link>
+            <router-link :to="{ name: 'persona', params: { 'slug': objeto.slug } }">
+                <img v-if="objeto.foto != null" :src="'https://cdn1.cinecritica.com/media/personas' + objeto.foto" width="75">
+                <img v-else src="https://cdn1.cinecritica.com/media/unknown.png" width="75">
+                {{ objeto.nombre }}
+            </router-link>
         </div>
-        <div v-else  class="flex space-x-3 py-2">
-            <img :src="'https://image.tmdb.org/t/p/original' + objeto.imagen" width="75">
+        <div v-else class="flex space-x-3 py-2">
             <div v-if="objeto.hasOwnProperty('numero_episodios')">
-                <router-link :to="{ name:'serie',params:{ 'slug': objeto.slug } }">{{ objeto.titulo }} (serie)</router-link>
+                <router-link :to="{ name: 'serie', params: { 'slug': objeto.slug } }">
+                    <img :src="'https://cdn1.cinecritica.com/media/series' + objeto.imagen" width="75">
+                    {{ objeto.titulo }} (serie)
+                </router-link>
             </div>
             <div v-else>
-                <router-link :to="{ name:'pelicula',params:{ 'slug': objeto.slug } }">{{ objeto.titulo }}</router-link>
+                <router-link :to="{ name: 'pelicula', params: { 'slug': objeto.slug } }">
+                    <img :src="'https://cdn1.cinecritica.com/media/peliculas' + objeto.imagen" width="75">
+                    {{ objeto.titulo }}
+                </router-link>
             </div>
         </div>
     </div>
@@ -22,16 +30,16 @@ export default {
         return {
         }
     },
-    props:{
+    props: {
         coleccion: {
             type: Object,
             required: true,
             default: null
         },
-        textoBuscar : {
-            type:String,
-            required:true,
-            default:''
+        textoBuscar: {
+            type: String,
+            required: true,
+            default: ''
         }
     },
     async mounted() {
@@ -43,7 +51,7 @@ export default {
     // async updated() {
     //     this.textoBuscar = this.$route.query.q
     //     this.listPage();
-        
+
     // },
 }
 </script>
