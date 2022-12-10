@@ -1,13 +1,15 @@
 <template>
     <h1>Busqueda de "{{textoBuscar}}"</h1>
         <div id="pagina-buscar" class="w-2/3">
-            <Grilla :posts="coleccion"></Grilla>
+            <Grilla :posts="coleccion" columnas="4" gap="4"></Grilla>
         </div>
 </template>
 
 <script>
+
 import Buscar from './Buscar.vue'
 import Grilla from '../shared/Grilla.vue'
+
 export default {
     data() {
         return { 

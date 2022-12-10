@@ -125,8 +125,9 @@ class PeliculaController extends Controller
     }
     public function verNovedades()
     {
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-11-05&vote_count.gte=15&page=";
-        // $query = "discover/movie?primary_release_date.gte=2021-12-21&sort_by=popularity.desc&vote_count.gte=50&with_original_language=es&page=";
+        $query = "discover/movie?language=es-ES&primary_release_date.lte=2019-08-05&sort_by=popularity.desc&vote_count.gte=500&page=";
+        // $query = "discover/movie?primary_release_date.lte=2009-01-01&region=ES&sort_by=popularity.desc&vote_count.gte=5&with_original_language=es&page=";
+        //$query = "discover/movie?primary_release_year=2009&sort_by=popularity.desc&vote_count.gte=50&with_original_language=es&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newPeliculas = [];
         $updatePeliculas = [];
@@ -297,6 +298,14 @@ class PeliculaController extends Controller
                 }
             }
         }
+    }
+    public function checkPopularity(){
+        $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(30);
+        $idPeliculas = [];
+        foreach ($peliculas as $pelicula){
+            array_push($idPeliculas,$pelicula->id);
+        }
+        $this->updatePeliculas($idPeliculas);
     }
     public function updatePeliculas($idPeliculas)
     {

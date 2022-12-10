@@ -17,28 +17,28 @@ class PeliculaController extends Controller
     public function index()
     {
         // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $peliculas = Pelicula::orderBy('fecha','desc')->paginate(10);
+        $peliculas = Pelicula::orderBy('fecha','desc')->paginate(20);
         return response()->json($peliculas);
     }
     public function indexByVotes()
     {
         // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $peliculas = Pelicula::orderBy('numero_votos','desc')->paginate(10);
+        $peliculas = Pelicula::orderBy('numero_votos','desc')->paginate(20);
         return response()->json($peliculas);
     }
     public function indexByPopularity()
     {
-        $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
+        $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(20);
         return response()->json($peliculas);
     }
     public function soloPeliculas()
     {
-        $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(20);
+        $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(30);
         return response()->json($peliculas);
     }
     public function soloEspana()
     {
-        $peliculas = Pelicula::where('idioma', 'es')->orderBy('fecha','desc')->paginate(10);
+        $peliculas = Pelicula::where('idioma', 'es')->orderBy('fecha','desc')->paginate(20);
         return response()->json($peliculas);
     }
 

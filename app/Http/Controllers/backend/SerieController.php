@@ -282,6 +282,14 @@ class SerieController extends Controller
     //     if (count($updateSeries) > 0)
     //         $this->updateSerie($updateSeries);
     // }
+    public function checkPopularity(){
+        $series = Serie::orderBy('popularidad','desc')->paginate(30);
+        $idSeries = [];
+        foreach ($series as $serie){
+            array_push($idSeries,$serie->id);
+        }
+        $this->updateSerie($idSeries);
+    }
     /*
     * Dado un array de ids añade las películas
     */

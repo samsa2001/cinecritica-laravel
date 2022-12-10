@@ -49,8 +49,10 @@ Route::group(['prefix' => 'backend'], function(){
     Route::get('/ver-novedades/series','App\Http\Controllers\backend\SerieController@verNovedades');
     Route::post('/add-novedades/pelis','App\Http\Controllers\backend\PeliculaController@addNovedades')->name('pelicula.addnovedades');
     Route::get('/cambios/pelis','App\Http\Controllers\backend\PeliculaController@cambiosDia');
-    Route::post('/add-novedades/series','App\Http\Controllers\backend\SerieController@addNovedades')->name('serie.addnovedades');;
+    Route::get('/checkPopularity/pelis','App\Http\Controllers\backend\PeliculaController@checkPopularity');
+    Route::post('/add-novedades/series','App\Http\Controllers\backend\SerieController@addNovedades')->name('serie.addnovedades');
     Route::get('/cambios/series','App\Http\Controllers\backend\SerieController@cambiosDia');
+    Route::get('/checkPopularity/series','App\Http\Controllers\backend\SerieController@checkPopularity');
     Route::get('/cambios/personas','App\Http\Controllers\backend\UtilsController@cambiosDia');
     Route::get('/addImagenesSeries','App\Http\Controllers\backend\SerieController@addImagenesSeries');
     Route::get('/traspaso','App\Http\Controllers\backend\UtilsController@traspasarTablaPersonasSerie');
