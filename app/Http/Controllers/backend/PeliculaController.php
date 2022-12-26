@@ -126,7 +126,9 @@ class PeliculaController extends Controller
     public function verNovedades()
     {
         $query = "discover/movie?language=es-ES&primary_release_date.lte=2019-08-05&sort_by=popularity.desc&vote_count.gte=500&page=";
-        // $query = "discover/movie?primary_release_date.lte=2009-01-01&region=ES&sort_by=popularity.desc&vote_count.gte=5&with_original_language=es&page=";
+        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-12-20&sort_by=popularity.desc&vote_count.gte=1&page=";
+        // $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-11-20&region=ES&sort_by=popularity.desc&vote_count.gte=1&with_original_language=es&page=";
+        // $query = "discover/movie?language=es-ES&sort_by=popularity.desc&with_people=13918&page=";
         //$query = "discover/movie?primary_release_year=2009&sort_by=popularity.desc&vote_count.gte=50&with_original_language=es&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newPeliculas = [];
@@ -186,6 +188,7 @@ class PeliculaController extends Controller
     public function cambiosDia()
     {
         $query = "movie/changes";
+        // $query = "movie/changes?start_date=2022-12-10&language=es-ES";
         $novedades = $this->getMovieApi($query);
         $updatePeliculas = [];
         foreach ($novedades['results'] as $resultado)

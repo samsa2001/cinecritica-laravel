@@ -212,7 +212,7 @@ class SerieController extends Controller
     }
     public function verNovedades()
     {
-        $query = "discover/tv?language=es-ES&vote_count.gte=50&first_air_date.gte=2021-08-21&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=20&first_air_date.gte=2022-08-21&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newSeries = [];
         $updatedSeries = [];
@@ -262,7 +262,8 @@ class SerieController extends Controller
     }
     public function cambiosDia()
     {
-        $query = "tv/changes";
+        $query = "tv/changes&language=es-ES";
+        $query = "tv/changes?start_date=2022-12-10&language=es-ES";
         $novedades = $this->getMovieApi($query);
         $updateSeries = [];
         foreach ($novedades['results'] as $resultado)
