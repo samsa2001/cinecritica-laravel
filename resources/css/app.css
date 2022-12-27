@@ -215,5 +215,5 @@ Busqueda
   @apply w-12 inline-block
 }
 .barra-buscar input {
-  @apply px-8
+  @apply px-8 py-1
 }
