@@ -7,4 +7,3 @@
   </url>
 @endforeach
 </urlset>
-{{ $peliculas -> links() }}

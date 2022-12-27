@@ -7,4 +7,3 @@
   </url>
 @endforeach
 </urlset>
-{{ $series -> links() }}
