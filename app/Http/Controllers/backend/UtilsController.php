@@ -132,7 +132,7 @@ class UtilsController extends Controller
                 } elseif ($rol == 'plataforma') {
                     $rol = 'plataformas';
                 } else {
-                    $rol = 'peliculas';
+                    $rol = 'peliculas'; 
                 }
                 $name = 'media/' . $rol . $url;
                 Storage::put($name, $contents);
