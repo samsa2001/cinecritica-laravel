@@ -188,17 +188,17 @@ class SerieController extends Controller
             try {
                 $contents = file_get_contents($path);
                 if ($rol == 'actor') {
-                    $rol = 'actores';
+                    $rol = 'personas';
                 } elseif ($rol == 'director') {
-                    $rol = 'directores';
+                    $rol = 'personas';
                 } elseif ($rol == 'creador') {
-                    $rol = 'creador';
+                    $rol = 'personas';
                 } elseif ($rol == 'principal') {
                     $rol = 'imagen_principal';
                 } elseif ($rol == 'principal-serie') {
                     $rol = 'imagen-principal-series';
                 } elseif ($rol == 'serie-temporada') {
-                    $rol = "series-temporada";
+                    $rol = "temporadas";
                 } elseif ($rol == 'serie') {
                     $rol = 'series';
                 } else {

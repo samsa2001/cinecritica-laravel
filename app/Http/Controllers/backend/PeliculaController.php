@@ -232,7 +232,7 @@ class PeliculaController extends Controller
                 } elseif ($rol == 'director') {
                     $rol = 'personas';
                 } elseif ($rol == 'principal') {
-                    $rol = 'imagenes_principales';
+                    $rol = 'imagen-principal';
                 } else {
                     $rol = 'peliculas';
                 }
