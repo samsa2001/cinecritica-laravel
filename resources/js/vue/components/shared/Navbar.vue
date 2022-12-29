@@ -1,6 +1,6 @@
 <template>
   
-  <nav class="bg-white border-b border-gray-100">
+  <nav class="bg-gray-800 border-b border-lime-900">
       <header class="container  px-4 sm:px-6 md:px-8">
         <div class="flex  items-center justify-araound flex-wrap">
           <div class="md:basis-1/5 basis-2/5 order-1">

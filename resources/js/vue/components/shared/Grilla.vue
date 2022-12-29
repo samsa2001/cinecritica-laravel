@@ -35,9 +35,9 @@
           <div v-else-if="tipo != 'persona'" class="nota grilla-nota nota-verde">
             {{ post.nota }}
           </div>
-          <div class="columns-2 bg-slate-300">
-            <div class="border px-2"><span class="mdi mdi-calendar-range mr-1"></span> {{ post.year }}</div>
-            <div class="border px-2"><span class="mdi mdi-account-check mr-1"></span> {{ post.numero_votos }}</div>
+          <div class="columns-2 bg-slate-900 gap-0">
+            <div class="border px-2 border-slate-700"><span class="mdi mdi-calendar-range mr-1"></span> {{ post.year }}</div>
+            <div class="border px-2 border-slate-700"><span class="mdi mdi-account-check mr-1"></span> {{ post.numero_votos }}</div>
           </div>
         </router-link>
       </div>
@@ -59,9 +59,9 @@
           <div v-else-if="tipo != 'persona'" class="nota grilla-nota nota-verde">
             {{ post.nota }}
           </div>
-          <div class="columns-2 bg-slate-300">
-            <div class="border px-2"><span class="mdi mdi-calendar-range mr-1"></span> {{ post.year }}</div>
-            <div class="border px-2"><span class="mdi mdi-account-check mr-1"></span> {{ post.numero_votos }}</div>
+          <div class="columns-2 bg-slate-900 gap-0">
+            <div class="border px-2 border-slate-700"><span class="mdi mdi-calendar-range mr-1"></span> {{ post.year }}</div>
+            <div class="border px-2 border-slate-700"><span class="mdi mdi-account-check mr-1"></span> {{ post.numero_votos }}</div>
           </div>
         </router-link>
       </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class=" my-4 bg-slate-200 py-2 px-4 bordered" >
+    <div class=" my-4 bg-slate-800 py-2 px-4 bordered" >
         <h5>Votar</h5>
         <div class="flex flex-row gap-4 items-centerjustify-around" >
             <select v-model="voto" class="w-28 rounded-md">

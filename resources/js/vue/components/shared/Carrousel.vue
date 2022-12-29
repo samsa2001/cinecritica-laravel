@@ -1,6 +1,6 @@
 <template>
   <div id="tab" class="tabs">
-      <ul class="flex flex-wrap font-medium text-center  border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+      <ul class="flex flex-wrap font-medium text-center ">
           <li v-if="peliculas != null" class="mr-2">
               <a @click="f_peliculas()" href="#tab" class="tab-titulo" :class="{'active':tab_peliculas }">Peliculas</a>
           </li>
