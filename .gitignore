@@ -10,6 +10,8 @@
 .env.backup
 .env.production
 .phpunit.result.cache
+.zip
+.sql
 Homestead.json
 Homestead.yaml
 auth.json
