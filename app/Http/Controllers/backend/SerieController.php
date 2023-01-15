@@ -212,7 +212,7 @@ class SerieController extends Controller
     }
     public function verNovedades()
     {
-        $query = "discover/tv?language=es-ES&vote_count.gte=20&first_air_date.gte=2022-08-21&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=1&first_air_date.gte=2023-01-01&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newSeries = [];
         $updatedSeries = [];
