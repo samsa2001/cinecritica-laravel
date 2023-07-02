@@ -382,12 +382,13 @@ class SerieController extends Controller
                     $serie['popularidad'] = (isset($datosSerie['popularity'])) ? $datosSerie['popularity'] : null;
                     $objserie = Serie::find($idSerie);
                     $objserie->update($serie);
-                    $objserie->providers()->detach();
                     $providerPelicula = $this->getMovieApi("tv/" . $idSerie . "/watch/providers");
-                    if (array_key_exists('ES',$providerPelicula['results']) && array_key_exists('flatrate',$providerPelicula['results']['ES']))
+                    if (array_key_exists('ES',$providerPelicula['results']) && array_key_exists('flatrate',$providerPelicula['results']['ES'])){
+                        $objserie->providers()->detach();
                         foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
                             $objserie->providers()->attach($provider['provider_id']);
                         }
+                    }
                     echo "Actualizado -> " . $datosSerie['name'] . '"><br>';
                     Log::info("Actualizada serie -> " . $datosSerie['name'] . ' -> ' . $datosSerie['id']);
                     $this->updateTemporada($objserie, $datosSerie['seasons']);
