@@ -211,8 +211,10 @@ class SerieController extends Controller
             }
     }
     public function verNovedades()
-    {
-        $query = "discover/tv?language=es-ES&vote_count.gte=1&first_air_date.gte=2023-01-01&page=";
+    {   
+        // ultima actualización 10/06/2024
+        $query = "discover/tv?language=es-ES&vote_count.gte=5&first_air_date.gte=2024-01-01&first_air_date.lte=2024-12-31&sort_by=vote_count.desc&with_original_language=es&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=500&first_air_date.gte=2000-01-01&first_air_date.lte=2024-12-31&sort_by=vote_count.desc&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newSeries = [];
         $updatedSeries = [];
@@ -227,7 +229,7 @@ class SerieController extends Controller
                 }
         }
         return view('backend.series.novedades', ['series' => $newSeries]);
-        dd($updatedSeries,$newSeries);
+        //dd($updatedSeries,$newSeries);
     }
  
     // public function addNovedades(){

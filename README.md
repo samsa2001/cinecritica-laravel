@@ -16,7 +16,7 @@ Cinecritica es una aplicación que permite a los usuarios añadir y gestionar pe
 
 1. En el fichero `App/Http/Controllers/backend/PeliculaController.php`, modificar la fecha desde la que busca películas en la función `verNovedades`.
 
-2. Visitar la dirección web [http://cinecritica.test/backend/add-novedades/pelis](http://cinecritica.test/backend/add-novedades/pelis) y seleccionar las películas que se quieren añadir.
+2. Visitar la dirección web [http://cinecritica.test/backend/ver-novedades/pelis](http://cinecritica.test/backend/ver-novedades/pelis) y seleccionar las películas que se quieren añadir.
 
 3. Las imágenes de las películas se guardan en formato `jpg` en la carpeta `storage/app/media` y deben ser movidas a la carpeta correspondiente de [http://cdn1.cinecritica.test/](http://cdn1.cinecritica.test/).
 
