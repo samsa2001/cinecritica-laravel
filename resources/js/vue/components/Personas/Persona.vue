@@ -3,7 +3,7 @@
     <div class="lg:flex block space-x-3">
         <div class="lg:w-1/3 w-full mb-4">
             <!--img :src="'https://image.tmdb.org/t/p/original' + persona.foto"-->
-            <img :src="'https://cdn1.cinecritica.com/personas' + persona.foto">
+            <img :src="'https://cdn1.cinecritica.com/media/personas' + persona.foto">
             <h2>{{ persona.year_1 }}<span v-if="persona.year_2 > 0"> - {{persona.year_2}}</span> </h2>
             <p>{{ persona.descripcion }}</p>
         </div>
