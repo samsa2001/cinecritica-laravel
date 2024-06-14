@@ -137,6 +137,7 @@ class PersonaController extends Controller
         }
         else {
             echo '<h3>Error al intentar añadir persona:</h3>';
+            continue;
             dd($persona);
         }
     }
