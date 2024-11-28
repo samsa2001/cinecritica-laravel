@@ -37,4 +37,4 @@ Cinecritica es una aplicación que permite a los usuarios añadir y gestionar pe
 - Realiza respaldos de la base de datos y las imágenes antes de efectuar modificaciones importantes.
 
 ## Licencia
-Esta aplicación es de uso privativo y solo puede ser utilizada por el autor, Ramón Pons.
+Esta aplicación es de uso privativo y solo puede ser utilizada por el autor, Ramón Pons Mañosa.
