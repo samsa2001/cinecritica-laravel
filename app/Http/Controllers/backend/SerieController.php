@@ -211,8 +211,12 @@ class SerieController extends Controller
             }
     }
     public function verNovedades()
-    {
-        $query = "discover/tv?language=es-ES&vote_count.gte=1&first_air_date.gte=2023-01-01&page=";
+    {   
+        // ultima actualización 10/06/2024
+        $query = "discover/tv?language=es-ES&vote_count.gte=5&first_air_date.gte=2024-01-01&first_air_date.lte=2024-12-31&sort_by=vote_count.desc&with_original_language=es&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=500&first_air_date.gte=2000-01-01&first_air_date.lte=2024-12-31&sort_by=vote_count.desc&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=200&first_air_date.gte=2024-01-01&sort_by=vote_count.desc&page=";
+        $query = "discover/tv?language=es-ES&first_air_date.gte=2024-06-01&sort_by=vote_count.desc&with_original_language=es&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newSeries = [];
         $updatedSeries = [];
@@ -227,7 +231,7 @@ class SerieController extends Controller
                 }
         }
         return view('backend.series.novedades', ['series' => $newSeries]);
-        dd($updatedSeries,$newSeries);
+        //dd($updatedSeries,$newSeries);
     }
  
     // public function addNovedades(){
@@ -285,6 +289,7 @@ class SerieController extends Controller
     // }
     public function checkPopularity(){
         $series = Serie::orderBy('popularidad','desc')->paginate(30);
+        $series = Serie::orderBy('popularidad','desc')->get();
         $idSeries = [];
         foreach ($series as $serie){
             array_push($idSeries,$serie->id);
@@ -383,7 +388,7 @@ class SerieController extends Controller
                     $objserie = Serie::find($idSerie);
                     $objserie->update($serie);
                     $providerPelicula = $this->getMovieApi("tv/" . $idSerie . "/watch/providers");
-                    if (array_key_exists('ES',$providerPelicula['results']) && array_key_exists('flatrate',$providerPelicula['results']['ES'])){
+                    if ($providerPelicula['results']!= null && array_key_exists('ES',$providerPelicula['results']) && array_key_exists('flatrate',$providerPelicula['results']['ES'])){
                         $objserie->providers()->detach();
                         foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
                             $objserie->providers()->attach($provider['provider_id']);
@@ -396,6 +401,7 @@ class SerieController extends Controller
                     
                     echo 'Fin <hr><br>';
                 } catch (\Throwable $th) {
+                    continue;
                     dd($idSerie, $objserie, $serie, $th);
                 }
 

@@ -57,7 +57,7 @@ Route::group(['prefix' => 'backend'], function(){
     // Route::get('/addImagenesSeries','App\Http\Controllers\backend\SerieController@addImagenesSeries');
     // Route::get('/traspaso','App\Http\Controllers\backend\UtilsController@traspasarTablaPersonasSerie');
     // Route::get('/updatePersonas','App\Http\Controllers\backend\UtilsController@updatePersonas');
-    // Route::get('/addProviders','App\Http\Controllers\backend\UtilsController@addProviders');
+    Route::get('/addProviders','App\Http\Controllers\backend\UtilsController@addProviders');
     
     // Route::get('/prueba5','App\Http\Controllers\backend\PeliculaController@prueba5');
 });

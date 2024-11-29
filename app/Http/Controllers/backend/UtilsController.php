@@ -294,7 +294,7 @@ class UtilsController extends Controller
         }
     }
     public function cambiosDia(){
-        $personas = $this->getMovieApi('person/changes?start_date=2022-12-25&language=es-ES');
+        $personas = $this->getMovieApi('person/changes?start_date=2020-12-25&language=es-ES');
         $cont = 0;
         foreach( $personas['results'] as $persona ){
         //  dd($personas, $persona);
@@ -326,7 +326,7 @@ class UtilsController extends Controller
     }
     public function sitemapSeries(){
         $series = Serie::paginate(1000);
-        return view('sitemap.series', compact('series'));
+        return view('sitemap.series', compact('series')); 
 
     }
     public function sitemapPersonas(){
@@ -338,12 +338,16 @@ class UtilsController extends Controller
         $providersPeliculas = $this->getMovieApi("/watch/providers/movie");
         $provider = [];
         foreach ( $providersPeliculas['results'] as $newProvider){
-            $provider['id'] = $newProvider['provider_id'];
-            $provider['nombre'] = $newProvider['provider_name'];
-            $provider['prioridad'] = $newProvider['display_priority'];
-            $provider['logo'] = $newProvider['logo_path'];
-            // Provider::create($provider);
-            $this->guardarImagen($newProvider['logo_path'],'plataforma');
+            if (Provider::find($newProvider['provider_id']) == null) {
+                $provider['id'] = $newProvider['provider_id'];
+                $provider['nombre'] = $newProvider['provider_name'];
+                $provider['prioridad'] = $newProvider['display_priority'];
+                $provider['logo'] = $newProvider['logo_path'];
+                Provider::create($provider);
+                $this->guardarImagen($newProvider['logo_path'],'plataforma');
+                print_r($provider);
+                echo '<hr>';
+            }
         }
         $providersPeliculas = $this->getMovieApi("/watch/providers/tv");
         $provider = [];
@@ -353,9 +357,11 @@ class UtilsController extends Controller
                 $provider['nombre'] = $newProvider['provider_name'];
                 $provider['prioridad'] = $newProvider['display_priority'];
                 $provider['logo'] = $newProvider['logo_path'];
-                // Provider::create($provider);
+                Provider::create($provider);
                 $this->guardarImagen($newProvider['logo_path'],'plataforma');
             }
+            print_r($provider);
+            echo '<hr>';
         }
         echo 'Fin';
     }
