@@ -217,7 +217,7 @@ class SerieController extends Controller
         $query = "discover/tv?language=es-ES&vote_count.gte=500&first_air_date.gte=2000-01-01&first_air_date.lte=2024-12-31&sort_by=vote_count.desc&page=";
         $query = "discover/tv?language=es-ES&vote_count.gte=200&first_air_date.gte=2024-01-01&sort_by=vote_count.desc&page=";
         $query = "discover/tv?language=es-ES&first_air_date.gte=2024-06-01&first_air_date.lte=2025-01-01&sort_by=vote_count.desc&with_original_language=es&page=";
-        $query = "discover/tv?language=es-ES&vote_count.gte=10&first_air_date.gte=2025-01-01&sort_by=vote_count.desc&page=";
+        $query = "discover/tv?language=es-ES&vote_count.gte=10&first_air_date.gte=2025-06-01&sort_by=vote_count.desc&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newSeries = [];
         $updatedSeries = [];
