@@ -268,7 +268,7 @@ class SerieController extends Controller
     public function cambiosDia()
     {
         $query = "tv/changes&language=es-ES";
-        $query = "tv/changes?start_date=2022-12-10&language=es-ES";
+        $query = "tv/changes?start_date=2024-12-10&language=es-ES";
         $novedades = $this->getMovieApi($query);
         $updateSeries = [];
         foreach ($novedades['results'] as $resultado)
