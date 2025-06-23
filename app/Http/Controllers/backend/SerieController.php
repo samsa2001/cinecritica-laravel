@@ -275,7 +275,7 @@ class SerieController extends Controller
             if (Serie::find($resultado['id']) != null) {
                 array_push($updateSeries, $resultado['id']);
             }
-        dd($updateSeries);
+        //dd($updateSeries);
         if (count($updateSeries) > 0)
             $this->updateSerie($updateSeries);
     }

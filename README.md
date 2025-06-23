@@ -24,9 +24,9 @@ Cinecritica es una aplicación que permite a los usuarios añadir y gestionar pe
 
     ```sql
     UPDATE peliculas SET imagen = REPLACE(imagen, '.jpg', '.webp') WHERE imagen LIKE '%.jpg';
-    UPDATE peliculas SET imagen_principal = REPLACE(imagen, '.jpg', '.webp') WHERE imagen LIKE '%.jpg';
+    UPDATE peliculas SET imagen_principal = REPLACE(imagen_principal, '.jpg', '.webp') WHERE imagen_principal LIKE '%.jpg';
     UPDATE series SET imagen = REPLACE(imagen, '.jpg', '.webp') WHERE imagen LIKE '%.jpg';
-    UPDATE series SET imagen_principal = REPLACE(imagen, '.jpg', '.webp') WHERE imagen LIKE '%.jpg';
+    UPDATE series SET imagen_principal = REPLACE(imagen_principal, '.jpg', '.webp') WHERE imagen_principal LIKE '%.jpg';
     UPDATE personas SET foto = REPLACE(foto, '.jpg', '.webp') WHERE foto LIKE '%.jpg';
     UPDATE serie_temporadas SET imagen = REPLACE(imagen, '.jpg', '.webp') WHERE imagen LIKE '%.jpg';
     ```
