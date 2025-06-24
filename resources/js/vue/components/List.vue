@@ -1,10 +1,12 @@
 <template>
     <div>  
-      <h1>Estrenos</h1>
+      <h1>Películas de Estreno</h1>
         <Carrousel :peliculas="estrenos"></Carrousel>
+        <router-link :to="{ name: 'peliculaslist' }" class="btn w-40 relative"><span
+              class="mdi mdi-movie-open absolute left-1"></span>Ver todos los estrenos</router-link>
     </div>
     <div>  
-      <h1>Lo más popular ahora</h1>
+      <h2>Lo más popular ahora</h2>
         <Carrousel :peliculas="peliculas" :series="series" :personas="personas"></Carrousel>
     </div>
   </template>

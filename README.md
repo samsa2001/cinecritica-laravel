@@ -33,9 +33,11 @@ Cinecritica es una aplicación que permite a los usuarios añadir y gestionar pe
 ## Build
 ```
 npm install
-
+npm run build
+```
+## Arrancar servidor local
+```
 npm run dev
-
 ```
 ## Notas
 - Asegúrate de tener permisos adecuados para mover archivos y modificar la base de datos.
