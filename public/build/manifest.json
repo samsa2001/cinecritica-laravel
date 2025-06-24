@@ -24,7 +24,7 @@
     ]
   },
   "resources/js/vue/main.js": {
-    "file": "assets/main.4099116f.js",
+    "file": "assets/main.0158bef8.js",
     "src": "resources/js/vue/main.js",
     "isEntry": true,
     "imports": [
@@ -58,110 +58,111 @@
     "file": "assets/axios.0ae12843.js"
   },
   "resources/js/vue/components/List.vue": {
-    "file": "assets/List.79b84f47.js",
+    "file": "assets/List.6a0274d6.js",
     "src": "resources/js/vue/components/List.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Carrousel.fe6789ce.js",
+      "_Carrousel.212b5fca.js",
+      "_Grilla.d92650f3.js",
       "resources/js/vue/main.js",
       "_axios.0ae12843.js"
     ]
   },
-  "_Carrousel.fe6789ce.js": {
-    "file": "assets/Carrousel.fe6789ce.js",
+  "_Carrousel.212b5fca.js": {
+    "file": "assets/Carrousel.212b5fca.js",
+    "imports": [
+      "resources/js/vue/main.js"
+    ]
+  },
+  "_Grilla.d92650f3.js": {
+    "file": "assets/Grilla.d92650f3.js",
     "imports": [
       "resources/js/vue/main.js"
     ]
   },
   "resources/js/vue/components/Peliculas/PeliculasListComposition.vue": {
-    "file": "assets/PeliculasListComposition.43c49dd7.js",
+    "file": "assets/PeliculasListComposition.e8e4e3d2.js",
     "src": "resources/js/vue/components/Peliculas/PeliculasListComposition.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Grilla.bea3b777.js",
-      "_Votar.4fcb9900.js",
+      "_Grilla.d92650f3.js",
+      "_Votar.1057ef47.js",
       "_axios.0ae12843.js",
       "resources/js/vue/main.js"
     ]
   },
-  "_Grilla.bea3b777.js": {
-    "file": "assets/Grilla.bea3b777.js",
-    "imports": [
-      "resources/js/vue/main.js"
-    ]
-  },
-  "_Votar.4fcb9900.js": {
-    "file": "assets/Votar.4fcb9900.js",
+  "_Votar.1057ef47.js": {
+    "file": "assets/Votar.1057ef47.js",
     "imports": [
       "resources/js/vue/main.js"
     ]
   },
   "resources/js/vue/components/Peliculas/PeliculaComposition.vue": {
-    "file": "assets/PeliculaComposition.1b45f7af.js",
+    "file": "assets/PeliculaComposition.1a45738b.js",
     "src": "resources/js/vue/components/Peliculas/PeliculaComposition.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Grilla.bea3b777.js",
-      "_Votar.4fcb9900.js",
+      "_Grilla.d92650f3.js",
+      "_Votar.1057ef47.js",
       "_axios.0ae12843.js",
       "resources/js/vue/main.js"
     ]
   },
   "resources/js/vue/components/Peliculas/PeliculasEspana.vue": {
-    "file": "assets/PeliculasEspana.c1957c6f.js",
+    "file": "assets/PeliculasEspana.ee9ab091.js",
     "src": "resources/js/vue/components/Peliculas/PeliculasEspana.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Grilla.bea3b777.js",
+      "_Grilla.d92650f3.js",
       "resources/js/vue/main.js",
       "_axios.0ae12843.js"
     ]
   },
   "resources/js/vue/components/Series/SeriesListComposition.vue": {
-    "file": "assets/SeriesListComposition.f735a709.js",
+    "file": "assets/SeriesListComposition.1ac162e7.js",
     "src": "resources/js/vue/components/Series/SeriesListComposition.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Grilla.bea3b777.js",
-      "_Votar.4fcb9900.js",
+      "_Grilla.d92650f3.js",
+      "_Votar.1057ef47.js",
       "_axios.0ae12843.js",
       "resources/js/vue/main.js"
     ]
   },
   "resources/js/vue/components/Series/SerieComposition.vue": {
-    "file": "assets/SerieComposition.19bf6522.js",
+    "file": "assets/SerieComposition.1196d5be.js",
     "src": "resources/js/vue/components/Series/SerieComposition.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Grilla.bea3b777.js",
-      "_Votar.4fcb9900.js",
-      "_Carrousel.fe6789ce.js",
+      "_Grilla.d92650f3.js",
+      "_Votar.1057ef47.js",
+      "_Carrousel.212b5fca.js",
       "_axios.0ae12843.js",
       "resources/js/vue/main.js"
     ]
   },
   "resources/js/vue/components/Personas/Persona.vue": {
-    "file": "assets/Persona.c1670b66.js",
+    "file": "assets/Persona.041f2e9c.js",
     "src": "resources/js/vue/components/Personas/Persona.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Grilla.bea3b777.js",
+      "_Grilla.d92650f3.js",
       "resources/js/vue/main.js",
       "_axios.0ae12843.js"
     ]
   },
   "resources/js/vue/components/Buscar/PaginaBuscar.vue": {
-    "file": "assets/PaginaBuscar.6ac599f6.js",
+    "file": "assets/PaginaBuscar.044ea341.js",
     "src": "resources/js/vue/components/Buscar/PaginaBuscar.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/vue/main.js",
-      "_Grilla.bea3b777.js",
+      "_Grilla.d92650f3.js",
       "_axios.0ae12843.js"
     ]
   },
   "resources/js/vue/components/Blog/PostList.vue": {
-    "file": "assets/PostList.a1b3d586.js",
+    "file": "assets/PostList.bf43b837.js",
     "src": "resources/js/vue/components/Blog/PostList.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -170,7 +171,7 @@
     ]
   },
   "resources/js/vue/components/Blog/Post.vue": {
-    "file": "assets/Post.d40c3dd4.js",
+    "file": "assets/Post.f386344c.js",
     "src": "resources/js/vue/components/Blog/Post.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -179,7 +180,7 @@
     ]
   },
   "resources/js/vue/components/Auth/Login.vue": {
-    "file": "assets/Login.03ee4806.js",
+    "file": "assets/Login.46acb466.js",
     "src": "resources/js/vue/components/Auth/Login.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -188,7 +189,7 @@
     ]
   },
   "resources/js/vue/components/Auth/Register.vue": {
-    "file": "assets/Register.a3a58079.js",
+    "file": "assets/Register.8c35e6cf.js",
     "src": "resources/js/vue/components/Auth/Register.vue",
     "isDynamicEntry": true,
     "imports": [

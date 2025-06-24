@@ -13,32 +13,33 @@ class PeliculaController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
-    public function index()
+     */ 
+    public function index(Request $request)
     {
-        // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $peliculas = Pelicula::orderBy('fecha','desc')->paginate(20);
+        $cantidad = $request->input('cantidad', 20);
+        $peliculas = Pelicula::orderBy('fecha', 'desc')->paginate($cantidad);
+
         return response()->json($peliculas);
     }
     public function indexByVotes()
     {
         // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $peliculas = Pelicula::orderBy('numero_votos','desc')->paginate(20);
+        $peliculas = Pelicula::orderBy('numero_votos', 'desc')->paginate(20);
         return response()->json($peliculas);
     }
     public function indexByPopularity()
     {
-        $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(20);
+        $peliculas = Pelicula::orderBy('popularidad', 'desc')->paginate(20);
         return response()->json($peliculas);
     }
     public function soloPeliculas()
     {
-        $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(30);
+        $peliculas = Pelicula::orderBy('popularidad', 'desc')->paginate(30);
         return response()->json($peliculas);
     }
     public function soloEspana()
     {
-        $peliculas = Pelicula::where('idioma', 'es')->orderBy('fecha','desc')->paginate(20);
+        $peliculas = Pelicula::where('idioma', 'es')->orderBy('fecha', 'desc')->paginate(20);
         return response()->json($peliculas);
     }
 
@@ -59,7 +60,7 @@ class PeliculaController extends Controller
     public function indexAll()
     {
         // $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(10);
-        $peliculas = Pelicula::orderBy('fecha','desc')->get();
+        $peliculas = Pelicula::orderBy('fecha', 'desc')->get();
         return response()->json($peliculas);
     }
     /**
@@ -92,12 +93,12 @@ class PeliculaController extends Controller
     public function show($id)
     {
         $pelicula = Pelicula::find($id);
-        return view('backend.peliculas.show',compact('pelicula'));
+        return view('backend.peliculas.show', compact('pelicula'));
     }
     public function showSlug($slug)
     {
-        $pelicula = Pelicula::where('slug',$slug)->firstOrFail();
-        return view('backend.peliculas.show',compact('pelicula'));
+        $pelicula = Pelicula::where('slug', $slug)->firstOrFail();
+        return view('backend.peliculas.show', compact('pelicula'));
     }
 
     /**
