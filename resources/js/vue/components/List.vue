@@ -21,12 +21,12 @@ export default  {
   },
   methods: {
     updatePage() {
-      setTimeout(this.listPage, 100);
+      setTimeout(this.listPage, 100); 
     },
     listPage() {
       this.isLoading = true;
       this.$axios
-        .get("/api/peliculas/soloPeliculas")
+        .get("/api/peliculas")
         .then((res) => { 
           this.peliculas = res.data.data;      
           this.isLoading = false;
