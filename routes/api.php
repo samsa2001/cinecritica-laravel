@@ -26,12 +26,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('peliculas/index',[PeliculaController::class,'index']); 
 Route::get('peliculas/votos',[PeliculaController::class,'indexByVotes']); 
 Route::get('peliculas/popularidad',[PeliculaController::class,'indexByPopularity']); 
 Route::get('pelicula/{pelicula:slug}',[PeliculaController::class,'slug']); 
 Route::get('peliculas/soloPeliculas',[PeliculaController::class,'soloPeliculas']); 
 Route::get('peliculas/soloEspana',[PeliculaController::class,'soloEspana']); 
-Route::resource('peliculas',PeliculaController::class)->except(['create','edit']);
+Route::resource('peliculas',PeliculaController::class)->except(['create','edit']); 
 
 Route::get('series/votos',[SerieController::class,'indexByVotes']); 
 Route::get('series/popularidad',[SerieController::class,'indexByPopularity']); 

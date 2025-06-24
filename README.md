@@ -30,7 +30,13 @@ Cinecritica es una aplicación que permite a los usuarios añadir y gestionar pe
     UPDATE personas SET foto = REPLACE(foto, '.jpg', '.webp') WHERE foto LIKE '%.jpg';
     UPDATE serie_temporadas SET imagen = REPLACE(imagen, '.jpg', '.webp') WHERE imagen LIKE '%.jpg';
     ```
+## Build
+```
+npm install
 
+npm run dev
+
+```
 ## Notas
 - Asegúrate de tener permisos adecuados para mover archivos y modificar la base de datos.
 - Verifica que las rutas y directorios existen y son accesibles antes de realizar cambios.

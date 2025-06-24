@@ -1,7 +1,7 @@
 <template>
     <div>  
       <h1>Estrenos</h1>
-        <Carrousel :estrenos="estrenos"></Carrousel>
+        <Carrousel :peliculas="estrenos"></Carrousel>
     </div>
     <div>  
       <h1>Lo más popular ahora</h1>
@@ -49,11 +49,11 @@ export default  {
           this.isLoading = false;
         });
       this.$axios
-        .get("/api/peliculas")
+        .get("/api/peliculas/index")
         .then((res) => { 
           this.estrenos = res.data.data;      
           this.isLoading = false;
-        });
+        }); 
     },
 
   },
