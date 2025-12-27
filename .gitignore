@@ -4,8 +4,8 @@
 /public/storage
 /storage/*.key
 /storage/app/media
+/storage/framework/cache
 /vendor
-.htaccess
 .env
 .env.backup
 .env.production

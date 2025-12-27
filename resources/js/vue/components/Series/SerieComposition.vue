@@ -146,7 +146,7 @@ export default defineComponent({
 
       function imageModal(imagen) {
          const vnode = h('p', { style: { 'text-align': 'center' } }, [
-            h('img', { src: 'https://image.tmdb.org/t/p/original' + imagen })
+            h('img', { src: 'https://cdn1.cinecritica.com/media/temporadas' + imagen })
          ])
          oruga.modal.open({
             content: [vnode],
