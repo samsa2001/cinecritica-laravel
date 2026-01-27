@@ -191,7 +191,7 @@ class PeliculaController extends Controller
     public function cambiosDia()
     {
         $query = "movie/changes";
-        // $query = "movie/changes?start_date=2022-12-10&language=es-ES";
+        $query = "movie/changes?start_date=2025-06-01&language=es-ES";
         $novedades = $this->getMovieApi($query);
         $updatePeliculas = [];
         foreach ($novedades['results'] as $resultado)
