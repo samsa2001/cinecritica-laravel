@@ -73,6 +73,8 @@ export default {
   },
   async mounted() {
     this.listPage();
+    // set title to current URL for home/list
+    document.title = window.location.href
   },
 };
 </script>

@@ -163,6 +163,7 @@ export default defineComponent({
             .get("/api/serie/" + route.params.slug)
             .then((res) => {
                serie.value = res.data;
+               if(serie.value && serie.value.titulo) document.title = serie.value.titulo + ' - Cinecritica';
             });
       }
 

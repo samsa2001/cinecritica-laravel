@@ -45,6 +45,8 @@ export default ({
       if(route.params.page)
         currentPage.value = route.params.page
       listPage();
+      // set title to current URL for list pages
+      document.title = window.location.href
     })
 
     function updatePage() {
@@ -60,7 +62,9 @@ export default ({
         axios
             .get(apiQuery)
             .then((res) => {
-                posts.value = res.data;
+              posts.value = res.data;
+              // ensure title reflects URL after data loads
+              document.title = window.location.href
             });
     }
 

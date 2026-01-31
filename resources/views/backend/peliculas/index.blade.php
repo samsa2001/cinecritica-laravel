@@ -1,4 +1,5 @@
 @extends('backend.layout')
+@section('title', request()->fullUrl())
 @section('content')  
 <h1>Tabla de contenidos</h1>
 <a href="{{ route('peliculas.create') }}" class="btn btn-green">Crear pelicula</a>

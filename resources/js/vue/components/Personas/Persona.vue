@@ -81,7 +81,8 @@ export default {
                 .get("/api/persona/" + this.$route.params.slug)
                 .then((res) => {
                     console.log(res.data);
-                    this.persona = res.data;
+                        this.persona = res.data;
+                        if(this.persona && this.persona.nombre) document.title = this.persona.nombre + ' - Cinecritica'
                     this.es_director = (this.persona.es_director != '') ? true : false
                     this.es_actor = (this.persona.peliculas != '') ? true : false
                     this.es_guionista = (this.persona.es_guionista != '') ? true : false
