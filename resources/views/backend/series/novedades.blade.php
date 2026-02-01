@@ -1,5 +1,6 @@
 @extends('backend.layout')
 @section('content')  
+<style>* {color:#000 !important;}</style>    
 <h1>Tabla de contenidos</h1>
     <form action="{{ route('serie.addnovedades') }}" method="POST" enctype="multipart/form-data">
 <table class="table">
