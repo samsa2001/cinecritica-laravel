@@ -18,7 +18,7 @@
         @method("post")
         @foreach ($series as $serie)
         <tr>
-            <td>{{$serie['id']}}</td>
+            <td><a href="https://www.themoviedb.org/tv/{{$serie['id']}}" target="_blank">{{$serie['id']}}</a></td>
             <td>{{$serie['name']}}</td> 
             <td>Nota: {{$serie['vote_average']}}<br>
                 N. Votos: {{$serie['vote_count']}}<br>
