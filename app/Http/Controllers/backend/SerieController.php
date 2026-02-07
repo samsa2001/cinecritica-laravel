@@ -225,7 +225,7 @@ class SerieController extends Controller
         $newSeries = [];
         $updatedSeries = [];
         //for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
-        for ($i = 11; $i <= 30; $i++) {
+        for ($i = 91; $i <= 120; $i++) {
             $novedades = $this->getMovieApi($query . $i);
             foreach ($novedades['results'] as $resultado)
                 if(Serie::find($resultado['id']) != null) {
