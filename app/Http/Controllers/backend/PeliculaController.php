@@ -131,7 +131,7 @@ class PeliculaController extends Controller
         $query = "discover/movie?language=es-ES&primary_release_date.gte=2023-01-01&primary_release_date.lte=2025-01-01&sort_by=vote_count.desc&vote_count.gte=200&with_origin_country=US&page=";
         $query = "discover/movie?language=es-ES&primary_release_date.gte=2025-11-01&sort_by=vote_count.desc&vote_count.gte=10&page=";
         $query = "discover/movie?language=es-ES&primary_release_date.gte=2024-01-01&primary_release_date.lte=2025-01-01&sort_by=vote_average.desc&vote_average.gte=7&vote_count.gte=100&page=";        
-        $query = "discover/movie?language=es-ES&vote_count.gte=50&sort_by=vote_average.desc&page=";
+        $query = "discover/movie?language=es-ES&primary_release_date.gte=1960-01-01&vote_count.gte=250&sort_by=vote_average.desc&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newPeliculas = [];
         $updatePeliculas = [];
