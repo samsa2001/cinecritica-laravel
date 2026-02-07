@@ -10,7 +10,7 @@
                   <h4 class="my-2 text-white">Imágenes</h4>
                   <div class="grid gap-2 md:grid-cols-3 grid-cols-1 ">
                      <div v-for="imagen in serie.imagenes" :key="imagen.id">
-                        <div @click="imageModal('https://image.tmdb.org/t/p/original' + imagen.imagen)">
+                        <div @click="imageModal(imagen.imagen)">
                            <img :src="'https://image.tmdb.org/t/p/original' + imagen.imagen">
                         </div>
                      </div>
@@ -103,7 +103,7 @@
                <h3>Temporadas:</h3>
                <div class="grid grid-cols-3 gap-4">
                   <div v-for="(temporada, id) in serie.temporadas" :key="id">
-                     <div @click="imageModal(temporada.imagen)">
+                     <div @click="imageModalTemp(temporada.imagen)">
                         <img :src="'https://cdn1.cinecritica.com/media/temporadas' + temporada.imagen" />
                         {{ temporada.titulo }}
                      </div>
@@ -145,6 +145,16 @@ export default defineComponent({
       })
 
       function imageModal(imagen) {
+         const vnode = h('p', { style: { 'text-align': 'center' } }, [
+            h('img', { src: 'https://image.tmdb.org/t/p/original' + imagen })
+         ])
+         oruga.modal.open({
+            content: [vnode],
+            width: 1500,
+            fullscreen: true,
+         })
+      }
+      function imageModalTemp(imagen) {
          const vnode = h('p', { style: { 'text-align': 'center' } }, [
             h('img', { src: 'https://cdn1.cinecritica.com/media/temporadas' + imagen })
          ])
