@@ -62,9 +62,7 @@ export default ({
         axios
             .get(apiQuery)
             .then((res) => {
-              posts.value = res.data;
-              // ensure title reflects URL after data loads
-              document.title = window.location.href
+                posts.value = res.data;
             });
     }
 

@@ -63,7 +63,7 @@ export default ({
     function updatePage() {
         setTimeout(listPage, 100);
     }
-    function listPage() {
+    function listPage() { 
         isLoading.value = true;
         const apiQuery = (orden.value == 'fecha') 
           ? "/api/peliculas?page=" + currentPage.value 
