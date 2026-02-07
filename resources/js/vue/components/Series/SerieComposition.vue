@@ -182,6 +182,7 @@ export default defineComponent({
          isLoading,
          updatePage,
          imageModal,
+         imageModalTemp,
       }
    }
 })
