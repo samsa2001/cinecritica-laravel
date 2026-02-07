@@ -13,28 +13,28 @@
                     
                     <form action="{{ route('pelicula.addnovedades') }}" method="POST" enctype="multipart/form-data">
                         <div class="overflow-x-auto">
-                            <table class="min-w-full border-collapse border border-gray-300">
-                                <thead class="bg-gray-100">
+                            <table class="min-w-full border-collapse border border-gray-300 text-gray-900">
+                                <thead class="bg-gray-200 text-gray-900">
                                     <tr>
-                                        <th class="border border-gray-300 px-4 py-2 text-left">Id</th>
-                                        <th class="border border-gray-300 px-4 py-2 text-left">Título</th>
-                                        <th class="border border-gray-300 px-4 py-2 text-left">Información</th>
-                                        <th class="border border-gray-300 px-4 py-2 text-center">Póster</th>
-                                        <th class="border border-gray-300 px-4 py-2 text-center">Seleccionar</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-left font-bold">Id</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-left font-bold">Título</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-left font-bold">Información</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-center font-bold">Póster</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-center font-bold">Seleccionar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @csrf
                                     @method("post")
                                     @foreach ($peliculas as $pelicula)
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="border border-gray-300 px-4 py-2">
+                                    <tr class="hover:bg-gray-100 text-gray-900">
+                                        <td class="border border-gray-300 px-4 py-2 text-gray-900">
                                             <a href="https://www.themoviedb.org/movie/{{$pelicula['id']}}" target="_blank" class="text-blue-600 hover:text-blue-800 underline">
                                                 {{$pelicula['id']}}
                                             </a>
                                         </td>
-                                        <td class="border border-gray-300 px-4 py-2">{{$pelicula['title']}}</td>
-                                        <td class="border border-gray-300 px-4 py-2 text-sm">
+                                        <td class="border border-gray-300 px-4 py-2 text-gray-900">{{$pelicula['title']}}</td>
+                                        <td class="border border-gray-300 px-4 py-2 text-sm text-gray-900">
                                             <div>⭐ Nota: {{$pelicula['vote_average']}}</div>
                                             <div>🗳️ Votos: {{$pelicula['vote_count']}}</div>
                                             <div>📊 Popularidad: {{$pelicula['popularity']}}</div>
@@ -43,7 +43,7 @@
                                             @if($pelicula['poster_path'])
                                                 <img src="https://image.tmdb.org/t/p/w200{{$pelicula['poster_path']}}" alt="{{$pelicula['title']}}" class="h-32 mx-auto rounded">
                                             @else
-                                                <span class="text-gray-400">Sin póster</span>
+                                                <span class="text-gray-500">Sin póster</span>
                                             @endif
                                         </td>
                                         <td class="border border-gray-300 px-4 py-2 text-center">
@@ -56,7 +56,7 @@
                         </div>
                         
                         <div class="mt-6">
-                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
+                            <button type="submit" class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-3 px-8 rounded shadow-md transition duration-200">
                                 ✅ Agregar Películas Seleccionadas
                             </button>
                         </div>
