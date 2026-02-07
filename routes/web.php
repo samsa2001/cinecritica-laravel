@@ -28,7 +28,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::group(['prefix' => 'backend'], function(){
+Route::group(['prefix' => 'backend', 'middleware' => ['auth', 'verified', 'admin']], function(){
     Route::resources([
         'peliculas' => PeliculaController::class,
         'personas' => PersonaController::class,
