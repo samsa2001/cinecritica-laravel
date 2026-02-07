@@ -235,7 +235,6 @@ class SerieController extends Controller
                     array_push($newSeries,$datosSerie);
                 }
         }
-        dd($updatedSeries,$newSeries);
         return view('backend.series.novedades', ['series' => $newSeries]);
         //dd($updatedSeries,$newSeries);
     }
