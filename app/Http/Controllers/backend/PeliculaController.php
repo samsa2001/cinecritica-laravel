@@ -130,6 +130,7 @@ class PeliculaController extends Controller
         $query = "discover/movie?language=es-ES&primary_release_date.gte=2024-06-01&sort_by=vote_count.desc&vote_count.gte=5&with_original_language=es&page=";
         $query = "discover/movie?language=es-ES&primary_release_date.gte=2023-01-01&primary_release_date.lte=2025-01-01&sort_by=vote_count.desc&vote_count.gte=200&with_origin_country=US&page=";
         $query = "discover/movie?language=es-ES&primary_release_date.gte=2025-11-01&sort_by=vote_count.desc&vote_count.gte=10&page=";
+        $query = "discover/movie?language=es-ES&primary_release_date.gte=2024-11-01&sort_by=vote_average.desc&vote_average.gte=7&page=";
         // $query = "discover/movie?language=es-ES&primary_release_date.gte=2023-01-01&region=ES&sort_by=popularity.desc&vote_count.gte=0&with_original_language=es&page=";
         // $query = "discover/movie?language=es-ES&sort_by=popularity.desc&with_people=13918&page=";
         //$query = "discover/movie?primary_release_year=2009&sort_by=popularity.desc&vote_count.gte=50&with_original_language=es&page=";
