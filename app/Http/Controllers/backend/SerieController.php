@@ -219,12 +219,12 @@ class SerieController extends Controller
         $query = "discover/tv?language=es-ES&vote_count.gte=10&first_air_date.gte=2025-06-01&sort_by=vote_count.desc&page=";
         $query = "discover/tv?include_adult=false&include_null_first_air_dates=false&vote_count.gte=300&language=es-ES&page=1&sort_by=popularity.desc";
         $query = "discover/tv?language=es-ES&vote_count.gte=5&first_air_date.gte=2025-12-01&sort_by=vote_count.desc&with_original_language=es&page=";
-        $query = "discover/tv?language=es-ES&with_origin_country=US&first_air_date.gte=1980-01-01&vote_count.gte=150&sort_by=popularity.desc&page=";
+        //$query = "discover/tv?language=es-ES&with_origin_country=US&first_air_date.gte=1980-01-01&vote_count.gte=150&sort_by=popularity.desc&page=";
         //$query = "search/tv?language=es-ES&query=hacemos+sombras&page=";
         $novedades = $this->getMovieApi($query . "1");
         $newSeries = [];
         $updatedSeries = [];
-        //for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
+        for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
         for ($i = 91; $i <= 120; $i++) {
             $novedades = $this->getMovieApi($query . $i);
             foreach ($novedades['results'] as $resultado)
