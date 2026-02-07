@@ -61,6 +61,7 @@ export default ({
     })
 
     function updatePage() {
+        window.scrollTo(0, 0);
         setTimeout(listPage, 100);
     }
     function listPage() { 
