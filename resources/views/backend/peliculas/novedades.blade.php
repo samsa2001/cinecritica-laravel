@@ -17,7 +17,7 @@
         @method("post")
         @foreach ($peliculas as $pelicula)
         <tr>
-            <td>{{$pelicula['id']}}</td>
+            <td><u><a href="https://www.themoviedb.org/movie/{{$pelicula['id']}}" target="_blank">{{$pelicula['id']}}</a></u></td>
             <td>{{$pelicula['title']}}</td> 
             <td>Nota: {{$pelicula['vote_average']}}<br>
                 N. Votos: {{$pelicula['vote_count']}}<br>
