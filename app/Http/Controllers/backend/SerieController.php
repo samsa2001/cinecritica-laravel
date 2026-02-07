@@ -239,27 +239,6 @@ class SerieController extends Controller
         //dd($updatedSeries,$newSeries);
     }
  
-    // public function addNovedades(){
-    //     $query = "discover/tv?language=es-ES&vote_count.gte=50&first_air_date.gte=2022-08-21&page=";
-    //     $novedades = $this->getMovieApi($query . "1");
-    //     $newSeries = [];
-    //     $updatedSeries = [];
-    //     for ($i=1; $i <= $novedades["total_pages"]; $i++){
-    //         $novedades = $this->getMovieApi($query . $i);
-    //         foreach($novedades['results'] as $resultado){
-    //             if(Serie::find($resultado['id']) != null) {
-    //                 array_push($updatedSeries,$resultado['id']);
-    //             } else {
-    //                 array_push($newSeries,$resultado['id']);
-    //             }
-    //         }
-    //     }
-    //     // dd($newSeries, $updatedSeries);
-    //     if (count($newSeries) > 0)
-    //         $this->addseries($newSeries);
-    //     if (count($updatedSeries) > 0)
-    //         $this->updateSerie($updatedSeries);
-    // } 
     public function addNovedades(Request $request){
         $novedades = [];
         foreach ($request->input('serie.*') as $novedad){
