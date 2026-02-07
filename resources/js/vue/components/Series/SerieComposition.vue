@@ -10,7 +10,7 @@
                   <h4 class="my-2 text-white">Imágenes</h4>
                   <div class="grid gap-2 md:grid-cols-3 grid-cols-1 ">
                      <div v-for="imagen in serie.imagenes" :key="imagen.id">
-                        <div @click="imageModal(imagen.imagen)">
+                        <div @click="imageModal('https://image.tmdb.org/t/p/original' + imagen.imagen)">
                            <img :src="'https://image.tmdb.org/t/p/original' + imagen.imagen">
                         </div>
                      </div>
