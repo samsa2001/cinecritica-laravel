@@ -137,7 +137,7 @@ class PeliculaController extends Controller
         $updatePeliculas = [];
         $datosPelicula = [];
         //for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 11; $i <= 30; $i++) {
             $novedades = $this->getMovieApi($query . $i);
             foreach ($novedades['results'] as $resultado)
                 if (Pelicula::find($resultado['id']) != null) {
