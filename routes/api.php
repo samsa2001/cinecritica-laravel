@@ -34,6 +34,7 @@ Route::get('pelicula/{pelicula:slug}',[PeliculaController::class,'slug']);
 Route::get('peliculas/soloPeliculas',[PeliculaController::class,'soloPeliculas']); 
 Route::get('peliculas/soloEspana',[PeliculaController::class,'soloEspana']); 
 
+Route::get('series/index',[SerieController::class,'index']); 
 Route::get('series/votos',[SerieController::class,'indexByVotes']); 
 Route::get('series/popularidad',[SerieController::class,'indexByPopularity']); 
 Route::get('serie/{serie:slug}',[SerieController::class,'slug']); 

@@ -67,7 +67,7 @@ export default ({
     function listPage() { 
         isLoading.value = true;
         const apiQuery = (orden.value == 'fecha') 
-          ? "/api/peliculas?page=" + currentPage.value 
+          ? "/api/peliculas/index?page=" + currentPage.value 
           :  (orden.value == 'popularidad') 
             ? "/api/peliculas/popularidad?page=" + currentPage.value 
             : "/api/peliculas/votos?page=" + currentPage.value 
