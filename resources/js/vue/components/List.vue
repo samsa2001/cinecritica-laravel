@@ -9,7 +9,7 @@
 
   </div>
   <div>
-    <h2>Lo más popular ahora</h2>
+    <h2>Lo más nuevo</h2>
     <Carrousel :peliculas="peliculas" :series="series" :personas="personas"></Carrousel>
   </div>
 </template>
@@ -40,13 +40,13 @@ export default {
       this.$axios
         .get("/api/peliculas/soloPeliculas")
         .then((res) => {
-          this.peliculas = res.data.data;
+          this.peliculas = res.data.data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
           this.isLoading = false;
         });
       this.$axios
         .get("/api/series/soloSeries")
         .then((res) => {
-          this.series = res.data.data;
+          this.series = res.data.data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
           this.isLoading = false;
         });
       this.$axios
@@ -64,7 +64,7 @@ export default {
       this.$axios
         .get("/api/peliculas/index/?cantidad=10")
         .then((res) => {
-          this.estrenos = res.data.data;
+          this.estrenos = res.data.data.sort((a, b) => b.popularidad - a.popularidad);
           this.isLoading = false;
           console.log(this.estrenos);
         });
