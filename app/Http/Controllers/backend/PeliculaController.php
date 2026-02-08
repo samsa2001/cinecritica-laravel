@@ -183,9 +183,32 @@ class PeliculaController extends Controller
         foreach ($request->input('peli.*') as $novedad){
             array_push($novedades,$novedad);
         }
-        if (count($novedades) > 0)
-            $this->addPeliculas($novedades);
-        echo "Añadidas " . count($novedades) . " películas";
+        
+        $peliculasAgregadas = [];
+        $peliculasYaExistentes = [];
+        
+        if (count($novedades) > 0) {
+            // Verificar cuáles películas ya existen antes de agregarlas
+            foreach ($novedades as $idPelicula) {
+                if (Pelicula::find($idPelicula)) {
+                    $peliculasYaExistentes[] = $idPelicula;
+                } else {
+                    $peliculasAgregadas[] = $idPelicula;
+                }
+            }
+            
+            // Agregar solo las nuevas películas
+            if (count($peliculasAgregadas) > 0) {
+                $this->addPeliculas($peliculasAgregadas);
+                // Recuperar los objetos de películas agregadas
+                $peliculasAgregadas = Pelicula::whereIn('id', $peliculasAgregadas)->get();
+            }
+        }
+        
+        return view('backend.peliculas.add-novedades', [
+            'peliculasAgregadas' => $peliculasAgregadas,
+            'peliculasYaExistentes' => $peliculasYaExistentes
+        ]);
     }
     public function cambiosDia()
     {

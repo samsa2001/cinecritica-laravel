@@ -41,7 +41,7 @@
                                         </td>
                                         <td class="border border-gray-300 px-4 py-2 text-center">
                                             @if($pelicula['poster_path'])
-                                                <img src="https://image.tmdb.org/t/p/w200{{$pelicula['poster_path']}}" alt="{{$pelicula['title']}}" class="h-32 mx-auto rounded">
+                                                <img src="https://image.tmdb.org/t/p/w200{{$pelicula['poster_path']}}" alt="{{$pelicula['title']}}" class=" mx-auto rounded">
                                             @else
                                                 <span class="text-gray-500">Sin póster</span>
                                             @endif

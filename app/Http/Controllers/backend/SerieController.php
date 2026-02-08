@@ -244,9 +244,32 @@ class SerieController extends Controller
         foreach ($request->input('serie.*') as $novedad){
             array_push($novedades,$novedad);
         }
-        if (count($novedades) > 0)
-            $this->addseries($novedades);
-        echo "Añadidas " . count($novedades) . " series";
+        
+        $seriesAgregadas = [];
+        $seriesYaExistentes = [];
+        
+        if (count($novedades) > 0) {
+            // Verificar cuáles series ya existen antes de agregarlas
+            foreach ($novedades as $idSerie) {
+                if (Serie::find($idSerie)) {
+                    $seriesYaExistentes[] = $idSerie;
+                } else {
+                    $seriesAgregadas[] = $idSerie;
+                }
+            }
+            
+            // Agregar solo las nuevas series
+            if (count($seriesAgregadas) > 0) {
+                $this->addseries($seriesAgregadas);
+                // Recuperar los objetos de series agregadas
+                $seriesAgregadas = Serie::whereIn('id', $seriesAgregadas)->get();
+            }
+        }
+        
+        return view('backend.series.add-novedades', [
+            'seriesAgregadas' => $seriesAgregadas,
+            'seriesYaExistentes' => $seriesYaExistentes
+        ]);
     }
     public function cambiosDia()
     {
