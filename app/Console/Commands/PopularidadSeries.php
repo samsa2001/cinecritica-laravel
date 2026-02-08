@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Http\Controllers\backend\SerieController;
 
-class Popularidad extends Command
+class PopularidadSeries extends Command
 {
     /**
      * The name and signature of the console command.
