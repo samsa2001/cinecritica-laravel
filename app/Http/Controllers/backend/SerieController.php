@@ -210,33 +210,56 @@ class SerieController extends Controller
                 echo $th;
             }
     }
-    public function verNovedades()
+    public function verNovedades(Request $request)
     {   
-        // ultima actualización 10/06/2024
-        $query = "discover/tv?language=es-ES&vote_count.gte=500&first_air_date.gte=2000-01-01&first_air_date.lte=2024-12-31&sort_by=vote_count.desc&page=";
-        $query = "discover/tv?language=es-ES&vote_count.gte=200&first_air_date.gte=2024-01-01&sort_by=vote_count.desc&page=";
-        $query = "discover/tv?language=es-ES&first_air_date.gte=2024-06-01&first_air_date.lte=2025-01-01&sort_by=vote_count.desc&with_original_language=es&page=";
-        $query = "discover/tv?language=es-ES&vote_count.gte=10&first_air_date.gte=2025-06-01&sort_by=vote_count.desc&page=";
-        $query = "discover/tv?include_adult=false&include_null_first_air_dates=false&vote_count.gte=300&language=es-ES&page=1&sort_by=popularity.desc";
-        $query = "discover/tv?language=es-ES&vote_count.gte=5&first_air_date.gte=2025-12-01&sort_by=vote_count.desc&with_original_language=es&page=";
-        //$query = "discover/tv?language=es-ES&with_origin_country=US&first_air_date.gte=1980-01-01&vote_count.gte=150&sort_by=popularity.desc&page=";
-        //$query = "search/tv?language=es-ES&query=hacemos+sombras&page=";
+        // Valores por defecto
+        $dateFrom = $request->input('first_air_date.gte', date('Y-m-d', strtotime('-1 week')));
+        $dateTo = $request->input('first_air_date.lte', date('Y-m-d'));
+        $voteCountGte = $request->input('vote_count.gte', 50);
+        $voteAverageGte = $request->input('vote_average.gte', 6);
+        $withOriginCountry = $request->input('with_origin_country', 'US');
+        
+        // Construir query base
+        $query = "discover/tv?language=es-ES";
+        
+        // Agregar parámetros
+        $query .= "&first_air_date.gte=" . $dateFrom;
+        $query .= "&first_air_date.lte=" . $dateTo;
+        $query .= "&vote_count.gte=" . $voteCountGte;
+        $query .= "&vote_average.gte=" . $voteAverageGte;
+        
+        if (!empty($withOriginCountry)) {
+            $query .= "&with_origin_country=" . $withOriginCountry;
+        }
+        
+        $query .= "&page=";
+        
         $novedades = $this->getMovieApi($query . "1");
         $newSeries = [];
         $updatedSeries = [];
+        
         for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
-        //for ($i = 91; $i <= 120; $i++) {
             $novedades = $this->getMovieApi($query . $i);
-            foreach ($novedades['results'] as $resultado)
+            foreach ($novedades['results'] as $resultado) {
                 if(Serie::find($resultado['id']) != null) {
                     array_push($updatedSeries,$resultado['id']);
                 } else {
                     $datosSerie = $this->getMovieApi("tv/" . $resultado['id']. "?language=es-ES");
                     array_push($newSeries,$datosSerie);
                 }
+            }
         }
-        return view('backend.series.novedades', ['series' => $newSeries]);
-        //dd($updatedSeries,$newSeries);
+        
+        return view('backend.series.novedades', [
+            'series' => $newSeries,
+            'filters' => [
+                'first_air_date.gte' => $dateFrom,
+                'first_air_date.lte' => $dateTo,
+                'vote_count.gte' => $voteCountGte,
+                'vote_average.gte' => $voteAverageGte,
+                'with_origin_country' => $withOriginCountry
+            ]
+        ]);
     }
  
     public function addNovedades(Request $request){

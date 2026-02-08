@@ -123,35 +123,67 @@ class PeliculaController extends Controller
         if ($response) return json_decode($response, true);
         return $err;
     }
-    public function verNovedades()
+    public function verNovedades(Request $request)
     {
-                $query = "discover/movie?language=es-ES&primary_release_date.lte=2019-08-05&sort_by=popularity.desc&vote_count.gte=500&page=";
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2022-01-01&primary_release_date.lte=2023-12-31&sort_by=popularity.desc&vote_count.gte=300&page=";
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2024-06-01&sort_by=vote_count.desc&vote_count.gte=5&with_original_language=es&page=";
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2023-01-01&primary_release_date.lte=2025-01-01&sort_by=vote_count.desc&vote_count.gte=200&with_origin_country=US&page=";
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2025-11-01&sort_by=vote_count.desc&vote_count.gte=10&page=";
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2024-01-01&primary_release_date.lte=2025-01-01&sort_by=vote_average.desc&vote_average.gte=7&vote_count.gte=100&page=";        
-        //$query = "discover/movie?language=es-ES&with_origin_country=US&primary_release_date.gte=1960-01-01&vote_count.gte=400&sort_by=popularity.desc&page=";
+        // Valores por defecto
+        $dateFrom = $request->input('primary_release_date.gte', date('Y-m-d', strtotime('-1 week')));
+        $dateTo = $request->input('primary_release_date.lte', date('Y-m-d'));
+        $voteCountGte = $request->input('vote_count.gte', 50);
+        $voteAverageGte = $request->input('vote_average.gte', 6);
+        $withCast = $request->input('with_cast', '');
+        $withCrew = $request->input('with_crew', '');
+        $withOriginCountry = $request->input('with_origin_country', 'US');
+        
+        // Construir query base
+        $query = "discover/movie?language=es-ES";
+        
+        // Agregar parámetros
+        $query .= "&primary_release_date.gte=" . $dateFrom;
+        $query .= "&primary_release_date.lte=" . $dateTo;
+        $query .= "&vote_count.gte=" . $voteCountGte;
+        $query .= "&vote_average.gte=" . $voteAverageGte;
+        
+        if (!empty($withCast)) {
+            $query .= "&with_cast=" . $withCast;
+        }
+        if (!empty($withCrew)) {
+            $query .= "&with_crew=" . $withCrew;
+        }
+        if (!empty($withOriginCountry)) {
+            $query .= "&with_origin_country=" . $withOriginCountry;
+        }
+        
+        $query .= "&page=";
+        
         $novedades = $this->getMovieApi($query . "1");
         $newPeliculas = [];
         $updatePeliculas = [];
         $datosPelicula = [];
+        
         for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
-        //for ($i = 91; $i <= 120; $i++) {
             $novedades = $this->getMovieApi($query . $i);
-            foreach ($novedades['results'] as $resultado)
+            foreach ($novedades['results'] as $resultado) {
                 if (Pelicula::find($resultado['id']) != null) {
                     array_push($updatePeliculas, $resultado['id']);
                 } else {
-                //     array_push($newPeliculas, $resultado['id']);
                     $datosPelicula = $this->getMovieApi("movie/" . $resultado['id'] . "?language=es-ES");
                     array_push($newPeliculas, $datosPelicula);
-                    // echo "Novedad -> " . $datosPelicula['title'] 
-                    // . '<img src=" https://image.tmdb.org/t/p/original' . $datosPelicula['poster_path'] . '" width="300" style="display:inline-block">  
-                    // <input type="checkbox" name="novedad' . $resultado['id'] . '" value="'. $resultado['id'] .'"><strong>'. $resultado['id'] .'</strong><span style="margin: 1rem 3rem"> | </span> ';
                 }
+            }
         }      
-        return view('backend.peliculas.novedades', ['peliculas' => $newPeliculas]);
+        
+        return view('backend.peliculas.novedades', [
+            'peliculas' => $newPeliculas,
+            'filters' => [
+                'primary_release_date.gte' => $dateFrom,
+                'primary_release_date.lte' => $dateTo,
+                'vote_count.gte' => $voteCountGte,
+                'vote_average.gte' => $voteAverageGte,
+                'with_cast' => $withCast,
+                'with_crew' => $withCrew,
+                'with_origin_country' => $withOriginCountry
+            ]
+        ]);
     }
 
 

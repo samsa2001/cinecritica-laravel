@@ -9,6 +9,50 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+                    
+                    <!-- Formulario de filtros -->
+                    <div class="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900">🔍 Filtrar Películas</h3>
+                        <form action="{{ route('novedades.pelis') }}" method="GET" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Fecha Desde</label>
+                                <input type="date" name="primary_release_date.gte" value="{{ $filters['primary_release_date.gte'] ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Fecha Hasta</label>
+                                <input type="date" name="primary_release_date.lte" value="{{ $filters['primary_release_date.lte'] ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mínimo de Votos</label>
+                                <input type="number" name="vote_count.gte" value="{{ $filters['vote_count.gte'] ?? '50' }}" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Calificación Mínima (1-10)</label>
+                                <input type="number" name="vote_average.gte" value="{{ $filters['vote_average.gte'] ?? '6' }}" min="0" max="10" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">País de Origen (ej: US, ES)</label>
+                                <input type="text" name="with_origin_country" value="{{ $filters['with_origin_country'] ?? 'US' }}" placeholder="US" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Elenco (ID TMDB, opcional)</label>
+                                <input type="text" name="with_cast" value="{{ $filters['with_cast'] ?? '' }}" placeholder="Dejar vacío" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Equipo (ID TMDB, opcional)</label>
+                                <input type="text" name="with_crew" value="{{ $filters['with_crew'] ?? '' }}" placeholder="Dejar vacío" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div class="md:col-span-2 lg:col-span-3 flex gap-2">
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded transition">
+                                    🔎 Buscar Películas
+                                </button>
+                                <a href="{{ route('novedades.pelis') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded transition">
+                                    ↺ Resetear Filtros
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
                     <h3 class="text-lg font-semibold mb-6">📽️ Agregar Películas de la Base de Datos TMDB</h3>
                     
                     <form action="{{ route('pelicula.addnovedades') }}" method="POST" enctype="multipart/form-data">
