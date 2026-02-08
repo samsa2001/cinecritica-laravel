@@ -64,6 +64,13 @@
                             <p class="text-blue-900">No se encontraron series con los filtros especificados.</p>
                         </div>
                     @endif
+
+                    @if(isset($query))
+                        <div class="mb-6 p-4 bg-gray-100 border border-gray-300 rounded-lg font-mono text-sm text-gray-900 overflow-x-auto">
+                            <p class="font-bold mb-2">🔍 Query utilizada:</p>
+                            <p class="break-words">https://api.themoviedb.org/3/{{ $query }}1</p>
+                        </div>
+                    @endif
                     
                     <form action="{{ route('serie.addnovedades') }}" method="POST" enctype="multipart/form-data">
                         <div class="overflow-x-auto">

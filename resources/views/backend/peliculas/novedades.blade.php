@@ -72,6 +72,13 @@
                             <p class="text-blue-900">No se encontraron películas con los filtros especificados.</p>
                         </div>
                     @endif
+
+                    @if(isset($query))
+                        <div class="mb-6 p-4 bg-gray-100 border border-gray-300 rounded-lg font-mono text-sm text-gray-900 overflow-x-auto">
+                            <p class="font-bold mb-2">🔍 Query utilizada:</p>
+                            <p class="break-words">https://api.themoviedb.org/3/{{ $query }}1</p>
+                        </div>
+                    @endif
                         <div class="overflow-x-auto">
                             <table class="min-w-full border-collapse border border-gray-300 text-gray-900">
                                 <thead class="bg-gray-200 text-gray-900">

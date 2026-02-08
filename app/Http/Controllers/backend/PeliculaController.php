@@ -171,7 +171,8 @@ class PeliculaController extends Controller
                     'with_crew' => $withCrew,
                     'with_origin_country' => $withOriginCountry
                 ],
-                'error' => 'Error al conectar con TMDB API'
+                'error' => 'Error al conectar con TMDB API',
+                'query' => $query
             ]);
         }
         
@@ -211,7 +212,8 @@ class PeliculaController extends Controller
                 'with_crew' => $withCrew,
                 'with_origin_country' => $withOriginCountry
             ],
-            'error' => null
+            'error' => null,
+            'query' => $query
         ]);
     }
 
