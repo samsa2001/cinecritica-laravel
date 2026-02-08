@@ -40,9 +40,6 @@ class Popularidad extends Command
         $this->info("Actualizando Populariodad Series...");
         app()->make(SerieController::class)->checkPopularity();
         
-        // Ejecutar Series
-        $this->info("Actualizando Populariodad personas...");
-        app()->make(UtilsController::class)->checkPopularity();
 
         $this->info("¡Todos los procesos han finalizado con éxito!");
     }

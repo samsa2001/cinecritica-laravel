@@ -7,8 +7,8 @@
           class="mdi mdi-movie-open absolute left-1"></span>Ver todos los estrenos</router-link>
     </div>
   </div>
-  <div class="bg-gray-400 py-12 px-4 mt-12 rounded">
-    <h2 class="text-green-900">Series Más Populares</h2>
+  <div class="bg-gray-100 py-8 px-4">
+    <h2>Series Más Populares</h2>
     <Grilla :posts="seriesPopulares" tipo="serie" columnas="5" gap="12" />
     <div class=" text-center py-4">
       <router-link :to="{ name: 'serieslist' }" class="btn w-40 relative"><span
