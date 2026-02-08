@@ -372,25 +372,20 @@ class UtilsController extends Controller
             $output = [];
             $return_var = 0;
             
-            // Desactivar LD_LIBRARY_PATH de XAMPP/LAMPP para evitar conflictos
-            $env = $_ENV;
-            unset($env['LD_LIBRARY_PATH']);
-            
-            // Ejecutar npm run build con node del sistema
-            $command = 'cd ' . base_path() . ' && unset LD_LIBRARY_PATH && npm run build 2>&1';
-            exec($command, $output, $return_var);
+            // Ejecutar npm run build en la raíz del proyecto
+            exec('cd ' . base_path() . ' && npm run build 2>&1', $output, $return_var);
             
             if ($return_var === 0) {
-                Log::info('Build Vue ejecutado exitosamente por admin');
-                return redirect()->back()->with('success', '✅ Build Vue ejecutado exitosamente. El frontend ha sido compilado.');
+                Log::info('Build Vue ejecutado exitosamente');
+                return redirect()->back()->with('success', '✅ Build Vue ejecutado correctamente');
             } else {
-                $error_msg = implode("\n", $output);
-                Log::error('Error en build Vue: ' . $error_msg);
-                return redirect()->back()->with('error', '❌ Error en el build: ' . substr($error_msg, 0, 500));
+                $error = implode("\n", array_slice($output, -5)); // Últimos 5 líneas del error
+                Log::error('Error en build Vue: ' . implode("\n", $output));
+                return redirect()->back()->with('error', '❌ Error en build: ' . $error);
             }
         } catch (\Exception $e) {
             Log::error('Exception en buildVue: ' . $e->getMessage());
-            return redirect()->back()->with('error', '❌ Error al ejecutar build: ' . $e->getMessage());
+            return redirect()->back()->with('error', '❌ Exception: ' . $e->getMessage());
         }
     }
 }
