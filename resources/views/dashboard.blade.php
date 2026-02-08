@@ -8,18 +8,6 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
-            <!-- Mensajes Flash -->
-            @if (session('success'))
-                <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <p class="text-green-900 font-semibold">{{ session('success') }}</p>
-                </div>
-            @endif
-            @if (session('error'))
-                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <p class="text-red-900 font-semibold">{{ session('error') }}</p>
-                </div>
-            @endif
-
             <!-- Bienvenida -->
             <div class="mb-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -126,12 +114,6 @@
                             <a href="{{ route('cambios.series') }}" class="block text-blue-600 hover:text-blue-800">
                                 → Cambios hoy (series)
                             </a>
-                            <form action="{{ route('build.vue') }}" method="POST" style="display: inline;">
-                                @csrf
-                                <button type="submit" class="w-full text-left text-orange-600 hover:text-orange-800" onclick="return confirm('¿Ejecutar npm run build? Esto puede tomar un tiempo...');">
-                                    → 🏗️ Build Vue
-                                </button>
-                            </form>
                         </div>
                     </div>
                 </div>

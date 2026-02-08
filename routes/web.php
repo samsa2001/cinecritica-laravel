@@ -54,9 +54,6 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified', 'adm
     
     // Rutas de proveedores
     Route::get('/proveedores','App\Http\Controllers\backend\UtilsController@addProviders')->name('proveedores.index');
-    
-    // Rutas de desarrollo
-    Route::post('/build-vue','App\Http\Controllers\backend\UtilsController@buildVue')->name('build.vue');
 });
 
 Route::get('sitemap/peliculas','App\Http\Controllers\backend\UtilsController@sitemapPeliculas');
