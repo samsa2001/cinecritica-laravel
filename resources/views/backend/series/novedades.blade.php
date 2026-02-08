@@ -110,7 +110,7 @@
                                         </td>
                                         <td class="border border-gray-300 px-4 py-2 text-center">
                                             @if($serie['poster_path'])
-                                                <img src="https://image.tmdb.org/t/p/w200{{$serie['poster_path']}}" alt="{{$serie['name']}}" class="h-32 mx-auto rounded">
+                                                <img src="https://image.tmdb.org/t/p/w200{{$serie['poster_path']}}" alt="{{$serie['name']}}" class="mx-auto rounded">
                                             @else
                                                 <span class="text-gray-500">Sin póster</span>
                                             @endif
