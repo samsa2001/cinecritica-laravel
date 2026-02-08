@@ -213,17 +213,17 @@ class SerieController extends Controller
     public function verNovedades(Request $request)
     {   
         // Valores por defecto
-        $dateFrom = $request->input('first_air_date.gte', date('Y-m-d', strtotime('-1 week')));
-        $dateTo = $request->input('first_air_date.lte', date('Y-m-d'));
-        $voteCountGte = $request->input('vote_count.gte', 50);
-        $voteAverageGte = $request->input('vote_average.gte', 6);
+        $dateFrom = $request->input('first_air_date_gte', date('Y-m-d', strtotime('-1 week')));
+        $dateTo = $request->input('first_air_date_lte', date('Y-m-d'));
+        $voteCountGte = $request->input('vote_count_gte', 50);
+        $voteAverageGte = $request->input('vote_average_gte', 6);
         $withOriginCountry = $request->input('with_origin_country', 'US');
         $sortBy = $request->input('sort_by', 'popularity.desc');
         
         // Construir query base
         $query = "discover/tv?language=es-ES";
         
-        // Agregar parámetros
+        // Agregar parámetros (convertir guiones bajos a puntos para TMDB API)
         $query .= "&first_air_date.gte=" . $dateFrom;
         $query .= "&first_air_date.lte=" . $dateTo;
         $query .= "&vote_count.gte=" . $voteCountGte;
@@ -244,10 +244,10 @@ class SerieController extends Controller
             return view('backend.series.novedades', [
                 'series' => [],
                 'filters' => [
-                    'first_air_date.gte' => $dateFrom,
-                    'first_air_date.lte' => $dateTo,
-                    'vote_count.gte' => $voteCountGte,
-                    'vote_average.gte' => $voteAverageGte,
+                    'first_air_date_gte' => $dateFrom,
+                    'first_air_date_lte' => $dateTo,
+                    'vote_count_gte' => $voteCountGte,
+                    'vote_average_gte' => $voteAverageGte,
                     'with_origin_country' => $withOriginCountry,
                     'sort_by' => $sortBy
                 ],
@@ -283,10 +283,10 @@ class SerieController extends Controller
         return view('backend.series.novedades', [
             'series' => $newSeries,
             'filters' => [
-                'first_air_date.gte' => $dateFrom,
-                'first_air_date.lte' => $dateTo,
-                'vote_count.gte' => $voteCountGte,
-                'vote_average.gte' => $voteAverageGte,
+                'first_air_date_gte' => $dateFrom,
+                'first_air_date_lte' => $dateTo,
+                'vote_count_gte' => $voteCountGte,
+                'vote_average_gte' => $voteAverageGte,
                 'with_origin_country' => $withOriginCountry,
                 'sort_by' => $sortBy
             ],

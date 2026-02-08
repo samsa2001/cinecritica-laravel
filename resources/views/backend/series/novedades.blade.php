@@ -16,19 +16,19 @@
                         <form action="{{ route('novedades.series') }}" method="GET" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Fecha Desde</label>
-                                <input type="date" name="first_air_date.gte" value="{{ $filters['first_air_date.gte'] ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                                <input type="date" name="first_air_date_gte" value="{{ $filters['first_air_date_gte'] ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Fecha Hasta</label>
-                                <input type="date" name="first_air_date.lte" value="{{ $filters['first_air_date.lte'] ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                                <input type="date" name="first_air_date_lte" value="{{ $filters['first_air_date_lte'] ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Mínimo de Votos</label>
-                                <input type="number" name="vote_count.gte" value="{{ $filters['vote_count.gte'] ?? '50' }}" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                                <input type="number" name="vote_count_gte" value="{{ $filters['vote_count_gte'] ?? '50' }}" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Calificación Mínima (1-10)</label>
-                                <input type="number" name="vote_average.gte" value="{{ $filters['vote_average.gte'] ?? '6' }}" min="0" max="10" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                                <input type="number" name="vote_average_gte" value="{{ $filters['vote_average_gte'] ?? '6' }}" min="0" max="10" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">País de Origen (ej: US, ES)</label>

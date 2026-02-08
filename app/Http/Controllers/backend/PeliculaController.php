@@ -126,10 +126,10 @@ class PeliculaController extends Controller
     public function verNovedades(Request $request)
     {
         // Valores por defecto
-        $dateFrom = $request->input('primary_release_date.gte', date('Y-m-d', strtotime('-1 week')));
-        $dateTo = $request->input('primary_release_date.lte', date('Y-m-d'));
-        $voteCountGte = $request->input('vote_count.gte', 50);
-        $voteAverageGte = $request->input('vote_average.gte', 6);
+        $dateFrom = $request->input('primary_release_date_gte', date('Y-m-d', strtotime('-1 week')));
+        $dateTo = $request->input('primary_release_date_lte', date('Y-m-d'));
+        $voteCountGte = $request->input('vote_count_gte', 50);
+        $voteAverageGte = $request->input('vote_average_gte', 6);
         $withCast = $request->input('with_cast', '');
         $withCrew = $request->input('with_crew', '');
         $withOriginCountry = $request->input('with_origin_country', 'US');
@@ -138,7 +138,7 @@ class PeliculaController extends Controller
         // Construir query base
         $query = "discover/movie?language=es-ES";
         
-        // Agregar parámetros
+        // Agregar parámetros (convertir guiones bajos a puntos para TMDB API)
         $query .= "&primary_release_date.gte=" . $dateFrom;
         $query .= "&primary_release_date.lte=" . $dateTo;
         $query .= "&vote_count.gte=" . $voteCountGte;
@@ -165,10 +165,10 @@ class PeliculaController extends Controller
             return view('backend.peliculas.novedades', [
                 'peliculas' => [],
                 'filters' => [
-                    'primary_release_date.gte' => $dateFrom,
-                    'primary_release_date.lte' => $dateTo,
-                    'vote_count.gte' => $voteCountGte,
-                    'vote_average.gte' => $voteAverageGte,
+                    'primary_release_date_gte' => $dateFrom,
+                    'primary_release_date_lte' => $dateTo,
+                    'vote_count_gte' => $voteCountGte,
+                    'vote_average_gte' => $voteAverageGte,
                     'with_cast' => $withCast,
                     'with_crew' => $withCrew,
                     'with_origin_country' => $withOriginCountry,
@@ -207,10 +207,10 @@ class PeliculaController extends Controller
         return view('backend.peliculas.novedades', [
             'peliculas' => $newPeliculas,
             'filters' => [
-                'primary_release_date.gte' => $dateFrom,
-                'primary_release_date.lte' => $dateTo,
-                'vote_count.gte' => $voteCountGte,
-                'vote_average.gte' => $voteAverageGte,
+                'primary_release_date_gte' => $dateFrom,
+                'primary_release_date_lte' => $dateTo,
+                'vote_count_gte' => $voteCountGte,
+                'vote_average_gte' => $voteAverageGte,
                 'with_cast' => $withCast,
                 'with_crew' => $withCrew,
                 'with_origin_country' => $withOriginCountry,
