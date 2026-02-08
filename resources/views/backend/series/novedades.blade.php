@@ -34,6 +34,14 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-1">País de Origen (ej: US, ES)</label>
                                 <input type="text" name="with_origin_country" value="{{ $filters['with_origin_country'] ?? 'US' }}" placeholder="US" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
                             </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Ordenar por</label>
+                                <select name="sort_by" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                                    <option value="popularity.desc" {{ ($filters['sort_by'] ?? 'popularity.desc') === 'popularity.desc' ? 'selected' : '' }}>Popularidad (Mayor a Menor)</option>
+                                    <option value="vote_average.desc" {{ ($filters['sort_by'] ?? '') === 'vote_average.desc' ? 'selected' : '' }}>Calificación (Mayor a Menor)</option>
+                                    <option value="vote_count.desc" {{ ($filters['sort_by'] ?? '') === 'vote_count.desc' ? 'selected' : '' }}>Votos (Mayor a Menor)</option>
+                                </select>
+                            </div>
                             <div class="md:col-span-2 lg:col-span-3 flex gap-2">
                                 <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded transition">
                                     🔎 Buscar Series

@@ -133,6 +133,7 @@ class PeliculaController extends Controller
         $withCast = $request->input('with_cast', '');
         $withCrew = $request->input('with_crew', '');
         $withOriginCountry = $request->input('with_origin_country', 'US');
+        $sortBy = $request->input('sort_by', 'popularity.desc');
         
         // Construir query base
         $query = "discover/movie?language=es-ES";
@@ -142,6 +143,7 @@ class PeliculaController extends Controller
         $query .= "&primary_release_date.lte=" . $dateTo;
         $query .= "&vote_count.gte=" . $voteCountGte;
         $query .= "&vote_average.gte=" . $voteAverageGte;
+        $query .= "&sort_by=" . $sortBy;
         
         if (!empty($withCast)) {
             $query .= "&with_cast=" . $withCast;
@@ -169,7 +171,8 @@ class PeliculaController extends Controller
                     'vote_average.gte' => $voteAverageGte,
                     'with_cast' => $withCast,
                     'with_crew' => $withCrew,
-                    'with_origin_country' => $withOriginCountry
+                    'with_origin_country' => $withOriginCountry,
+                    'sort_by' => $sortBy
                 ],
                 'error' => 'Error al conectar con TMDB API',
                 'query' => $query
@@ -210,7 +213,8 @@ class PeliculaController extends Controller
                 'vote_average.gte' => $voteAverageGte,
                 'with_cast' => $withCast,
                 'with_crew' => $withCrew,
-                'with_origin_country' => $withOriginCountry
+                'with_origin_country' => $withOriginCountry,
+                'sort_by' => $sortBy
             ],
             'error' => null,
             'query' => $query

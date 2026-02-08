@@ -218,6 +218,7 @@ class SerieController extends Controller
         $voteCountGte = $request->input('vote_count.gte', 50);
         $voteAverageGte = $request->input('vote_average.gte', 6);
         $withOriginCountry = $request->input('with_origin_country', 'US');
+        $sortBy = $request->input('sort_by', 'popularity.desc');
         
         // Construir query base
         $query = "discover/tv?language=es-ES";
@@ -227,6 +228,7 @@ class SerieController extends Controller
         $query .= "&first_air_date.lte=" . $dateTo;
         $query .= "&vote_count.gte=" . $voteCountGte;
         $query .= "&vote_average.gte=" . $voteAverageGte;
+        $query .= "&sort_by=" . $sortBy;
         
         if (!empty($withOriginCountry)) {
             $query .= "&with_origin_country=" . $withOriginCountry;
@@ -246,7 +248,8 @@ class SerieController extends Controller
                     'first_air_date.lte' => $dateTo,
                     'vote_count.gte' => $voteCountGte,
                     'vote_average.gte' => $voteAverageGte,
-                    'with_origin_country' => $withOriginCountry
+                    'with_origin_country' => $withOriginCountry,
+                    'sort_by' => $sortBy
                 ],
                 'error' => 'Error al conectar con TMDB API',
                 'query' => $query
@@ -284,7 +287,8 @@ class SerieController extends Controller
                 'first_air_date.lte' => $dateTo,
                 'vote_count.gte' => $voteCountGte,
                 'vote_average.gte' => $voteAverageGte,
-                'with_origin_country' => $withOriginCountry
+                'with_origin_country' => $withOriginCountry,
+                'sort_by' => $sortBy
             ],
             'error' => null,
             'query' => $query
