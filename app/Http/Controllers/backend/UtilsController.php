@@ -365,4 +365,26 @@ class UtilsController extends Controller
         }
         echo 'Fin';
     }
+
+    public function buildVue()
+    {
+        try {
+            $output = [];
+            $return_var = 0;
+            
+            // Ejecutar npm install (si es necesario actualizar dependencias)
+            exec('cd ' . base_path() . ' && npm run build 2>&1', $output, $return_var);
+            
+            if ($return_var === 0) {
+                Log::info('Build Vue ejecutado exitosamente por admin');
+                return redirect()->back()->with('success', '✅ Build Vue ejecutado exitosamente. El frontend ha sido compilado.');
+            } else {
+                Log::error('Error en build Vue: ' . implode("\n", $output));
+                return redirect()->back()->with('error', '❌ Error en el build: ' . implode("\n", $output));
+            }
+        } catch (\Exception $e) {
+            Log::error('Exception en buildVue: ' . $e->getMessage());
+            return redirect()->back()->with('error', '❌ Error al ejecutar build: ' . $e->getMessage());
+        }
+    }
 }
