@@ -3,9 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Http\Controllers\backend\SerieController;
 use App\Http\Controllers\backend\PeliculaController;
-use App\Http\Controllers\backend\UtilsController;
 
 class Popularidad extends Command
 {
@@ -14,14 +12,14 @@ class Popularidad extends Command
      *
      * @var string
      */
-    protected $signature = 'popularidad';
+    protected $signature = 'popularidadPelis';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Ejecuta los cambios para series, pelis y utils';
+    protected $description = 'Ejecuta los cambios para pelis';
 
     /**
      * Execute the console command.
@@ -36,14 +34,6 @@ class Popularidad extends Command
         $this->info("Actualizando Popularidad Películas...");
         app()->make(PeliculaController::class)->checkPopularity();
         
-        // Ejecutar Series
-        $this->info("Actualizando Populariodad Series...");
-        app()->make(SerieController::class)->checkPopularity();
-        
-        // Ejecutar Series
-        $this->info("Actualizando Populariodad personas...");
-        app()->make(UtilsController::class)->checkPopularity();
-
         $this->info("¡Todos los procesos han finalizado con éxito!");
     }
 }
