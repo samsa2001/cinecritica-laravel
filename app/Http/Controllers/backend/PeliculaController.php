@@ -156,18 +156,46 @@ class PeliculaController extends Controller
         $query .= "&page=";
         
         $novedades = $this->getMovieApi($query . "1");
+        
+        // Validar que la respuesta sea un array válido
+        if (!is_array($novedades) || !isset($novedades['total_pages'])) {
+            Log::error("Error en verNovedades: " . json_encode($novedades));
+            return view('backend.peliculas.novedades', [
+                'peliculas' => [],
+                'filters' => [
+                    'primary_release_date.gte' => $dateFrom,
+                    'primary_release_date.lte' => $dateTo,
+                    'vote_count.gte' => $voteCountGte,
+                    'vote_average.gte' => $voteAverageGte,
+                    'with_cast' => $withCast,
+                    'with_crew' => $withCrew,
+                    'with_origin_country' => $withOriginCountry
+                ],
+                'error' => 'Error al conectar con TMDB API'
+            ]);
+        }
+        
         $newPeliculas = [];
         $updatePeliculas = [];
         $datosPelicula = [];
         
         for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
             $novedades = $this->getMovieApi($query . $i);
+            
+            // Validar cada respuesta
+            if (!is_array($novedades) || !isset($novedades['results'])) {
+                Log::warning("Error en página $i de verNovedades");
+                break;
+            }
+            
             foreach ($novedades['results'] as $resultado) {
                 if (Pelicula::find($resultado['id']) != null) {
                     array_push($updatePeliculas, $resultado['id']);
                 } else {
                     $datosPelicula = $this->getMovieApi("movie/" . $resultado['id'] . "?language=es-ES");
-                    array_push($newPeliculas, $datosPelicula);
+                    if (is_array($datosPelicula) && isset($datosPelicula['id'])) {
+                        array_push($newPeliculas, $datosPelicula);
+                    }
                 }
             }
         }      
@@ -182,7 +210,8 @@ class PeliculaController extends Controller
                 'with_cast' => $withCast,
                 'with_crew' => $withCrew,
                 'with_origin_country' => $withOriginCountry
-            ]
+            ],
+            'error' => null
         ]);
     }
 

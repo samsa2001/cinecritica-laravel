@@ -47,6 +47,24 @@
 
                     <h3 class="text-lg font-semibold mb-6">📺 Agregar Series de la Base de Datos TMDB</h3>
                     
+                    @if(isset($error) && $error)
+                        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-4">❌</span>
+                                <div>
+                                    <h3 class="text-lg font-bold text-red-900">{{ $error }}</h3>
+                                    <p class="text-red-800 mt-2">Revisa los logs para más información.</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if(count($series) === 0 && (!isset($error) || !$error))
+                        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <p class="text-blue-900">No se encontraron series con los filtros especificados.</p>
+                        </div>
+                    @endif
+                    
                     <form action="{{ route('serie.addnovedades') }}" method="POST" enctype="multipart/form-data">
                         <div class="overflow-x-auto">
                             <table class="min-w-full border-collapse border border-gray-300 text-gray-900">

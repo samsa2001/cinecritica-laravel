@@ -235,17 +235,43 @@ class SerieController extends Controller
         $query .= "&page=";
         
         $novedades = $this->getMovieApi($query . "1");
+        
+        // Validar que la respuesta sea un array válido
+        if (!is_array($novedades) || !isset($novedades['total_pages'])) {
+            Log::error("Error en verNovedades: " . json_encode($novedades));
+            return view('backend.series.novedades', [
+                'series' => [],
+                'filters' => [
+                    'first_air_date.gte' => $dateFrom,
+                    'first_air_date.lte' => $dateTo,
+                    'vote_count.gte' => $voteCountGte,
+                    'vote_average.gte' => $voteAverageGte,
+                    'with_origin_country' => $withOriginCountry
+                ],
+                'error' => 'Error al conectar con TMDB API'
+            ]);
+        }
+        
         $newSeries = [];
         $updatedSeries = [];
         
         for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
             $novedades = $this->getMovieApi($query . $i);
+            
+            // Validar cada respuesta
+            if (!is_array($novedades) || !isset($novedades['results'])) {
+                Log::warning("Error en página $i de verNovedades series");
+                break;
+            }
+            
             foreach ($novedades['results'] as $resultado) {
                 if(Serie::find($resultado['id']) != null) {
                     array_push($updatedSeries,$resultado['id']);
                 } else {
                     $datosSerie = $this->getMovieApi("tv/" . $resultado['id']. "?language=es-ES");
-                    array_push($newSeries,$datosSerie);
+                    if (is_array($datosSerie) && isset($datosSerie['id'])) {
+                        array_push($newSeries,$datosSerie);
+                    }
                 }
             }
         }
@@ -258,6 +284,9 @@ class SerieController extends Controller
                 'vote_count.gte' => $voteCountGte,
                 'vote_average.gte' => $voteAverageGte,
                 'with_origin_country' => $withOriginCountry
+            ],
+            'error' => null
+        ]);
             ]
         ]);
     }
