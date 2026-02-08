@@ -32,7 +32,7 @@ class PopularidadPelis extends Command
 
         // Ejecutar Películas
         $this->info("Actualizando Popularidad Películas...");
-        app()->make(PeliculaController::class)->checkPopularity();
+        app()->make(PeliculaController::class)->checkPopularityLastYears();
         
         $this->info("¡Todos los procesos han finalizado con éxito!");
     }

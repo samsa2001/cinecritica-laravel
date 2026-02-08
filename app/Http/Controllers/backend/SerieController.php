@@ -359,6 +359,17 @@ class SerieController extends Controller
         }
         $this->updateSerie($idSeries);
     }
+    public function checkPopularityLastYears(){
+        $fiveYearsAgo = date('Y-m-d', strtotime('-5 years'));
+        $series = Serie::where('fecha', '>=', $fiveYearsAgo)
+            ->orderBy('popularidad','desc')
+            ->get();
+        $idSeries = [];
+        foreach ($series as $serie){
+            array_push($idSeries,$serie->id);
+        }
+        $this->updateSerie($idSeries);
+    }
     /*
     * Dado un array de ids añade las películas
     */

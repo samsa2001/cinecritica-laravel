@@ -31,7 +31,7 @@ class PopularidadSeries extends Command
         $this->info("Iniciando procesos de actualización...");
         // Ejecutar Series
         $this->info("Actualizando Populariodad Series...");
-        app()->make(SerieController::class)->checkPopularity();
+        app()->make(SerieController::class)->checkPopularityLastYears();
 
         $this->info("¡Todos los procesos han finalizado con éxito!");
     }
