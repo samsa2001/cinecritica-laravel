@@ -132,7 +132,7 @@ class PeliculaController extends Controller
         $voteAverageGte = $request->input('vote_average_gte', 6);
         $withCast = $request->input('with_cast', '');
         $withCrew = $request->input('with_crew', '');
-        $withOriginCountry = $request->input('with_origin_country', 'US');
+        $withOriginCountry = $request->input('with_origin_country', '');
         $sortBy = $request->input('sort_by', 'popularity.desc');
         
         // Construir query base

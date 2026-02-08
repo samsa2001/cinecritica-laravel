@@ -31,8 +31,8 @@
                                 <input type="number" name="vote_average_gte" value="{{ $filters['vote_average_gte'] ?? '6' }}" min="0" max="10" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">País de Origen (ej: US, ES)</label>
-                                <input type="text" name="with_origin_country" value="{{ $filters['with_origin_country'] ?? 'US' }}" placeholder="US" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">País de Origen (opcional, ej: US, ES)</label>
+                                <input type="text" name="with_origin_country" value="{{ $filters['with_origin_country'] ?? '' }}" placeholder="Dejar vacío para todos" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Ordenar por</label>

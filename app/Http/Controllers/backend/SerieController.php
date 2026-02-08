@@ -217,7 +217,7 @@ class SerieController extends Controller
         $dateTo = $request->input('first_air_date_lte', date('Y-m-d'));
         $voteCountGte = $request->input('vote_count_gte', 50);
         $voteAverageGte = $request->input('vote_average_gte', 6);
-        $withOriginCountry = $request->input('with_origin_country', 'US');
+        $withOriginCountry = $request->input('with_origin_country', '');
         $sortBy = $request->input('sort_by', 'popularity.desc');
         
         // Construir query base
