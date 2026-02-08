@@ -87,6 +87,8 @@
                             <p class="break-words">https://api.themoviedb.org/3/{{ $query }}1</p>
                         </div>
                     @endif
+                    
+                    <form action="{{ route('pelicula.addnovedades') }}" method="POST" enctype="multipart/form-data">
                         <div class="overflow-x-auto">
                             <table class="min-w-full border-collapse border border-gray-300 text-gray-900">
                                 <thead class="bg-gray-200 text-gray-900">

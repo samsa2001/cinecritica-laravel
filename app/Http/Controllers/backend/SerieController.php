@@ -293,8 +293,6 @@ class SerieController extends Controller
             'error' => null,
             'query' => $query
         ]);
-            ]
-        ]);
     }
  
     public function addNovedades(Request $request){
