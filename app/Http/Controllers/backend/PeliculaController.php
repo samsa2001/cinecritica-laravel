@@ -405,7 +405,7 @@ class PeliculaController extends Controller
         $this->updatePeliculas($idPeliculas);
     }
     public function checkPopularityLastYears(){
-        $peliculas = Pelicula::where('year', '>=', now()->year - 1)
+        $peliculas = Pelicula::where('year', '>=', now()->year - 5)
             ->orderBy('popularidad', 'desc')
             ->get();
         $idPeliculas = [];

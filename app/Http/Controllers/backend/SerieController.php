@@ -387,7 +387,7 @@ class SerieController extends Controller
         $this->updateSerie($idSeries);
     }
     public function checkPopularityLastYears(){
-        $series = Serie::where('year', '>=', now()->year - 1)
+        $series = Serie::where('year', '>=', now()->year - 5)
             ->orderBy('popularidad', 'desc')
             ->get();
         $idSeries = [];
