@@ -44,6 +44,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'verified', 'adm
     Route::get('/ver-novedades/series','App\Http\Controllers\backend\SerieController@verNovedades')->name('novedades.series');
     Route::post('/add-novedades/pelis','App\Http\Controllers\backend\PeliculaController@addNovedades')->name('pelicula.addnovedades');
     Route::post('/add-novedades/series','App\Http\Controllers\backend\SerieController@addNovedades')->name('serie.addnovedades');
+    Route::post('/add-serie','App\Http\Controllers\backend\SerieController@verNovedadesId')->name('serie.addserie');
     
     // Rutas de cambios y utilidades
     Route::get('/cambios/pelis','App\Http\Controllers\backend\PeliculaController@cambiosDia')->name('cambios.pelis');

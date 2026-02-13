@@ -294,6 +294,33 @@ class SerieController extends Controller
             'query' => $query
         ]);
     }
+    public function verNovedadesId (Request $request)
+    {   
+        
+        // Construir query base
+        $query = "tv/";
+        
+        // Agregar parámetros (convertir guiones bajos a puntos para TMDB API)
+        $query .= $serieId;
+        
+        $query .= "?language=es-ES";
+        
+        $novedad = $this->getMovieApi($query);
+
+        if(Serie::find($novedad['id']) != null) {
+            array_push($updatedSeries,$novedad['id']);
+        } else {
+            $datosSerie = $this->getMovieApi("tv/" . $resultado['id']. "?language=es-ES");
+            if (is_array($datosSerie) && isset($datosSerie['id'])) {
+                array_push($newSeries,$datosSerie);
+            }
+        }
+        
+        return view('backend.series.novedades', [
+            'error' => null,
+            'query' => $query
+        ]);
+    }
  
     public function addNovedades(Request $request){
         $novedades = [];
@@ -353,6 +380,16 @@ class SerieController extends Controller
     public function checkPopularity(){
         $series = Serie::orderBy('popularidad','desc')->paginate(30);
         $series = Serie::orderBy('popularidad','desc')->get();
+        $idSeries = [];
+        foreach ($series as $serie){
+            array_push($idSeries,$serie->id);
+        }
+        $this->updateSerie($idSeries);
+    }
+    public function checkPopularityLastYears(){
+        $series = Serie::where('year', '>=', now()->year - 1)
+            ->orderBy('popularidad', 'desc')
+            ->get();
         $idSeries = [];
         foreach ($series as $serie){
             array_push($idSeries,$serie->id);
