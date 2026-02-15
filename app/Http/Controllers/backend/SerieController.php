@@ -494,7 +494,7 @@ class SerieController extends Controller
                             $objserie->providers()->attach($provider['provider_id']);
                         }
                     }
-                    echo "Actualizado -> " . $datosSerie['name'] . '"><br>';
+                    echo "Actualizado -> " . $datosSerie['name'] . PHP_EOL;
                     Log::info("Actualizada serie -> " . $datosSerie['name'] . ' -> ' . $datosSerie['id']);
                     $this->updateTemporada($objserie, $datosSerie['seasons']);
                     $this->updateCrew($objserie);

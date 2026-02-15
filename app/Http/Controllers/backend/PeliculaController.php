@@ -436,7 +436,7 @@ class PeliculaController extends Controller
                     foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
                         $objPelicula->providers()->attach($provider['provider_id']);
                     }
-                echo 'Pelicula actualizada -> ' . $objPelicula->slug . ' <hr><br>';
+                echo 'Pelicula actualizada -> ' . $objPelicula->slug . PHP_EOL;
                 Log::info("Actualizada pelicula -> " . $objPelicula->titulo . ' -> ' . $objPelicula->id);
             } catch (\Throwable $th) {
                 continue;
