@@ -123,32 +123,102 @@ class PeliculaController extends Controller
         if ($response) return json_decode($response, true);
         return $err;
     }
-    public function verNovedades()
+    public function verNovedades(Request $request)
     {
-        $query = "discover/movie?language=es-ES&primary_release_date.lte=2019-08-05&sort_by=popularity.desc&vote_count.gte=500&page=";
-        $query = "discover/movie?language=es-ES&primary_release_date.gte=2023-01-01&sort_by=popularity.desc&vote_count.gte=1&page=";
-        // $query = "discover/movie?language=es-ES&primary_release_date.gte=2023-01-01&region=ES&sort_by=popularity.desc&vote_count.gte=0&with_original_language=es&page=";
-        // $query = "discover/movie?language=es-ES&sort_by=popularity.desc&with_people=13918&page=";
-        //$query = "discover/movie?primary_release_year=2009&sort_by=popularity.desc&vote_count.gte=50&with_original_language=es&page=";
+        // Valores por defecto
+        $dateFrom = $request->input('primary_release_date_gte', date('Y-m-d', strtotime('-1 week')));
+        $dateTo = $request->input('primary_release_date_lte', date('Y-m-d'));
+        $voteCountGte = $request->input('vote_count_gte', 50);
+        $voteAverageGte = $request->input('vote_average_gte', 6);
+        $withCast = $request->input('with_cast', '');
+        $withCrew = $request->input('with_crew', '');
+        $withOriginCountry = $request->input('with_origin_country', '');
+        $sortBy = $request->input('sort_by', 'popularity.desc');
+        
+        // Construir query base
+        $query = "discover/movie?language=es-ES";
+        
+        // Agregar parámetros (convertir guiones bajos a puntos para TMDB API)
+        $query .= "&primary_release_date.gte=" . $dateFrom;
+        $query .= "&primary_release_date.lte=" . $dateTo;
+        $query .= "&vote_count.gte=" . $voteCountGte;
+        $query .= "&vote_average.gte=" . $voteAverageGte;
+        $query .= "&sort_by=" . $sortBy;
+        
+        if (!empty($withCast)) {
+            $query .= "&with_cast=" . $withCast;
+        }
+        if (!empty($withCrew)) {
+            $query .= "&with_crew=" . $withCrew;
+        }
+        if (!empty($withOriginCountry)) {
+            $query .= "&with_origin_country=" . $withOriginCountry;
+        }
+        
+        $query .= "&page=";
+        
         $novedades = $this->getMovieApi($query . "1");
+        
+        // Validar que la respuesta sea un array válido
+        if (!is_array($novedades) || !isset($novedades['total_pages'])) {
+            Log::error("Error en verNovedades: " . json_encode($novedades));
+            return view('backend.peliculas.novedades', [
+                'peliculas' => [],
+                'filters' => [
+                    'primary_release_date_gte' => $dateFrom,
+                    'primary_release_date_lte' => $dateTo,
+                    'vote_count_gte' => $voteCountGte,
+                    'vote_average_gte' => $voteAverageGte,
+                    'with_cast' => $withCast,
+                    'with_crew' => $withCrew,
+                    'with_origin_country' => $withOriginCountry,
+                    'sort_by' => $sortBy
+                ],
+                'error' => 'Error al conectar con TMDB API',
+                'query' => $query
+            ]);
+        }
+        
         $newPeliculas = [];
         $updatePeliculas = [];
         $datosPelicula = [];
+        
         for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
             $novedades = $this->getMovieApi($query . $i);
-            foreach ($novedades['results'] as $resultado)
+            
+            // Validar cada respuesta
+            if (!is_array($novedades) || !isset($novedades['results'])) {
+                Log::warning("Error en página $i de verNovedades");
+                break;
+            }
+            
+            foreach ($novedades['results'] as $resultado) {
                 if (Pelicula::find($resultado['id']) != null) {
                     array_push($updatePeliculas, $resultado['id']);
                 } else {
-                //     array_push($newPeliculas, $resultado['id']);
                     $datosPelicula = $this->getMovieApi("movie/" . $resultado['id'] . "?language=es-ES");
-                    array_push($newPeliculas, $datosPelicula);
-                    // echo "Novedad -> " . $datosPelicula['title'] 
-                    // . '<img src=" https://image.tmdb.org/t/p/original' . $datosPelicula['poster_path'] . '" width="300" style="display:inline-block">  
-                    // <input type="checkbox" name="novedad' . $resultado['id'] . '" value="'. $resultado['id'] .'"><strong>'. $resultado['id'] .'</strong><span style="margin: 1rem 3rem"> | </span> ';
+                    if (is_array($datosPelicula) && isset($datosPelicula['id'])) {
+                        array_push($newPeliculas, $datosPelicula);
+                    }
                 }
+            }
         }      
-        return view('backend.peliculas.novedades', ['peliculas' => $newPeliculas]);
+        
+        return view('backend.peliculas.novedades', [
+            'peliculas' => $newPeliculas,
+            'filters' => [
+                'primary_release_date_gte' => $dateFrom,
+                'primary_release_date_lte' => $dateTo,
+                'vote_count_gte' => $voteCountGte,
+                'vote_average_gte' => $voteAverageGte,
+                'with_cast' => $withCast,
+                'with_crew' => $withCrew,
+                'with_origin_country' => $withOriginCountry,
+                'sort_by' => $sortBy
+            ],
+            'error' => null,
+            'query' => $query
+        ]);
     }
 
 
@@ -180,14 +250,38 @@ class PeliculaController extends Controller
         foreach ($request->input('peli.*') as $novedad){
             array_push($novedades,$novedad);
         }
-        if (count($novedades) > 0)
-            $this->addPeliculas($novedades);
-        echo "Añadidas " . count($novedades) . " películas";
+        
+        $peliculasAgregadas = [];
+        $peliculasYaExistentes = [];
+        
+        if (count($novedades) > 0) {
+            // Verificar cuáles películas ya existen antes de agregarlas
+            foreach ($novedades as $idPelicula) {
+                if (Pelicula::find($idPelicula)) {
+                    $peliculasYaExistentes[] = $idPelicula;
+                } else {
+                    $peliculasAgregadas[] = $idPelicula;
+                }
+            }
+            
+            // Agregar solo las nuevas películas
+            if (count($peliculasAgregadas) > 0) {
+                $this->addPeliculas($peliculasAgregadas);
+                // Recuperar los objetos de películas agregadas
+                $peliculasAgregadas = Pelicula::whereIn('id', $peliculasAgregadas)->get();
+            }
+        }
+        
+        return view('backend.peliculas.add-novedades', [
+            'peliculasAgregadas' => $peliculasAgregadas,
+            'peliculasYaExistentes' => $peliculasYaExistentes
+        ]);
     }
     public function cambiosDia()
     {
         $query = "movie/changes";
-        // $query = "movie/changes?start_date=2022-12-10&language=es-ES";
+        //$query = "movie/changes?end_date=2025-06-15&page=1&start_date=2025-06-01";
+        //$query = "movie/changes?start_date=2025-06-01";
         $novedades = $this->getMovieApi($query);
         $updatePeliculas = [];
         foreach ($novedades['results'] as $resultado)
@@ -303,6 +397,17 @@ class PeliculaController extends Controller
     }
     public function checkPopularity(){
         $peliculas = Pelicula::orderBy('popularidad','desc')->paginate(30);
+        $peliculas = Pelicula::orderBy('popularidad','desc')->get();
+        $idPeliculas = [];
+        foreach ($peliculas as $pelicula){
+            array_push($idPeliculas,$pelicula->id);
+        }
+        $this->updatePeliculas($idPeliculas);
+    }
+    public function checkPopularityLastYears(){
+        $peliculas = Pelicula::where('year', '>=', now()->year - 5)
+            ->orderBy('popularidad', 'desc')
+            ->get();
         $idPeliculas = [];
         foreach ($peliculas as $pelicula){
             array_push($idPeliculas,$pelicula->id);
@@ -331,9 +436,10 @@ class PeliculaController extends Controller
                     foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
                         $objPelicula->providers()->attach($provider['provider_id']);
                     }
-                echo 'Pelicula actualizada -> ' . $objPelicula->slug . '<hr><br>';
+                echo 'Pelicula actualizada -> ' . $objPelicula->slug . ' <hr><br>';
                 Log::info("Actualizada pelicula -> " . $objPelicula->titulo . ' -> ' . $objPelicula->id);
             } catch (\Throwable $th) {
+                continue;
                 dd($objPelicula->id,$th);
             }
         }

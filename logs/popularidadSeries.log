@@ -1,0 +1,26 @@
+Iniciando procesos de actualización...
+Actualizando Populariodad Series...
+
+   BadMethodCallException 
+
+  Method App\Http\Controllers\backend\SerieController::checkPopularityLastYears does not exist.
+
+  at vendor/laravel/framework/src/Illuminate/Routing/Controller.php:68
+     64▕      * @throws \BadMethodCallException
+     65▕      */
+     66▕     public function __call($method, $parameters)
+     67▕     {
+  ➜  68▕         throw new BadMethodCallException(sprintf(
+     69▕             'Method %s::%s does not exist.', static::class, $method
+     70▕         ));
+     71▕     }
+     72▕ }
+
+  i   Bad Method Call: Did you mean App\Http\Controllers\backend\SerieController::checkPopularity() ? 
+
+  1   app/Console/Commands/PopularidadSeries.php:34
+      Illuminate\Routing\Controller::__call("checkPopularityLastYears", [])
+
+      [2m+13 vendor frames [22m
+  15  artisan:35
+      Illuminate\Foundation\Console\Kernel::handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))

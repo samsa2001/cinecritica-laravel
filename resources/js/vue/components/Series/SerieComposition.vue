@@ -103,7 +103,7 @@
                <h3>Temporadas:</h3>
                <div class="grid grid-cols-3 gap-4">
                   <div v-for="(temporada, id) in serie.temporadas" :key="id">
-                     <div @click="imageModal(temporada.imagen)">
+                     <div @click="imageModalTemp(temporada.imagen)">
                         <img :src="'https://cdn1.cinecritica.com/media/temporadas' + temporada.imagen" />
                         {{ temporada.titulo }}
                      </div>
@@ -154,6 +154,16 @@ export default defineComponent({
             fullscreen: true,
          })
       }
+      function imageModalTemp(imagen) {
+         const vnode = h('p', { style: { 'text-align': 'center' } }, [
+            h('img', { src: 'https://cdn1.cinecritica.com/media/temporadas' + imagen })
+         ])
+         oruga.modal.open({
+            content: [vnode],
+            width: 1500,
+            fullscreen: true,
+         })
+      }
       function updatePage() {
          setTimeout(listPage, 100);
       }
@@ -163,6 +173,7 @@ export default defineComponent({
             .get("/api/serie/" + route.params.slug)
             .then((res) => {
                serie.value = res.data;
+               if(serie.value && serie.value.titulo) document.title = serie.value.titulo + ' - Cinecritica';
             });
       }
 
@@ -171,6 +182,7 @@ export default defineComponent({
          isLoading,
          updatePage,
          imageModal,
+         imageModalTemp,
       }
    }
 })

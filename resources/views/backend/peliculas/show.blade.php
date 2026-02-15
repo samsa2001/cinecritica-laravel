@@ -1,4 +1,5 @@
 @extends('backend.layout')
+@section('title', $pelicula->titulo)
 @section('content')  
 <h1>{{$pelicula->titulo}}</h1>
 <table class="table">

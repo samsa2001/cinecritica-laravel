@@ -2,10 +2,11 @@
 /node_modules
 /public/hot
 /public/storage
+/public/build
 /storage/*.key
 /storage/app/media
+/storage/framework/cache
 /vendor
-.htaccess
 .env
 .env.backup
 .env.production
@@ -19,4 +20,6 @@ npm-debug.log
 yarn-error.log
 /.fleet
 /.idea
-/.vscode
+/.vscode.ftpquota
+robots.txt
+.ftpquota

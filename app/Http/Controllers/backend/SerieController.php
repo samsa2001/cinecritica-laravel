@@ -210,67 +210,161 @@ class SerieController extends Controller
                 echo $th;
             }
     }
-    public function verNovedades()
-    {
-        $query = "discover/tv?language=es-ES&vote_count.gte=1&first_air_date.gte=2023-01-01&page=";
+    public function verNovedades(Request $request)
+    {   
+        // Valores por defecto
+        $dateFrom = $request->input('first_air_date_gte', date('Y-m-d', strtotime('-1 week')));
+        $dateTo = $request->input('first_air_date_lte', date('Y-m-d'));
+        $voteCountGte = $request->input('vote_count_gte', 50);
+        $voteAverageGte = $request->input('vote_average_gte', 6);
+        $withOriginCountry = $request->input('with_origin_country', '');
+        $sortBy = $request->input('sort_by', 'popularity.desc');
+        
+        // Construir query base
+        $query = "discover/tv?language=es-ES";
+        
+        // Agregar parámetros (convertir guiones bajos a puntos para TMDB API)
+        $query .= "&first_air_date.gte=" . $dateFrom;
+        $query .= "&first_air_date.lte=" . $dateTo;
+        $query .= "&vote_count.gte=" . $voteCountGte;
+        $query .= "&vote_average.gte=" . $voteAverageGte;
+        $query .= "&sort_by=" . $sortBy;
+        
+        if (!empty($withOriginCountry)) {
+            $query .= "&with_origin_country=" . $withOriginCountry;
+        }
+        
+        $query .= "&page=";
+        
         $novedades = $this->getMovieApi($query . "1");
+        
+        // Validar que la respuesta sea un array válido
+        if (!is_array($novedades) || !isset($novedades['total_pages'])) {
+            Log::error("Error en verNovedades: " . json_encode($novedades));
+            return view('backend.series.novedades', [
+                'series' => [],
+                'filters' => [
+                    'first_air_date_gte' => $dateFrom,
+                    'first_air_date_lte' => $dateTo,
+                    'vote_count_gte' => $voteCountGte,
+                    'vote_average_gte' => $voteAverageGte,
+                    'with_origin_country' => $withOriginCountry,
+                    'sort_by' => $sortBy
+                ],
+                'error' => 'Error al conectar con TMDB API',
+                'query' => $query
+            ]);
+        }
+        
         $newSeries = [];
         $updatedSeries = [];
+        
         for ($i = 1; $i <= $novedades["total_pages"]; $i++) {
             $novedades = $this->getMovieApi($query . $i);
-            foreach ($novedades['results'] as $resultado)
+            
+            // Validar cada respuesta
+            if (!is_array($novedades) || !isset($novedades['results'])) {
+                Log::warning("Error en página $i de verNovedades series");
+                break;
+            }
+            
+            foreach ($novedades['results'] as $resultado) {
                 if(Serie::find($resultado['id']) != null) {
                     array_push($updatedSeries,$resultado['id']);
                 } else {
                     $datosSerie = $this->getMovieApi("tv/" . $resultado['id']. "?language=es-ES");
-                    array_push($newSeries,$datosSerie);
+                    if (is_array($datosSerie) && isset($datosSerie['id'])) {
+                        array_push($newSeries,$datosSerie);
+                    }
                 }
+            }
         }
-        return view('backend.series.novedades', ['series' => $newSeries]);
-        dd($updatedSeries,$newSeries);
+        
+        return view('backend.series.novedades', [
+            'series' => $newSeries,
+            'filters' => [
+                'first_air_date_gte' => $dateFrom,
+                'first_air_date_lte' => $dateTo,
+                'vote_count_gte' => $voteCountGte,
+                'vote_average_gte' => $voteAverageGte,
+                'with_origin_country' => $withOriginCountry,
+                'sort_by' => $sortBy
+            ],
+            'error' => null,
+            'query' => $query
+        ]);
+    }
+    public function verNovedadesId (Request $request)
+    {   
+        
+        // Construir query base
+        $query = "tv/";
+        
+        // Agregar parámetros (convertir guiones bajos a puntos para TMDB API)
+        $query .= $serieId;
+        
+        $query .= "?language=es-ES";
+        
+        $novedad = $this->getMovieApi($query);
+
+        if(Serie::find($novedad['id']) != null) {
+            array_push($updatedSeries,$novedad['id']);
+        } else {
+            $datosSerie = $this->getMovieApi("tv/" . $resultado['id']. "?language=es-ES");
+            if (is_array($datosSerie) && isset($datosSerie['id'])) {
+                array_push($newSeries,$datosSerie);
+            }
+        }
+        
+        return view('backend.series.novedades', [
+            'error' => null,
+            'query' => $query
+        ]);
     }
  
-    // public function addNovedades(){
-    //     $query = "discover/tv?language=es-ES&vote_count.gte=50&first_air_date.gte=2022-08-21&page=";
-    //     $novedades = $this->getMovieApi($query . "1");
-    //     $newSeries = [];
-    //     $updatedSeries = [];
-    //     for ($i=1; $i <= $novedades["total_pages"]; $i++){
-    //         $novedades = $this->getMovieApi($query . $i);
-    //         foreach($novedades['results'] as $resultado){
-    //             if(Serie::find($resultado['id']) != null) {
-    //                 array_push($updatedSeries,$resultado['id']);
-    //             } else {
-    //                 array_push($newSeries,$resultado['id']);
-    //             }
-    //         }
-    //     }
-    //     // dd($newSeries, $updatedSeries);
-    //     if (count($newSeries) > 0)
-    //         $this->addseries($newSeries);
-    //     if (count($updatedSeries) > 0)
-    //         $this->updateSerie($updatedSeries);
-    // } 
     public function addNovedades(Request $request){
         $novedades = [];
         foreach ($request->input('serie.*') as $novedad){
             array_push($novedades,$novedad);
         }
-        if (count($novedades) > 0)
-            $this->addseries($novedades);
-        echo "Añadidas " . count($novedades) . " series";
+        
+        $seriesAgregadas = [];
+        $seriesYaExistentes = [];
+        
+        if (count($novedades) > 0) {
+            // Verificar cuáles series ya existen antes de agregarlas
+            foreach ($novedades as $idSerie) {
+                if (Serie::find($idSerie)) {
+                    $seriesYaExistentes[] = $idSerie;
+                } else {
+                    $seriesAgregadas[] = $idSerie;
+                }
+            }
+            
+            // Agregar solo las nuevas series
+            if (count($seriesAgregadas) > 0) {
+                $this->addseries($seriesAgregadas);
+                // Recuperar los objetos de series agregadas
+                $seriesAgregadas = Serie::whereIn('id', $seriesAgregadas)->get();
+            }
+        }
+        
+        return view('backend.series.add-novedades', [
+            'seriesAgregadas' => $seriesAgregadas,
+            'seriesYaExistentes' => $seriesYaExistentes
+        ]);
     }
     public function cambiosDia()
     {
         $query = "tv/changes&language=es-ES";
-        $query = "tv/changes?start_date=2022-12-10&language=es-ES";
+        $query = "tv/changes?start_date=2024-12-10&language=es-ES";
         $novedades = $this->getMovieApi($query);
         $updateSeries = [];
         foreach ($novedades['results'] as $resultado)
             if (Serie::find($resultado['id']) != null) {
                 array_push($updateSeries, $resultado['id']);
             }
-        // dd($updateSeries);
+        //dd($updateSeries);
         if (count($updateSeries) > 0)
             $this->updateSerie($updateSeries);
     }
@@ -285,6 +379,17 @@ class SerieController extends Controller
     // }
     public function checkPopularity(){
         $series = Serie::orderBy('popularidad','desc')->paginate(30);
+        $series = Serie::orderBy('popularidad','desc')->get();
+        $idSeries = [];
+        foreach ($series as $serie){
+            array_push($idSeries,$serie->id);
+        }
+        $this->updateSerie($idSeries);
+    }
+    public function checkPopularityLastYears(){
+        $series = Serie::where('year', '>=', now()->year - 5)
+            ->orderBy('popularidad', 'desc')
+            ->get();
         $idSeries = [];
         foreach ($series as $serie){
             array_push($idSeries,$serie->id);
@@ -383,7 +488,7 @@ class SerieController extends Controller
                     $objserie = Serie::find($idSerie);
                     $objserie->update($serie);
                     $providerPelicula = $this->getMovieApi("tv/" . $idSerie . "/watch/providers");
-                    if (array_key_exists('ES',$providerPelicula['results']) && array_key_exists('flatrate',$providerPelicula['results']['ES'])){
+                    if ($providerPelicula['results']!= null && array_key_exists('ES',$providerPelicula['results']) && array_key_exists('flatrate',$providerPelicula['results']['ES'])){
                         $objserie->providers()->detach();
                         foreach( $providerPelicula['results']['ES']['flatrate'] as $provider ){
                             $objserie->providers()->attach($provider['provider_id']);
@@ -396,6 +501,7 @@ class SerieController extends Controller
                     
                     echo 'Fin <hr><br>';
                 } catch (\Throwable $th) {
+                    continue;
                     dd($idSerie, $objserie, $serie, $th);
                 }
 

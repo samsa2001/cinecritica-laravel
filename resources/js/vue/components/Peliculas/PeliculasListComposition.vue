@@ -56,15 +56,18 @@ export default ({
       if(route.params.page)
         currentPage.value = route.params.page
       listPage();
+      // set title to current URL for list pages
+      document.title = window.location.href
     })
 
     function updatePage() {
+        window.scrollTo(0, 0);
         setTimeout(listPage, 100);
     }
-    function listPage() {
+    function listPage() { 
         isLoading.value = true;
         const apiQuery = (orden.value == 'fecha') 
-          ? "/api/peliculas?page=" + currentPage.value 
+          ? "/api/peliculas/index?page=" + currentPage.value 
           :  (orden.value == 'popularidad') 
             ? "/api/peliculas/popularidad?page=" + currentPage.value 
             : "/api/peliculas/votos?page=" + currentPage.value 
@@ -72,6 +75,8 @@ export default ({
             .get(apiQuery)
             .then((res) => {
                 posts.value = res.data;
+              // ensure title reflects URL after data loads
+              document.title = window.location.href
             });
     }
 

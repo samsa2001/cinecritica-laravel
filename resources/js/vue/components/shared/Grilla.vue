@@ -4,8 +4,8 @@
     class="grid lg:grid-cols-6 lg:grid-cols-5 lg:grid-cols-4 lg:grid-cols-3 grid-cols-5 grid-cols-4 grid-cols-3 lg:gap-8 lg:gap-6 lg:gap-4 lg:gap-10 lg:gap-12">
   </div>
   <div v-if="posts" :class="crearClases()">
-    <div v-for="post in posts" :key="post.id">
-      <div v-if="post.hasOwnProperty('nombre')">
+    <div v-for="post in posts" :key="post.id" >
+      <div v-if="post.hasOwnProperty('nombre')" class="rounded">
         <router-link :to="{ name: 'persona', params: { 'slug': post.slug } }" class="grilla-enlace">
           <img v-if="post.foto != null" :src="'https://cdn1.cinecritica.com/media/personas' + post.foto"
             :title="post.nombre + ', Foto'" />
@@ -17,7 +17,7 @@
           </div>
         </router-link>
       </div>
-      <div v-else-if="post.hasOwnProperty('numero_episodios')">
+      <div v-else-if="post.hasOwnProperty('numero_episodios')" class="rounded">
         <router-link :to="{ name: 'serie', params: { 'slug': post.slug } }" class="grilla-enlace">
           <img v-if="post.imagen != null" :src="'https://cdn1.cinecritica.com/media/series' + post.imagen"
             :title="post.titulo + ', Poster'" />
@@ -41,7 +41,7 @@
           </div>
         </router-link>
       </div>
-      <div v-else>
+      <div v-else class="rounded">
         <router-link :to="{ name: 'pelicula', params: { 'slug': post.slug } }" class="grilla-enlace">
           <img v-if="post.imagen != null" :src="'https://cdn1.cinecritica.com/media/peliculas' + post.imagen"
             :title="post.titulo + ', Poster'" />

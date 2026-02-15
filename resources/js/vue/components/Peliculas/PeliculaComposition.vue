@@ -153,6 +153,7 @@ export default defineComponent({
             .get("/api/pelicula/" + route.params.slug)
             .then((res) => {
                 pelicula.value = res.data;
+                if(pelicula.value && pelicula.value.titulo) document.title = pelicula.value.titulo + ' - Cinecritica';
             });
     }
 

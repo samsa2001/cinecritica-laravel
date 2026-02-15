@@ -6,6 +6,9 @@
         <o-radio v-model="orden" name="name" native-value="fecha" @update:modelValue="listPage()">
           Ordenar por fecha estreno
         </o-radio>
+        <o-radio v-model="orden" name="name" native-value="popularidad" @update:modelValue="updatePage()">
+          Ordenar por popularidad
+        </o-radio>
         <o-radio v-model="orden" name="name" native-value="numVotos" @update:modelValue="listPage()">
           Ordenar por número votos
         </o-radio>
@@ -49,6 +52,7 @@ export default {
   },
   methods: {
     updatePage() {
+      window.scrollTo(0, 0);
       setTimeout(() => { this.listPage() }, 100)
     },
     listPage() {
@@ -58,7 +62,9 @@ export default {
       this.isLoading = true;
       const apiQuery = (this.orden == 'fecha') 
         ? "/api/series?page=" + this.currentPage 
-        : "/api/series/votos?page=" + this.currentPage
+          :  (orden.value == 'popularidad') 
+            ? "/api/series/popularidad?page=" + this.currentPage 
+            : "/api/series/votos?page=" + this.currentPage
       this.$axios
         // .get("/api/series?page=" + this.currentPage, config)
         .get(apiQuery)
