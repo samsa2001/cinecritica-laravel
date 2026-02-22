@@ -1,6 +1,6 @@
 <template>
   
-  <nav class="bg-gray-800 border-b border-lime-900">
+  <nav class="bg-slate-800 border-b border-lime-900">
       <header class="container  px-4 sm:px-6 md:px-8">
         <div class="flex  items-center justify-araound flex-wrap">
           <div class="md:basis-1/5 basis-2/5 order-1">
@@ -8,7 +8,7 @@
               <img src="https://cdn1.cinecritica.com/media/logo-pulp.png" alt="Cinecritica">
             </a>
           </div>
-          <div class="buscador md:basis-2/5 basis-full md:order-2 order-4 md:mt-0 mt-2 ">
+          <div class="buscador rounded overflow-hidden md:basis-2/5 basis-full md:order-2 order-4 md:mt-0 mt-2 ">
             <Buscador></Buscador>
           </div>
           <nav class="md:basis-1/5 basis-full md:order-3 order-3 flex h-8 justify-evenly items-center">

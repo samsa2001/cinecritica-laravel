@@ -5,7 +5,7 @@
   </div>
   <div v-if="posts" :class="crearClases()">
     <div v-for="post in posts" :key="post.id" >
-      <div v-if="post.hasOwnProperty('nombre')" class="rounded">
+      <div v-if="post.hasOwnProperty('nombre')" class="rounded overflow-hidden">
         <router-link :to="{ name: 'persona', params: { 'slug': post.slug } }" class="grilla-enlace">
           <img v-if="post.foto != null" :src="'https://cdn1.cinecritica.com/media/personas' + post.foto"
             :title="post.nombre + ', Foto'" />
@@ -17,7 +17,7 @@
           </div>
         </router-link>
       </div>
-      <div v-else-if="post.hasOwnProperty('numero_episodios')" class="rounded">
+      <div v-else-if="post.hasOwnProperty('numero_episodios')" class="rounded overflow-hidden">
         <router-link :to="{ name: 'serie', params: { 'slug': post.slug } }" class="grilla-enlace">
           <img v-if="post.imagen != null" :src="'https://cdn1.cinecritica.com/media/series' + post.imagen"
             :title="post.titulo + ', Poster'" />
@@ -35,13 +35,13 @@
           <div v-else-if="tipo != 'persona'" class="nota grilla-nota nota-verde">
             {{ post.nota }}
           </div>
-          <div class="columns-2 bg-slate-900 gap-0">
-            <div class="border px-2 border-slate-700"><span class="mdi mdi-calendar-range mr-1"></span> {{ post.year }}</div>
-            <div class="border px-2 border-slate-700"><span class="mdi mdi-account-check mr-1"></span> {{ post.numero_votos }}</div>
+          <div class="columns-2 text-slate-100 bg-slate-500 gap-0">
+            <div class="border px-2 border-slate-900 text-center"><span class="mdi mdi-calendar-range mr-1"></span> {{ post.year }}</div>
+            <div class="border px-2 border-slate-900 text-center"><span class="mdi mdi-account-check mr-1"></span> {{ post.numero_votos }}</div>
           </div>
         </router-link>
       </div>
-      <div v-else class="rounded">
+      <div v-else class="rounded overflow-hidden">
         <router-link :to="{ name: 'pelicula', params: { 'slug': post.slug } }" class="grilla-enlace">
           <img v-if="post.imagen != null" :src="'https://cdn1.cinecritica.com/media/peliculas' + post.imagen"
             :title="post.titulo + ', Poster'" />
@@ -56,12 +56,12 @@
           <div v-else-if="post.nota < 6.5" class="nota grilla-nota nota-ambar">
             {{ post.nota }}
           </div>
-          <div v-else-if="tipo != 'persona'" class="nota grilla-nota nota-verde">
+          <div v-else-if="tipo != 'persona'" class="nota grilla-nota nota-verde ">
             {{ post.nota }}
           </div>
-          <div class="columns-2 bg-slate-900 gap-0">
-            <div class="border px-2 border-slate-700"><span class="mdi mdi-calendar-range mr-1"></span> {{ post.year }}</div>
-            <div class="border px-2 border-slate-700"><span class="mdi mdi-account-check mr-1"></span> {{ post.numero_votos }}</div>
+          <div class="columns-2 text-slate-100 bg-slate-500 gap-0">
+            <div class="border px-2 border-slate-900 text-center"><span class="mdi mdi-calendar-range mr-1"></span> {{ post.year }}</div>
+            <div class="border px-2 border-slate-900 text-center"><span class="mdi mdi-account-check mr-1"></span> {{ post.numero_votos }}</div>
           </div>
         </router-link>
       </div>

@@ -4,7 +4,7 @@
     <Grilla :posts="estrenos" tipo="pelicula" columnas="5" gap="12" />
     <div class=" text-center py-4">
       <router-link :to="{ name: 'peliculaslist' }" class="btn w-40 relative"><span
-          class="mdi mdi-movie-open absolute left-1"></span>Ver todos los estrenos</router-link>
+          class="mdi mdi-movie-open px-2"></span>Ver todos los estrenos</router-link>
     </div>
   </div>
   <div class="bg-gray-100 py-8 px-4">
@@ -12,7 +12,7 @@
     <Grilla :posts="seriesPopulares" tipo="serie" columnas="5" gap="12" />
     <div class=" text-center py-4">
       <router-link :to="{ name: 'serieslist' }" class="btn w-40 relative"><span
-          class="mdi mdi-television-box absolute left-1"></span>Todas las series</router-link>
+          class="mdi mdi-television-box px-2"></span>Todas las series</router-link>
     </div>
   </div>
 </template>

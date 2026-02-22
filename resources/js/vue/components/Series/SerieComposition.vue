@@ -6,7 +6,7 @@
          <div class="md:w-2/3 w-full flex flex-wrap">
             <div class="w-2/5  px-2 md:order-0 order-1">
                <img :src="'https://cdn1.cinecritica.com/media/series' + serie.imagen">
-               <div class="md:hidden p-2 bg-green-900">
+               <div class="md:hidden p-2 bg-slate-700">
                   <h4 class="my-2 text-white">Imágenes</h4>
                   <div class="grid gap-2 md:grid-cols-3 grid-cols-1 ">
                      <div v-for="imagen in serie.imagenes" :key="imagen.id">
@@ -20,19 +20,21 @@
             <div class="w-3/5  px-2 md:order-1 order-0">
                <div class="serie-descripcion">
                   <div class="barra-horizontal mt-0"></div>
-                  <div class="grid grid-cols-2 gap-4">
-                     <h3>Nota: </h3>
-                     <div v-if="serie.nota < 5" class="nota nota-roja">
-                        {{ serie.nota }}
+                  <div class="caja-notas">
+                     <div>
+                        <div v-if="serie.nota < 5" class="nota nota-roja">
+                           {{ serie.nota }}
+                        </div>
+                        <div v-else-if="serie.nota < 6.5" class="nota nota-ambar">
+                           {{ serie.nota }}
+                        </div>
+                        <div v-else class="nota nota-verde">
+                           {{ serie.nota }}
+                        </div>
                      </div>
-                     <div v-else-if="serie.nota < 6.5" class="nota nota-ambar">
-                        {{ serie.nota }}
-                     </div>
-                     <div v-else class="nota nota-verde">
-                        {{ serie.nota }}
-                     </div>
+                     <Votar></Votar>
                   </div>
-                  <Votar></Votar>
+                  <p>{{ serie.descripcion }}</p>
                   <div v-if="serie.providers">
                      <div class="barra-horizontal"></div>
                      <h3>Donde ver:</h3>
@@ -44,8 +46,6 @@
                         </div>
                      </div>
                   </div>
-                  <div class="barra-horizontal"></div>
-                  <p>{{ serie.descripcion }}</p>
                   <div class="barra-horizontal"></div>
                </div>
             </div>
