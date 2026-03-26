@@ -15,6 +15,18 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    
+                    @if(Auth::user()->isAdmin())
+                        <x-nav-link :href="route('novedades.pelis')" :active="request()->routeIs('novedades.pelis')">
+                            📰 Novedades Pelis
+                        </x-nav-link>
+                        <x-nav-link :href="route('novedades.series')" :active="request()->routeIs('novedades.series')">
+                            📺 Novedades Series
+                        </x-nav-link>
+                        <x-nav-link :href="route('proveedores.index')" :active="request()->routeIs('proveedores.index')">
+                            🔗 Proveedores
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -66,6 +78,18 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            
+            @if(Auth::user()->isAdmin())
+                <x-responsive-nav-link :href="route('novedades.pelis')" :active="request()->routeIs('novedades.pelis')">
+                    📰 Novedades Pelis
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('novedades.series')" :active="request()->routeIs('novedades.series')">
+                    📺 Novedades Series
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('proveedores.index')" :active="request()->routeIs('proveedores.index')">
+                    🔗 Proveedores
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

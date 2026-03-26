@@ -45,15 +45,18 @@ export default ({
       if(route.params.page)
         currentPage.value = route.params.page
       listPage();
+      // set title to current URL for list pages
+      document.title = window.location.href
     })
 
     function updatePage() {
+        window.scrollTo(0, 0);
         setTimeout(listPage, 100);
     }
     function listPage() {
         isLoading.value = true;
         const apiQuery = (orden.value == 'fecha') 
-          ? "/api/series?page=" + currentPage.value 
+          ? "/api/series/index?page=" + currentPage.value 
           : (orden.value == 'popularidad') 
             ? "/api/series/popularidad?page=" + currentPage.value 
             : "/api/series/votos?page=" + currentPage.value

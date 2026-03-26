@@ -48,6 +48,7 @@ export default {
   },
   methods: {
     updatePage() {
+      window.scrollTo(0, 0);
       setTimeout(() => { this.listPage() }, 100)
     },
     listPage() {

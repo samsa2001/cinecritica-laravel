@@ -6,7 +6,7 @@
                 <h2>{{ pelicula.tagline }}</h2>
             </div>
         </div>
-        <div class="lg:float-left block max-w-sm mr-4 mb-4">
+        <div class="lg:float-left block max-w-sm mr-4 mb-4 ">
             <img :src="'https://cdn1.cinecritica.com/media/peliculas' + pelicula.imagen">
             <h4 class="my-2">Imágenes</h4>
             <div class="grid gap-2 grid-cols-3 ">
@@ -18,6 +18,47 @@
             </div>   
         </div>
         <div class="grid lg:grid-cols-2 lg:gap-4 grid-cols-1">
+            <div>
+                <div class="caja-notas">
+                    <div>
+                        <div v-if="pelicula.nota < 5" class="nota nota-roja">
+                            {{ pelicula.nota }}
+                        </div>
+                        <div v-else-if="pelicula.nota < 6.5" class="nota nota-ambar">
+                            {{ pelicula.nota }}
+                        </div>
+                        <div v-else class="nota nota-verde">
+                            {{ pelicula.nota }}
+                        </div>
+                    </div>
+                    <Votar></Votar>
+                </div>
+                <div class="pelicula-descripcion">
+                    <p>{{ pelicula.descripcion }}</p>
+                    <div class="barra-horizontal"></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div v-if="pelicula.providers">
+                            <h3>Donde ver:</h3>
+                            <div v-for="provider in pelicula.providers" :key="provider.id" class="text-center my-2 w-14">
+                                <img :src="'https://cdn1.cinecritica.com/media/providers' + provider.logo" width="50" class="block mx-auto">
+                                <div class="block text-xs">{{ provider.nombre }}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>Director :</h3>
+                            <ul class="datos-ficha text-center">
+                                <li v-for="(director, id) in pelicula.directores" :key="id">
+                                    <router-link :to="{ name: 'persona', params: { 'slug': director.slug } }">
+                                        <img :src="'https://cdn1.cinecritica.com/media/personas' + director.foto" width="100" class="block mx-auto">
+                                        {{ director.nombre }}
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="barra-horizontal"></div>
+                </div>
+            </div>
             <div class="ficha">
                 <ul class=" divide-y flex flex-col gap-y-3">
                     <li>Número de votos: <span class="datos-ficha">{{ pelicula.numero_votos }}</span></li>
@@ -62,46 +103,6 @@
                         </ul>
                     </li>
                 </ul>
-                <Votar></Votar>
-            </div>
-            <div class="pelicula-descripcion">
-                <div class="barra-horizontal mt-0"></div>
-                <div class="grid grid-cols-2 gap-4">
-                    <h3>Nota: </h3>
-                        <div v-if="pelicula.nota < 5" class="nota nota-roja">
-                            {{ pelicula.nota }}
-                        </div>
-                        <div v-else-if="pelicula.nota < 6.5" class="nota nota-ambar">
-                            {{ pelicula.nota }}
-                        </div>
-                        <div v-else class="nota nota-verde">
-                            {{ pelicula.nota }}
-                        </div>
-                </div>
-                <div class="barra-horizontal"></div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div v-if="pelicula.providers">
-                        <h3>Donde ver:</h3>
-                        <div v-for="provider in pelicula.providers" :key="provider.id" class="text-center my-2 w-14">
-                            <img :src="'https://cdn1.cinecritica.com/media/providers' + provider.logo" width="50" class="block mx-auto">
-                            <div class="block text-xs">{{ provider.nombre }}</div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3>Director :</h3>
-                        <ul class="datos-ficha text-center">
-                            <li v-for="(director, id) in pelicula.directores" :key="id">
-                                <router-link :to="{ name: 'persona', params: { 'slug': director.slug } }">
-                                    <img :src="'https://cdn1.cinecritica.com/media/personas' + director.foto" width="100" class="block mx-auto">
-                                    {{ director.nombre }}
-                                </router-link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="barra-horizontal"></div>
-                <p>{{ pelicula.descripcion }}</p>
-                <div class="barra-horizontal"></div>
             </div>
         </div>
         <div class="clear-both"></div>
@@ -153,6 +154,7 @@ export default defineComponent({
             .get("/api/pelicula/" + route.params.slug)
             .then((res) => {
                 pelicula.value = res.data;
+                if(pelicula.value && pelicula.value.titulo) document.title = pelicula.value.titulo + ' - Cinecritica';
             });
     }
 

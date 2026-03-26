@@ -39,7 +39,7 @@ class SerieController extends Controller
     }
     public function indexByPopularity()
     {
-        $series = Serie::orderBy('popularida2','desc')->with('actores')->paginate(20);
+        $series = Serie::orderBy('popularidad','desc')->with('actores')->paginate(20);
         return response()->json($series);
     }
 

@@ -1,35 +1,137 @@
-@extends('backend.layout')
-@section('content')  
-<h1>Tabla de contenidos</h1>
-    <form action="{{ route('serie.addnovedades') }}" method="POST" enctype="multipart/form-data">
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Titulo</th>
-            <th>Nota</th>
-            <th>Póster</th>
-            <th>Añadir</th>
-        </tr>
-    </thead>
-    <tbody>
-        @csrf
-        @method("post")
-        @foreach ($series as $serie)
-        <tr>
-            <td>{{$serie['id']}}</td>
-            <td>{{$serie['name']}}</td> 
-            <td>Nota: {{$serie['vote_average']}}<br>
-                N. Votos: {{$serie['vote_count']}}<br>
-                Popularidad: {{$serie['popularity']}}
-            </td>
-            <td class="block mx-auto"><img class="d-none d-md-block poster-serie" src="https://image.tmdb.org/t/p/original{{$serie['poster_path']}}" width="300"></td>
-            <td><input type="checkbox" name="serie[{{$serie['id']}}]" value="{{$serie['id']}}"></td>
-        @endforeach
-    </tbody>
-</table>
-        <input type="submit" value="Enviar" class="btn btn-slate my-3">
-    </form>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Novedades de Series') }}
+        </h2>
+    </x-slot>
 
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    
+                    <!-- Formulario de filtros -->
+                    <div class="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900">🔍 Filtrar Series</h3>
+                        <form action="{{ route('novedades.series') }}" method="GET" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Fecha Desde</label>
+                                <input type="date" name="first_air_date_gte" value="{{ $filters['first_air_date_gte'] ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Fecha Hasta</label>
+                                <input type="date" name="first_air_date_lte" value="{{ $filters['first_air_date_lte'] ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mínimo de Votos</label>
+                                <input type="number" name="vote_count_gte" value="{{ $filters['vote_count_gte'] ?? '50' }}" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Calificación Mínima (1-10)</label>
+                                <input type="number" name="vote_average_gte" value="{{ $filters['vote_average_gte'] ?? '6' }}" min="0" max="10" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">País de Origen (opcional, ej: US, ES)</label>
+                                <input type="text" name="with_origin_country" value="{{ $filters['with_origin_country'] ?? '' }}" placeholder="Dejar vacío para todos" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Ordenar por</label>
+                                <select name="sort_by" class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900">
+                                    <option value="popularity.desc" {{ ($filters['sort_by'] ?? 'popularity.desc') === 'popularity.desc' ? 'selected' : '' }}>Popularidad (Mayor a Menor)</option>
+                                    <option value="vote_average.desc" {{ ($filters['sort_by'] ?? '') === 'vote_average.desc' ? 'selected' : '' }}>Calificación (Mayor a Menor)</option>
+                                    <option value="vote_count.desc" {{ ($filters['sort_by'] ?? '') === 'vote_count.desc' ? 'selected' : '' }}>Votos (Mayor a Menor)</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2 lg:col-span-3 flex gap-2">
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded transition">
+                                    🔎 Buscar Series
+                                </button>
+                                <a href="{{ route('novedades.series') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded transition">
+                                    ↺ Resetear Filtros
+                                </a>
+                            </div>
+                        </form>
+                    </div>
 
-@endsection
+                    <h3 class="text-lg font-semibold mb-6">📺 Agregar Series de la Base de Datos TMDB</h3>
+                    
+                    @if(isset($error) && $error)
+                        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-4">❌</span>
+                                <div>
+                                    <h3 class="text-lg font-bold text-red-900">{{ $error }}</h3>
+                                    <p class="text-red-800 mt-2">Revisa los logs para más información.</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if(count($series) === 0 && (!isset($error) || !$error))
+                        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                            <p class="text-blue-900">No se encontraron series con los filtros especificados.</p>
+                        </div>
+                    @endif
+
+                    @if(isset($query))
+                        <div class="mb-6 p-4 bg-gray-100 border border-gray-300 rounded-lg font-mono text-sm text-gray-900 overflow-x-auto">
+                            <p class="font-bold mb-2">🔍 Query utilizada:</p>
+                            <p class="break-words">https://api.themoviedb.org/3/{{ $query }}1</p>
+                        </div>
+                    @endif
+                    
+                    <form action="{{ route('serie.addnovedades') }}" method="POST" enctype="multipart/form-data">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full border-collapse border border-gray-300 text-gray-900">
+                                <thead class="bg-gray-200 text-gray-900">
+                                    <tr>
+                                        <th class="border border-gray-300 px-4 py-2 text-left font-bold">Id</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-left font-bold">Título</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-left font-bold">Información</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-center font-bold">Póster</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-center font-bold">Seleccionar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @csrf
+                                    @method("post")
+                                    @foreach ($series as $serie)
+                                    <tr class="hover:bg-gray-100 text-gray-900">
+                                        <td class="border border-gray-300 px-4 py-2 text-gray-900">
+                                            <a href="https://www.themoviedb.org/tv/{{$serie['id']}}" target="_blank" class="text-blue-600 hover:text-blue-800 underline">
+                                                {{$serie['id']}}
+                                            </a>
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-2 text-gray-900">{{$serie['name']}}</td>
+                                        <td class="border border-gray-300 px-4 py-2 text-sm text-gray-900">
+                                            <div>⭐ Nota: {{$serie['vote_average']}}</div>
+                                            <div>🗳️ Votos: {{$serie['vote_count']}}</div>
+                                            <div>📊 Popularidad: {{$serie['popularity']}}</div>
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            @if($serie['poster_path'])
+                                                <img src="https://image.tmdb.org/t/p/w200{{$serie['poster_path']}}" alt="{{$serie['name']}}" class="mx-auto rounded">
+                                            @else
+                                                <span class="text-gray-500">Sin póster</span>
+                                            @endif
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center">
+                                            <input type="checkbox" name="serie[{{$serie['id']}}]" value="{{$serie['id']}}" class="w-5 h-5">
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <button type="submit" class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-3 px-8 rounded shadow-md transition duration-200">
+                                ✅ Agregar Series Seleccionadas
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
